@@ -106,10 +106,7 @@ img { max-width: 100%; }
 /* scrim: keeps the headline readable over the wall, in either theme */
 .hero::after {
   content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
-  background:
-    radial-gradient(ellipse 55% 60% at 50% 45%, var(--bg) 20%, transparent 80%),
-    linear-gradient(var(--bg), transparent 30%, transparent 62%, var(--bg) 96%),
-    color-mix(in srgb, var(--bg) 50%, transparent);
+  background: color-mix(in srgb, var(--bg) 72%, transparent);
 }
 .hero-icon { width: 88px; height: 88px; margin: 0 auto 1.75rem; display: block; }
 .hero h1 {

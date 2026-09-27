@@ -288,31 +288,13 @@ private func hueForWord(_ word: String) -> Double {
     return Double(h % 360)
 }
 
-/// Two soft, drifting color blobs behind the list. `phase` loops via a repeating animation
-/// driven from `ContentView`, so this view only needs to know the current hue and offset.
+/// One flat per-word tint behind the list. ponytail: no blobs, no gradients, no drift;
+/// the photo carries the mood when there is one, and a plain wash is quieter when there is not.
 private struct WordBackground: View {
     var hue: Double
-    var phase: Bool
 
     var body: some View {
-        GeometryReader { geo in
-            ZStack {
-                Circle()
-                    .fill(Color(hue: hue / 360, saturation: 0.6, brightness: 0.85).opacity(0.35))
-                    .frame(width: geo.size.width * 1.1)
-                    .blur(radius: 60)
-                    .offset(x: phase ? -geo.size.width * 0.25 : geo.size.width * 0.15,
-                            y: phase ? -geo.size.height * 0.3 : -geo.size.height * 0.1)
-                Circle()
-                    .fill(Color(hue: ((hue + 60).truncatingRemainder(dividingBy: 360)) / 360, saturation: 0.6, brightness: 0.85).opacity(0.3))
-                    .frame(width: geo.size.width * 1.1)
-                    .blur(radius: 60)
-                    .offset(x: phase ? geo.size.width * 0.3 : -geo.size.width * 0.1,
-                            y: phase ? geo.size.height * 0.35 : geo.size.height * 0.15)
-            }
-            .frame(width: geo.size.width, height: geo.size.height)
-        }
-        .ignoresSafeArea()
+        Color(hue: hue / 360, saturation: 0.45, brightness: 0.55).ignoresSafeArea()
     }
 }
 
@@ -322,7 +304,6 @@ private struct WordBackground: View {
 private struct PhotoBackground: View {
     var url: URL?
     var hue: Double
-    var phase: Bool
 
     var body: some View {
         ZStack {
@@ -331,13 +312,13 @@ private struct PhotoBackground: View {
                     if case .success(let image) = imagePhase {
                         image.resizable().scaledToFill()
                     } else {
-                        WordBackground(hue: hue, phase: phase)
+                        WordBackground(hue: hue)
                     }
                 }
             } else {
-                WordBackground(hue: hue, phase: phase)
+                WordBackground(hue: hue)
             }
-            Color.black.opacity(0.45)
+            Color.black.opacity(0.5)
         }
         .ignoresSafeArea()
     }
@@ -351,7 +332,6 @@ struct ContentView: View {
     @State private var failed = false
     @State private var showingSettings = false
     @State private var searchTask: Task<Void, Never>?
-    @State private var bgPhase = false
 
     /// The Wiktionary edition whose definitions would be in the reader's own language.
     private var readerEdition: String {
@@ -377,23 +357,24 @@ struct ContentView: View {
                     HStack { Spacer(); ProgressView(); Spacer() }
                 } else if let entry {
                     if query.isEmpty {
-                        Section {} header: { Text(settings.t("ui.wotdWord", ["word": entry.word])) }
+                        Section {} header: { Text(settings.t("ui.wotdWord", ["word": entry.word])).font(.subheadline.weight(.semibold)).foregroundStyle(.white) }
                     } else {
-                        Section {} header: { Text(settings.t("ui.resultsFor", ["word": entry.word])) }
+                        Section {} header: { Text(settings.t("ui.resultsFor", ["word": entry.word])).font(.subheadline.weight(.semibold)).foregroundStyle(.white) }
                     }
                     entrySections(entry)
                 } else if failed {
                     // Reachable on launch with an empty query, so it cannot be gated on `query`.
-                    Text(settings.t("ui.offline")).foregroundStyle(.secondary)
+                    Text(settings.t("ui.offline"))
                 } else if !query.isEmpty {
-                    Text(settings.t("ui.nothingFound")).foregroundStyle(.secondary)
+                    Text(settings.t("ui.nothingFound"))
                 }
             }
             .scrollContentBackground(.hidden)
-            .background(PhotoBackground(url: entry?.photoURL, hue: hueForWord(entry?.word ?? wordOfTheDay ?? "wordroot"), phase: bgPhase))
-            .onAppear {
-                withAnimation(.easeInOut(duration: 9).repeatForever(autoreverses: true)) { bgPhase = true }
-            }
+            .background(PhotoBackground(url: entry?.photoURL, hue: hueForWord(entry?.word ?? wordOfTheDay ?? "wordroot")))
+            // Everything drawn straight on the darkened background is white; the cards keep
+            // the system look, so their text stays as it is.
+            .toolbarColorScheme(.dark, for: .navigationBar)
+            .toolbarBackground(.hidden, for: .navigationBar)
             .searchable(text: $query, prompt: Text(settings.t("ui.searchPlaceholder")))
             .navigationTitle(entry?.word.capitalized ?? "Wordroot")
             .toolbar {
@@ -434,10 +415,12 @@ struct ContentView: View {
     private func entrySections(_ entry: Entry) -> some View {
         if let definitions = entry.definitions {
             ForEach(definitions.groups) { group in
-                Section(group.pos) {
+                Section {
                     ForEach(group.items) { def in
                         Text("\(def.n). \(def.text)")
                     }
+                } header: {
+                    Text(group.pos).font(.subheadline.weight(.semibold)).foregroundStyle(.white)
                 }
             }
             // Say so when the reader asked for one language and got English prose, rather than
@@ -455,7 +438,7 @@ struct ContentView: View {
             }
         }
         if !entry.chain.isEmpty {
-            Section(settings.t("ui.origin")) {
+            Section {
                 ForEach(entry.chain) { link in
                     VStack(alignment: .leading, spacing: 2) {
                         Text(link.ancestor).fontWeight(.semibold)
@@ -467,6 +450,8 @@ struct ContentView: View {
                             .foregroundStyle(.secondary)
                     }
                 }
+            } header: {
+                Text(settings.t("ui.origin")).font(.subheadline.weight(.semibold)).foregroundStyle(.white)
             }
         }
         // CC BY-SA 4.0 requires attribution; App Review flags uncredited third-party content.
