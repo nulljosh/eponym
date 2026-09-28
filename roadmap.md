@@ -138,7 +138,6 @@ lands on "mother", just compute the index and shoot on a day that does not.
 
 ## Backlog
 - [ ] Full Wiktionary dump parse still pending (v1 uses the live REST API instead), large scoped feature, needs its own session
-- [x] Hero animation pass (words instead of book covers, minor animations matching bookrank style) — shipped, drifting word wall on the landing
 
 > Resume note (2026-08-11, triaged 2026-08-17): the `wip: partial work from /work notes ingest` commit
 > (`765356f`) is **landing-page only**, `landing/index.html`, `landing/icon.svg`, `scripts/build-site.sh`,
@@ -151,18 +150,11 @@ iOS 1.0 Waiting for Review (submitted 2026-08-18); **macOS 1.0 Waiting for Revie
 
 (Supersedes the 2026-08-23 note, which said macOS was still staged.)
 
-## Ingested 2026-08-24
-
-- [x] **Hero animation pass** (Notes 2026-08-24, done). Reference: bookrank's hero animation, copy its hero style and overall vibe. Instead of book covers, use **words**. Minor animations, not a full redesign.
-
 ## WebMCP + REST API rollout -- shipped 2026-08-27
 
 Done. 3 read-only tools: `lookup_word`, `get_etymology`, `get_word_of_the_day`. Nothing gated -- nothing is stored or mutated.
 
 See `docs/API.md` for the full tool table, linked from the README.
-
-## From Apple Notes (imported 2026-08-27)
-- [x] Wordroot iOS 1.0 and macOS 1.0 both APPROVED / Ready for Distribution (id6794988021) as of Aug 24 2026.
 
 ## /api + /mcp surface, SHIPPED 2026-08-31
 
@@ -176,7 +168,3 @@ build-time artifact. Revisit storage when a rate limit or a latency measurement 
 
 ## TUI pilot (2026-09-05)
 - `wordroot-tui` SwiftPM target (SwiftTUI). `swift build && ./.build/debug/wordroot-tui etymology` fetches the live `/api/word/:word` and renders definitions + etymology chain as a terminal card. Needs a real TTY.
-
-## 1.0.2 shipped (2026-09-09)
-- [x] Animated background with word-derived hue (web: CSS gradient + JS hash; iOS/macOS: SwiftUI blurred drifting color blobs). Same word always produces the same color, deterministic. Commit 55a013b, web deployed, iOS 1.0.2 submitted to review.
-- iOS 1.0.2 build 8 (ASC build 202609091902) now WAITING_FOR_REVIEW
