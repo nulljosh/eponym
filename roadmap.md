@@ -168,3 +168,6 @@ build-time artifact. Revisit storage when a rate limit or a latency measurement 
 
 ## TUI pilot (2026-09-05)
 - `wordroot-tui` SwiftPM target (SwiftTUI). `swift build && ./.build/debug/wordroot-tui etymology` fetches the live `/api/word/:word` and renders definitions + etymology chain as a terminal card. Needs a real TTY.
+
+## Ingested 2026-10-01
+- [ ] Refresh App Store screenshots.
