@@ -172,3 +172,6 @@ build-time artifact. Revisit storage when a rate limit or a latency measurement 
 ## Ingested 2026-10-01
 - [ ] Refresh App Store screenshots.
 - [ ] Wordroot QA (Apple Note 2026-10-01 said only "Wordroot QA"). Which platform, full feature pass or a specific bug?
+
+## Ingested 2026-10-05
+- [ ] QA
