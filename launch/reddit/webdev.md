@@ -9,4 +9,4 @@ The web app is a static frontend over a shared dataset. The etymology itself com
 
 Free to use, no login. Also ships native on iOS and Mac for $0.99. Curious what other devs think of the deterministic-parse-over-LLM approach for this kind of data.
 
-wordroot.heyitsmejosh.com
+wordroot.jaybulb.com

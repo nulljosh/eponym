@@ -7,7 +7,7 @@ Description: A dictionary that shows where words come from. Clean definitions pl
 Category: Education / Reference / Dictionary
 
 Links
-Web: https://wordroot.heyitsmejosh.com
+Web: https://wordroot.jaybulb.com
 App Store: https://apps.apple.com/app/id6794988021
 GitHub: https://github.com/nulljosh/wordroot
 

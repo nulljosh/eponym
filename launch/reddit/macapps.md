@@ -9,4 +9,4 @@ Native SwiftUI, shares one codebase with the iOS version via xcodegen. The etymo
 
 Web version is free, the Mac App Store version is $0.99 upfront. Open to feedback, especially from anyone else building reference apps for the Mac.
 
-wordroot.heyitsmejosh.com · https://apps.apple.com/app/id6794988021
+wordroot.jaybulb.com · https://apps.apple.com/app/id6794988021

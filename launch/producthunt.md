@@ -11,7 +11,7 @@ Topics: Education, Writing, Productivity
 Pricing: $0.99 upfront on the App Store. Free on the web.
 
 Links
-Web: https://wordroot.heyitsmejosh.com
+Web: https://wordroot.jaybulb.com
 App Store: https://apps.apple.com/app/id6794988021
 GitHub: https://github.com/nulljosh/wordroot
 
