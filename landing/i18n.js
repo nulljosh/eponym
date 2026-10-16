@@ -139,18 +139,18 @@
       "ar": "تتبّع أصل أي كلمة عبر اللاتينية واليونانية والهندية الأوروبية البدائية، بشجرة اشتقاق تفاعلية وروابط للكلمات المشتركة الجذر."
     },
     "landing.hero.sub": {
-      "en": "A dictionary that shows you where words come from.",
-      "es": "Un diccionario limpio que te muestra de dónde vienen realmente las palabras, rastreadas hasta el latín, el griego y el protoindoeuropeo.",
-      "fr": "Un dictionnaire épuré qui montre d’où viennent vraiment les mots, jusqu’au latin, au grec et à l’indo-européen commun.",
-      "de": "Ein aufgeräumtes Wörterbuch, das zeigt, woher Wörter wirklich kommen – zurückverfolgt bis ins Lateinische, Griechische und Urindogermanische.",
-      "pt": "Um dicionário limpo que mostra de onde as palavras realmente vêm, rastreadas até ao latim, ao grego e ao proto-indo-europeu.",
-      "it": "Un dizionario essenziale che mostra da dove vengono davvero le parole, risalendo al latino, al greco e al proto-indoeuropeo.",
-      "nl": "Een overzichtelijk woordenboek dat laat zien waar woorden echt vandaan komen — terug tot het Latijn, het Grieks en het Proto-Indo-Europees.",
-      "ru": "Понятный словарь, который показывает, откуда на самом деле берутся слова — вплоть до латыни, греческого и праиндоевропейского.",
-      "ja": "単語が本当はどこから来たのかを示す、すっきりした辞書。ラテン語・ギリシャ語・印欧祖語までさかのぼります。",
-      "zh-Hans": "一款简洁的词典，告诉你单词真正的来处——一路追溯到拉丁语、希腊语和原始印欧语。",
-      "ko": "단어가 실제로 어디에서 왔는지 보여 주는 깔끔한 사전. 라틴어, 그리스어, 인도유럽조어까지 거슬러 올라갑니다.",
-      "ar": "قاموس أنيق يكشف من أين أتت الكلمات فعلاً — رجوعاً إلى اللاتينية واليونانية والهندية الأوروبية البدائية."
+      "en": "See where words come from.",
+      "es": "Mira de dónde vienen las palabras.",
+      "fr": "Voyez d’où viennent les mots.",
+      "de": "Sieh, woher Wörter kommen.",
+      "pt": "Veja de onde vêm as palavras.",
+      "it": "Scopri da dove vengono le parole.",
+      "nl": "Zie waar woorden vandaan komen.",
+      "ru": "Узнайте, откуда пришли слова.",
+      "ja": "言葉のルーツを見てみよう。",
+      "zh-Hans": "看看词语从何而来。",
+      "ko": "단어가 어디서 왔는지 확인하세요.",
+      "ar": "اكتشف من أين جاءت الكلمات."
     },
     "landing.cta.open": {
       "en": "Open Wordroot",

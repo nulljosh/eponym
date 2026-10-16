@@ -45,4 +45,4 @@ node scripts/test-web.mjs             # web app + landing page: i18n and lookup
 ## License
 MIT © 2026 Joshua Trommel
 
-[Whitepaper](WHITEPAPER.md) · [API and agent tools](docs/API.md)
+[Whitepaper](docs/WHITEPAPER.md) · [API and agent tools](docs/API.md) · [Brand kit](brand/BRAND.md) · [Architecture](docs/ARCHITECTURE.md)

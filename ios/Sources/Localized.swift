@@ -145,6 +145,7 @@ enum Catalog {
         "lang.gkm": "Byzantine Greek",
         "ui.definitionsInEnglish": "These definitions are in English.",
         "ui.openOnWiktionary": "Open on {wiktionary}",
+        "ui.tagline": "See where words come from.",
     ]
     private static let table_es: [String: String] = [
         "app.tagline": "Diccionario con etimología profunda",
@@ -181,6 +182,7 @@ enum Catalog {
         "lang.gkm": "griego bizantino",
         "ui.definitionsInEnglish": "Estas definiciones están en inglés.",
         "ui.openOnWiktionary": "Abrir en {wiktionary}",
+        "ui.tagline": "Mira de dónde vienen las palabras.",
     ]
     private static let table_fr: [String: String] = [
         "app.tagline": "Dictionnaire avec une étymologie approfondie",
@@ -217,6 +219,7 @@ enum Catalog {
         "lang.gkm": "grec byzantin",
         "ui.definitionsInEnglish": "Ces définitions sont en anglais.",
         "ui.openOnWiktionary": "Ouvrir sur le {wiktionary}",
+        "ui.tagline": "Voyez d’où viennent les mots.",
     ]
     private static let table_de: [String: String] = [
         "app.tagline": "Wörterbuch mit tiefgehender Etymologie",
@@ -253,6 +256,7 @@ enum Catalog {
         "lang.gkm": "Byzantinisches Griechisch",
         "ui.definitionsInEnglish": "Diese Definitionen sind auf Englisch.",
         "ui.openOnWiktionary": "Im {wiktionary} öffnen",
+        "ui.tagline": "Sieh, woher Wörter kommen.",
     ]
     private static let table_pt: [String: String] = [
         "app.tagline": "Dicionário com etimologia profunda",
@@ -289,6 +293,7 @@ enum Catalog {
         "lang.gkm": "grego bizantino",
         "ui.definitionsInEnglish": "Estas definições estão em inglês.",
         "ui.openOnWiktionary": "Abrir no {wiktionary}",
+        "ui.tagline": "Veja de onde vêm as palavras.",
     ]
     private static let table_it: [String: String] = [
         "app.tagline": "Dizionario con etimologia approfondita",
@@ -325,6 +330,7 @@ enum Catalog {
         "lang.gkm": "greco bizantino",
         "ui.definitionsInEnglish": "Queste definizioni sono in inglese.",
         "ui.openOnWiktionary": "Apri sul {wiktionary}",
+        "ui.tagline": "Scopri da dove vengono le parole.",
     ]
     private static let table_nl: [String: String] = [
         "app.tagline": "Woordenboek met diepgaande etymologie",
@@ -361,6 +367,7 @@ enum Catalog {
         "lang.gkm": "Byzantijns Grieks",
         "ui.definitionsInEnglish": "Deze definities zijn in het Engels.",
         "ui.openOnWiktionary": "Openen in {wiktionary}",
+        "ui.tagline": "Zie waar woorden vandaan komen.",
     ]
     private static let table_ru: [String: String] = [
         "app.tagline": "Словарь с глубокой этимологией",
@@ -397,6 +404,7 @@ enum Catalog {
         "lang.gkm": "византийский греческий",
         "ui.definitionsInEnglish": "Эти определения на английском языке.",
         "ui.openOnWiktionary": "Открыть в {wiktionary}",
+        "ui.tagline": "Узнайте, откуда пришли слова.",
     ]
     private static let table_ja: [String: String] = [
         "app.tagline": "語源をたどる辞書",
@@ -433,6 +441,7 @@ enum Catalog {
         "lang.gkm": "ビザンチンギリシャ語",
         "ui.definitionsInEnglish": "これらの定義は英語です。",
         "ui.openOnWiktionary": "{wiktionary}で開く",
+        "ui.tagline": "言葉のルーツを見てみよう。",
     ]
     private static let table_zh_Hans: [String: String] = [
         "app.tagline": "带有深度词源的词典",
@@ -469,6 +478,7 @@ enum Catalog {
         "lang.gkm": "拜占庭希腊语",
         "ui.definitionsInEnglish": "这些释义为英文。",
         "ui.openOnWiktionary": "在{wiktionary}中打开",
+        "ui.tagline": "看看词语从何而来。",
     ]
     private static let table_ko: [String: String] = [
         "app.tagline": "깊이 있는 어원 사전",
@@ -505,6 +515,7 @@ enum Catalog {
         "lang.gkm": "비잔틴 그리스어",
         "ui.definitionsInEnglish": "이 뜻풀이는 영어로 되어 있습니다.",
         "ui.openOnWiktionary": "{wiktionary}에서 열기",
+        "ui.tagline": "단어가 어디서 왔는지 확인하세요.",
     ]
     private static let table_ar: [String: String] = [
         "app.tagline": "قاموس مع أصول متعمقة للكلمات",
@@ -541,6 +552,7 @@ enum Catalog {
         "lang.gkm": "اليونانية البيزنطية",
         "ui.definitionsInEnglish": "هذه التعريفات باللغة الإنجليزية.",
         "ui.openOnWiktionary": "افتح في {wiktionary}",
+        "ui.tagline": "اكتشف من أين جاءت الكلمات.",
     ]
 
     static let tables: [String: [String: String]] = [

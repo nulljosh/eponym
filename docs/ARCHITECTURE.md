@@ -6,7 +6,7 @@ Wordroot is a dictionary with etymology. Look up a word, follow its roots back t
 
 ## How it runs
 
-**Web.** Static HTML and JS at wordroot.jaybulb.com/app. A lookup fetches definitions from `{edition}.wiktionary.org/api/rest_v1/page/definition/{word}` (your own edition and English together, yours wins) and the wikitext from en.wiktionary.org, which is parsed for `{{inh}}`, `{{der}}` and `{{bor}}` templates. Each ancestor is looked up in turn until a root or the depth limit. Details in [API.md](API.md).
+**Web.** The root page is the app: static HTML and JS at wordroot.jaybulb.com. It opens on "word" and, left alone for 10 seconds, types through 120 words until someone touches it. The marketing page lives at `/about`, and `/app` redirects to the root. A lookup fetches definitions from `{edition}.wiktionary.org/api/rest_v1/page/definition/{word}` (your own edition and English together, yours wins) and the wikitext from en.wiktionary.org, which is parsed for `{{inh}}`, `{{der}}` and `{{bor}}` templates. Each ancestor is looked up in turn until a root or the depth limit. Details in [API.md](API.md).
 
 **iOS and macOS.** SwiftUI, one `WindowGroup`. Interface and word language live in `UserDefaults`. Network calls go straight to Wiktionary. Arabic flips the layout.
 
@@ -68,7 +68,8 @@ Wordroot is a dictionary with etymology. Look up a word, follow its roots back t
 | `.github/workflows/test.yml` | Runs the tests on every push and pull request |
 | `.github/workflows/native-release.yml` | Builds the Windows, Linux and Android binaries from `kmp/` on a `native-v*` tag |
 | `launch/` | Post drafts for Product Hunt, Hacker News, Reddit and X, plus a hero image |
-| `MONEY.md`, `roadmap.md` | Pricing and open work |
-| `WHITEPAPER.md`, `docs/API.md` | The data pipeline, and the HTTP, MCP and WebMCP surfaces |
-| `CONTRIBUTING.md`, `SECURITY.md`, `LICENSE` | Contributing, security contact, MIT |
+| `brand/` | Brand kit and design system: tokens, mark, icon, the Wordroot Sans typeface (`font/build.py` draws it, `fonts/` holds it), rules |
+| `docs/MONEY.md`, `roadmap.md` | Pricing, and open work. `roadmap.md` and `CLAUDE.md` stay in the root because the tooling looks for them there |
+| `docs/WHITEPAPER.md`, `docs/API.md` | The data pipeline, and the HTTP, MCP and WebMCP surfaces |
+| `docs/CONTRIBUTING.md`, `docs/SECURITY.md`, `LICENSE` | Contributing, security contact, MIT |
 | `architecture.svg`, `progress.svg` | The README diagrams |

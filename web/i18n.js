@@ -781,6 +781,20 @@
       "zh-Hans": "在{wiktionary}中打开",
       "ko": "{wiktionary}에서 열기",
       "ar": "افتح في {wiktionary}"
+    },
+    "ui.tagline": {
+      "en": "See where words come from.",
+      "es": "Mira de dónde vienen las palabras.",
+      "fr": "Voyez d’où viennent les mots.",
+      "de": "Sieh, woher Wörter kommen.",
+      "pt": "Veja de onde vêm as palavras.",
+      "it": "Scopri da dove vengono le parole.",
+      "nl": "Zie waar woorden vandaan komen.",
+      "ru": "Узнайте, откуда пришли слова.",
+      "ja": "言葉のルーツを見てみよう。",
+      "zh-Hans": "看看词语从何而来。",
+      "ko": "단어가 어디서 왔는지 확인하세요.",
+      "ar": "اكتشف من أين جاءت الكلمات."
     }
   },
   "wordLanguages": [

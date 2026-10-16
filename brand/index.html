@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wordroot brand kit</title>
+<link rel="stylesheet" href="tokens.css">
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.5; padding: var(--space-4) var(--space-2); }
+  main { max-width: 880px; margin: 0 auto; }
+  h1 { font-size: 2.6rem; font-weight: var(--weight-title); letter-spacing: -.02em; line-height: 1.1; }
+  h2 { font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: var(--text2); font-weight: var(--weight-label); margin: var(--space-4) 0 var(--space-2); }
+  p.lead { font-size: 1.25rem; color: var(--text2); margin-top: var(--space-1); max-width: 34ch; }
+  .row { display: flex; gap: var(--space-3); flex-wrap: wrap; align-items: center; }
+  .icon { width: 160px; height: 160px; border-radius: var(--radius-icon); display: block; }
+  .tile { width: 120px; height: 120px; border: 1px solid var(--border); border-radius: var(--radius-lg); display: grid; place-items: center; }
+  .tile svg { width: 64px; height: 64px; }
+  .swatches { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-2); }
+  .sw { border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; background: var(--bg2); }
+  .sw i { display: block; height: 64px; }
+  .sw b { display: block; padding: .6rem .8rem 0; font-size: .85rem; }
+  .sw code { display: block; padding: 0 .8rem .7rem; font: inherit; font-size: .8rem; color: var(--text2); }
+  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1rem 1.25rem; max-width: var(--measure); }
+  input { width: 100%; font: inherit; font-size: var(--size-input); padding: .75rem 1rem; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--bg2); color: var(--text); margin-bottom: var(--space-2); }
+  .pos { color: var(--link); font-size: .85rem; font-weight: var(--weight-label); margin-top: .75rem; }
+  .label { font-size: .75rem; text-transform: uppercase; letter-spacing: .08em; color: var(--text2); }
+  .root { padding: .6rem 0; border-top: 1px solid var(--border); }
+  .root small { display: block; color: var(--text2); font-size: .8rem; }
+  .btn { display: inline-block; background: var(--accent); color: #fff; font-weight: var(--weight-label); padding: .7rem 1.4rem; border-radius: 999px; text-decoration: none; }
+  .dont { color: var(--text2); max-width: 60ch; }
+</style>
+</head>
+<body>
+<main>
+  <div class="row" style="margin-bottom: var(--space-3)">
+    <img class="icon" src="icon.svg" alt="Wordroot app icon">
+    <div><h1>Wordroot</h1><p class="lead">Where did that word come from?</p></div>
+  </div>
+
+  <h2>Mark</h2>
+  <div class="row">
+    <div class="tile" style="color:var(--text)"><svg viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M512 300V470C512 580 330 560 330 730M512 470C512 580 694 560 694 730" fill="none" stroke="currentColor" stroke-width="44" stroke-linecap="round"/><circle cx="512" cy="280" r="84"/><circle cx="330" cy="746" r="70"/><circle cx="694" cy="746" r="70"/></svg></div>
+    <div class="tile" style="color:var(--accent)"><svg viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M512 300V470C512 580 330 560 330 730M512 470C512 580 694 560 694 730" fill="none" stroke="currentColor" stroke-width="44" stroke-linecap="round"/><circle cx="512" cy="280" r="84"/><circle cx="330" cy="746" r="70"/><circle cx="694" cy="746" r="70"/></svg></div>
+    <div class="tile" style="background:linear-gradient(var(--accent-light),var(--accent-deep));color:#fff;border-color:transparent"><svg viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M512 300V470C512 580 330 560 330 730M512 470C512 580 694 560 694 730" fill="none" stroke="currentColor" stroke-width="44" stroke-linecap="round"/><circle cx="512" cy="280" r="84"/><circle cx="330" cy="746" r="70"/><circle cx="694" cy="746" r="70"/></svg></div>
+    <div class="tile" style="background:#111;color:#e8e8f0;border-color:transparent"><svg viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true"><path d="M512 300V470C512 580 330 560 330 730M512 470C512 580 694 560 694 730" fill="none" stroke="currentColor" stroke-width="44" stroke-linecap="round"/><circle cx="512" cy="280" r="84"/><circle cx="330" cy="746" r="70"/><circle cx="694" cy="746" r="70"/></svg></div>
+  </div>
+  <p class="dont" style="margin-top: var(--space-2)">One dot that splits into two. White on the blue tile, or the text or accent color on a flat surface. No text, no outlines, no shadows, no brown.</p>
+
+  <h2>Color</h2>
+  <div class="swatches">
+    <div class="sw"><i style="background:var(--accent)"></i><b>Accent</b><code>#0a62d8</code></div>
+    <div class="sw"><i style="background:linear-gradient(var(--accent-light),var(--accent-deep))"></i><b>Icon gradient</b><code>#4da3ff to #0a5fd6</code></div>
+    <div class="sw"><i style="background:var(--link)"></i><b>Link</b><code>#0a58c2</code></div>
+    <div class="sw"><i style="background:var(--text)"></i><b>Text</b><code>#252a49</code></div>
+    <div class="sw"><i style="background:var(--bg2)"></i><b>Surface</b><code>#f5f5f5</code></div>
+    <div class="sw"><i style="background:var(--border)"></i><b>Border</b><code>#e8e8e8</code></div>
+  </div>
+
+  <h2>Type</h2>
+  <p style="font-size:2.6rem;font-weight:var(--weight-title);letter-spacing:-.02em;line-height:1.15">Wordroot Sans, bold for words.</p>
+  <p style="margin-top:.6rem;font-size:1.15rem">Regular for definitions and everything you read. Where did that word come from? 0123456789 mōna ñ ç é</p>
+  <p style="margin-top:.8rem;font-size:1.6rem;letter-spacing:.02em;color:var(--text2)">ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>abcdefghijklmnopqrstuvwxyz</p>
+
+  <h2>Components</h2>
+  <div class="card">
+    <input value="moon" aria-label="Look up a word">
+    <span class="label">Results for "moon"</span>
+    <div class="pos">Noun</div>
+    <p>1. Any natural satellite of a planet.</p>
+    <div class="label" style="margin-top: var(--space-2)">Origin</div>
+    <div class="root"><b>mone</b><small>inherited · Middle English</small></div>
+    <div class="root"><b>mōna</b><small>inherited · Old English</small></div>
+  </div>
+  <p style="margin-top: var(--space-3)"><a class="btn" href="#">Open Wordroot</a></p>
+</main>
+</body>
+</html>

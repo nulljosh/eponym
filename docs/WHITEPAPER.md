@@ -56,7 +56,7 @@ edge, the chain ends, no synthetic ancestry to fill the gap.
 
 | Platform | Stack | Notes |
 |----------|-------|-------|
-| Web | Static frontend, Cloudflare Pages | Same lookup, plus a read-only REST and MCP surface ([docs/API.md](docs/API.md)) |
+| Web | Static frontend, Cloudflare Pages | Same lookup, plus a read-only REST and MCP surface ([API.md](API.md)) |
 | iOS / Mac | SwiftUI multiplatform, xcodegen | Live lookup + chain view |
 | Pipeline | Python 3, stdlib only | `parse.py` + `test_parse.py` |
 
