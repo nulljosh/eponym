@@ -5,7 +5,7 @@
 ![version](https://img.shields.io/badge/version-1.0.2-blue)
 ![license](https://img.shields.io/badge/license-MIT-green) [![GitHub](https://img.shields.io/badge/GitHub-nulljosh%2Fwordroot-black?logo=github)](https://github.com/nulljosh/wordroot)
 
-**Live:** https://wordroot.heyitsmejosh.com
+**Live:** https://wordroot.jaybulb.com
 
 Where did that word come from? Look it up and follow it back, through Latin, Greek, all the way to Proto-Indo-European. A dictionary with the roots showing.
 
