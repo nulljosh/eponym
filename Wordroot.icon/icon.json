@@ -1,0 +1,17 @@
+{
+  "fill-specializations": [
+    {"value": {"solid": "extended-srgb:0.710,0.396,0.114,1.0"}},
+    {"appearance": "dark", "value": {"solid": "extended-srgb:0.227,0.141,0.071,1.0"}}
+  ],
+  "groups": [
+    {
+      "layers": [{"glass": false, "image-name": "root.png", "name": "Root"}],
+      "lighting": "individual",
+      "name": "Root",
+      "shadow": {"kind": "neutral", "opacity": 0.3},
+      "specular": true,
+      "translucency": {"enabled": false, "value": 0}
+    }
+  ],
+  "supported-platforms": {"squares": "shared"}
+}
