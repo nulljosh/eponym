@@ -170,14 +170,14 @@ build-time artifact. Revisit storage when a rate limit or a latency measurement 
 - `wordroot-tui` SwiftPM target (SwiftTUI). `swift build && ./.build/debug/wordroot-tui etymology` fetches the live `/api/word/:word` and renders definitions + etymology chain as a terminal card. Needs a real TTY.
 
 ## Ingested 2026-10-01
-- [ ] Refresh App Store screenshots.
+- [x] Refresh App Store screenshots.
 - [ ] Wordroot QA (Apple Note 2026-10-01 said only "Wordroot QA"). Which platform, full feature pass or a specific bug?
 
 ## Ingested 2026-10-05
 - [ ] QA
 
 ## Ingested 2026-10-16
-- [ ] Stale App Store screenshots (blank icon in listing). (screenshot: notes/attachments/2026-10-16/app-store-screenshots-4.png)
+- [x] Stale App Store screenshots (blank icon in listing). (screenshot: notes/attachments/2026-10-16/app-store-screenshots-4.png)
 
 ## Open 2026-10-16
 - [ ] Fix the eight failing web-app tests in scripts/test-web.mjs. They were failing before the 2026-10-16 landing change and that change did not touch them.
