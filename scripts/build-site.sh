@@ -10,5 +10,10 @@ cp -R web/. dist/
 cp -R landing/. dist/about/
 cp landing/robots.txt landing/sitemap.xml landing/og.png dist/
 printf '<!doctype html><meta charset="utf-8"><title>Wordroot</title><link rel="canonical" href="/"><meta http-equiv="refresh" content="0;url=/">' > dist/app/index.html
+# Stamp the scripts with a content hash so a browser never pairs new HTML with an old bundle.
+V=$(cat web/i18n.js web/webmcp.js | md5 -q | cut -c1-8)
+sed -i '' "s#src=\"i18n.js\"#src=\"i18n.js?v=$V\"#; s#src=\"webmcp.js\"#src=\"webmcp.js?v=$V\"#" dist/index.html
+VL=$(md5 -q landing/i18n.js | cut -c1-8)
+sed -i '' "s#src=\"i18n.js\"#src=\"i18n.js?v=$VL\"#" dist/about/index.html
 rm -rf dist/.vercel dist/.wrangler dist/.env.local
 echo "built dist/ (app at /, about at /about)"

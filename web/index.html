@@ -25,6 +25,27 @@
   .topbar select, .search select { border: 0; background: transparent; color: var(--text); opacity: .72; font: inherit; font-size: .9rem; padding: .35rem .2rem; box-shadow: none; }
   .topbar select:hover, .search select:hover { opacity: 1; }
   h1 { letter-spacing: -.02em; }
+  /* Liquid glass: the result card and the search field are clear glass over the word's photo,
+     lit from above (a bright top edge), tinted just enough to keep the text readable. */
+  .card, input[type=search] {
+    background: rgba(255, 255, 255, .34);
+    -webkit-backdrop-filter: blur(26px) saturate(180%); backdrop-filter: blur(26px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, .5);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7), inset 0 -1px 0 rgba(255, 255, 255, .12), 0 10px 34px rgba(0, 0, 0, .14);
+  }
+  @media (prefers-color-scheme: dark) {
+    .card, input[type=search] {
+      background: rgba(28, 28, 32, .38); border-color: rgba(255, 255, 255, .16);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .22), inset 0 -1px 0 rgba(255, 255, 255, .04), 0 10px 34px rgba(0, 0, 0, .32);
+    }
+  }
+  .foot { margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid var(--border); display: grid; gap: .75rem; font-size: .9rem; color: var(--text); }
+  .foot-brand { display: flex; align-items: center; gap: .5rem; opacity: .85; }
+  .foot-links { display: flex; flex-wrap: wrap; gap: .25rem 1.25rem; }
+  .foot-links a { color: var(--text); opacity: .75; text-decoration: none; }
+  .foot-links a:hover { opacity: 1; text-decoration: underline; }
+  .foot .attr { margin: 0; opacity: .6; font-size: .8rem; }
+  .embed .foot { display: none; }
   * { box-sizing: border-box; }
   /* ponytail: one flat per-word tint, no gradients; hue is set per-word via JS */
   #bg { position: fixed; inset: 0; z-index: -1; --hue: 210; background: hsl(var(--hue) 35% 90%); transition: background 1s ease; }
@@ -93,7 +114,11 @@
 </div>
 <div id="wotd"></div>
 <div id="out"></div>
-<p class="attr" id="attr"></p>
+<footer class="foot">
+  <div class="foot-brand"><svg viewBox="0 0 1024 1024" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M512 300V470C512 580 330 560 330 730M512 470C512 580 694 560 694 730" fill="none" stroke="currentColor" stroke-width="64" stroke-linecap="round"/><circle cx="512" cy="280" r="96"/><circle cx="330" cy="746" r="80"/><circle cx="694" cy="746" r="80"/></svg><b>Wordroot</b></div>
+  <nav class="foot-links" id="footLinks"></nav>
+  <p class="attr" id="attr"></p>
+</footer>
 <script>
 const t = (k, v) => i18n.t(k, v);
 const LINK_RE = /\{\{(inh\+?|der\+?|bor\+?)\|[^|]*\|([^|}]+)\|([^|}]*)/g;
@@ -255,13 +280,21 @@ function hueForWord(word) {
   return h % 360;
 }
 // The word's own Wikipedia photo, same source as iOS/Mac — best-effort, no key needed.
+/** A photo for the word: the Wikipedia article's lead image, else the best-ranked search result
+ *  that has one, else a Wikimedia Commons match. Thumbnails only, so it paints fast. */
+// Wikimedia serves any standard width from the same URL; the summary hands back 320px, too soft for a full-bleed backdrop.
+const big = u => u.replace(/\/\d+px-/, '/1280px-');
 async function photoFor(word) {
-  try {
-    const r = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(word)}`);
-    if (!r.ok) return null;
-    const j = await r.json();
-    return j.originalimage?.source || j.thumbnail?.source || null;
-  } catch { return null; }
+  const get = async url => { try { const r = await fetch(url); return r.ok ? await r.json() : null; } catch { return null; } };
+  const q = encodeURIComponent(word);
+  const sum = await get(`https://en.wikipedia.org/api/rest_v1/page/summary/${q}`);
+  if (sum && sum.type !== 'disambiguation' && sum.thumbnail) return big(sum.thumbnail.source);
+  const hit = await get(`https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&generator=search&gsrsearch=${q}&gsrlimit=6&prop=pageimages&piprop=thumbnail&pithumbsize=1280`);
+  const pages = Object.values((hit && hit.query && hit.query.pages) || {}).filter(p => p.thumbnail).sort((a, b) => a.index - b.index);
+  if (pages.length) return big(pages[0].thumbnail.source);
+  const com = await get(`https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&generator=search&gsrnamespace=6&gsrsearch=${encodeURIComponent(word + ' filetype:bitmap')}&gsrlimit=4&prop=imageinfo&iiprop=url&iiurlwidth=1280`);
+  const files = Object.values((com && com.query && com.query.pages) || {}).sort((a, b) => a.index - b.index);
+  return (files[0] && files[0].imageinfo && files[0].imageinfo[0].thumburl) || null;
 }
 
 let bgToken = 0;
@@ -352,10 +385,13 @@ function renderChrome() {
   uiPicker.title = t('ui.interfaceLanguage');
   $('uiPicker').appendChild(uiPicker);
   $('wordPicker').appendChild(wordLangPicker());
+  if ($('footLinks')) $('footLinks').innerHTML =
+    `<a href="/about/">${esc(t('ui.about'))}</a>` +
+    `<a href="/privacy.html">${esc(t('ui.privacy'))}</a>` +
+    `<a href="https://github.com/nulljosh/wordroot">GitHub</a>`;
   $('attr').innerHTML =
     `${esc(t('ui.alsoOnApple'))} ` +
-    `<a href="https://en.wiktionary.org">${esc(t('ui.attribution'))}</a> ` +
-    `<a href="/privacy.html">${esc(t('ui.privacy'))}</a>`;
+    `<a href="https://en.wiktionary.org">${esc(t('ui.attribution'))}</a>`;
 }
 
 let debounce = null;

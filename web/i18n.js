@@ -795,6 +795,20 @@
       "zh-Hans": "看看词语从何而来。",
       "ko": "단어가 어디서 왔는지 확인하세요.",
       "ar": "اكتشف من أين جاءت الكلمات."
+    },
+    "ui.about": {
+      "en": "About",
+      "es": "Acerca de",
+      "fr": "À propos",
+      "de": "Über",
+      "pt": "Sobre",
+      "it": "Info",
+      "nl": "Over",
+      "ru": "О проекте",
+      "ja": "概要",
+      "zh-Hans": "关于",
+      "ko": "소개",
+      "ar": "حول"
     }
   },
   "wordLanguages": [

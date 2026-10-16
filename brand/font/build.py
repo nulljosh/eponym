@@ -1,4 +1,5 @@
-"""Wordroot Sans: a rounded, monoline, proportionally spaced sans-serif, drawn as code.
+"""Wordroot Sans: a neutral grotesque, proportionally spaced, drawn as code. Flat-cut terminals,
+sharp joins, squarish rounds, Helvetica-like proportions.
 
 Every glyph is a few centerline strokes. A stroke is a polyline, buffered to the weight
 with round caps and joins, then written out as TrueType outlines. Two weights come from
@@ -14,12 +15,17 @@ from shapely import affinity
 from fontTools.fontBuilder import FontBuilder
 from fontTools.pens.ttGlyphPen import TTGlyphPen
 
-UPM, CAP, XH, ASC, DESC = 1000, 700, 500, 740, -200
+UPM, CAP, XH, ASC, DESC = 1000, 710, 520, 735, -210
 OUT = os.path.dirname(os.path.abspath(__file__))
 
-def arc(cx, cy, rx, ry, a0, a1, n=28):
-    return [(cx + rx * math.cos(math.radians(a0 + (a1 - a0) * i / n)),
-             cy + ry * math.sin(math.radians(a0 + (a1 - a0) * i / n))) for i in range(n + 1)]
+def arc(cx, cy, rx, ry, a0, a1, n=28, e=2.3):
+    """Points on a superellipse (e=2 is a circle). e a bit above 2 squares the curve, like a grotesque."""
+    out = []
+    for i in range(n + 1):
+        a = math.radians(a0 + (a1 - a0) * i / n)
+        c, sn = math.cos(a), math.sin(a)
+        out.append((cx + rx * math.copysign(abs(c) ** (2 / e), c), cy + ry * math.copysign(abs(sn) ** (2 / e), sn)))
+    return out
 
 def line_at(p, q, y=None, x=None):
     t = (y - p[1]) / (q[1] - p[1]) if y is not None else (x - p[0]) / (q[0] - p[0])
@@ -55,7 +61,7 @@ def design(sw):
     kd = line_at((0, M), (400, T), x=140)
     add('K', [[(0, T), (0, B)], [(400, T), (0, M)], [kd, (410, B)]], 410, 52, 36)
     add('L', [[(0, T), (0, B), (340, B)]], 340, 52, 40)
-    add('M', [[(0, B), (0, T), (290, 250), (580, T), (580, B)]], 580)
+    add('M', [[(0, B), (0, T), (290, B), (580, T), (580, B)]], 580)
     add('N', [[(0, B), (0, T), (450, B), (450, T)]], 450)
     ellO = arc(270, (T + B) / 2, 270, (T - B) / 2, 90, 450, 48)
     add('O', [ellO], 540, 42, 42)
@@ -80,7 +86,10 @@ def design(sw):
     bowl = arc(rx, m, rx, ry, 90, 450, 48)
     w = 2 * rx
     add('o', [bowl], w, 40, 40)
-    add('a', [bowl, [(w, X), (w, B)]], w, 40, 52)
+    rt, rb = 150, 118
+    wa = 2 * rx
+    add('a', [arc(wa / 2, X - rt, wa / 2, rt, 166, 0, 24) + [(wa, B)],
+              [(wa, B + 2 * rb), (wa / 2 - 8, B + 2 * rb)] + arc(wa / 2 - 8, B + rb, wa / 2 - 8, rb, 90, 270, 20) + [(wa, B)]], wa, 40, 52)
     add('b', [[(0, A), (0, B)], arc(rx, m, rx, ry, 180, 540, 48)], w, 52, 40)
     add('d', [[(w, A), (w, B)], arc(rx, m, rx, ry, 0, 360, 48)], w, 40, 52)
     add('p', [[(0, X), (0, D)], arc(rx, m, rx, ry, 180, 540, 48)], w, 52, 40)
@@ -168,33 +177,73 @@ def marks(sw):
         '̊': ([arc(0, 24, 34, 34, 0, 360, 24)], []),              # ring
     }
 
+
+ADV = {'A':667,'B':667,'C':722,'D':722,'E':667,'F':611,'G':778,'H':722,'I':278,'J':500,'K':667,'L':556,'M':833,
+       'N':722,'O':778,'P':667,'Q':778,'R':722,'S':667,'T':611,'U':722,'V':667,'W':944,'X':667,'Y':667,'Z':611,
+       'a':556,'b':556,'c':500,'d':556,'e':556,'f':278,'g':556,'h':556,'i':222,'j':222,'k':500,'l':222,'m':833,
+       'n':556,'o':556,'p':556,'q':556,'r':333,'s':500,'t':278,'u':556,'v':500,'w':722,'x':500,'y':500,'z':500,
+       '0':556,'1':556,'2':556,'3':556,'4':556,'5':556,'6':556,'7':556,'8':556,'9':556,
+       ' ':278,'.':278,',':278,':':278,';':278,'!':278,'?':556,"'":191,'"':355,'-':333,'(':333,')':333,'/':278,
+       '+':584,'=':584,'_':556,'\u00b7':278,'\u2013':556,'\u2014':1000}
+
+def fit(ch, strokes, dots, w, lb, rb, sw):
+    """Scale a glyph's centerline to a target advance, with even side bearings."""
+    adv = ADV.get(ch)
+    if adv is None:
+        return strokes, dots, w, lb, rb
+    if w == 0:
+        e = (adv - sw) / 2
+        return strokes, dots, 0, e, e
+    diag = (lb + rb) < 70
+    sb = 14 if diag else (56 if ch.isupper() else (42 if ch.isdigit() else 34))
+    wt = adv - sw - 2 * sb
+    k = wt / w
+    if not 0.7 <= k <= 1.4:
+        # a narrow letter (1 f t r): keep its drawing and just centre it in the advance
+        e = max(4, (adv - sw - w) / 2)
+        return strokes, dots, w, e, e
+    return ([[(x * k, y) for x, y in st] for st in strokes], [(x * k, y, r) for x, y, r in dots], wt, sb, sb)
+
+def clip_for(ch):
+    if ch in ',;':
+        return -215, 900
+    if ch.islower():
+        return (-215 if ch in 'gjpqy' else -10), ((ASC + 10) if ch in 'bdfhijklt' else (XH + 10))
+    if ch.isupper() or ch.isdigit():
+        return -10, CAP + 10
+    return None
+
 COMBOS = {'̀': 'AEIOUaeiou', '́': 'AEIOUYaeiouyCcNnSsZz', '̂': 'AEIOUaeiou',
           '̃': 'ANOanoUu', '̄': 'AEIOUaeiou', '̈': 'AEIOUaeiouy',
           '̊': 'Aa', '̌': 'CcSsZzEeRrNn', '̧': 'Cc'}
 
 def build(weight_name, sw, path):
     b = sw / 2
-    base = design(sw)
+    base = {ch: fit(ch, *v, sw) for ch, v in design(sw).items()}
+    from shapely.geometry import box
     mk = marks(sw)
     glyphs = {}   # name -> (polygon or None, advance)
     cmap = {}
 
-    def to_poly(strokes, dots, w, lb, rb, dx=0):
+    def to_poly(strokes, dots, w, lb, rb, dx=0, ch=None):
         shapes = []
         off = lb + b + dx
         for s in strokes:
             pts = [(x + off, y) for x, y in s]
-            shapes.append(LineString(pts).buffer(b, quad_segs=8, cap_style='round', join_style='round'))
+            shapes.append(LineString(pts).buffer(b, quad_segs=8, cap_style='square', join_style='mitre', mitre_limit=3.5))
         for x, y, r in dots:
             shapes.append(Point(x + off, y).buffer(r, quad_segs=8))
         poly = unary_union(shapes) if shapes else None
+        cl = clip_for(ch) if ch else None
+        if poly is not None and cl:
+            poly = poly.intersection(box(-5000, cl[0], 5000, cl[1]))
         return poly, lb + b + w + b + rb
 
     def gname(ch):
         return 'uni%04X' % ord(ch)
 
     for ch, (strokes, dots, w, lb, rb) in base.items():
-        poly, adv = to_poly(strokes, dots, w, lb, rb)
+        poly, adv = to_poly(strokes, dots, w, lb, rb, ch=ch)
         glyphs[gname(ch)] = (poly, adv)
         cmap[ord(ch)] = gname(ch)
 
@@ -206,7 +255,7 @@ def build(weight_name, sw, path):
             strokes, dots, w, lb, rb = base[letter]
             if letter in 'ij':
                 dots = []
-            poly, adv = to_poly(strokes, dots, w, lb, rb)
+            poly, adv = to_poly(strokes, dots, w, lb, rb, ch=letter)
             cx = lb + b + w / 2
             parts = [poly] if poly is not None else []
             upper = letter.isupper()
@@ -219,7 +268,7 @@ def build(weight_name, sw, path):
                 if comb in '̂̌' and not upper: ymark = XH + 120
                 for s in ms:
                     pts = [(x + cx, y + ymark) for x, y in s]
-                    parts.append(LineString(pts).buffer(b * 0.85, quad_segs=8, cap_style='round', join_style='round'))
+                    parts.append(LineString(pts).buffer(b * 0.85, quad_segs=8, cap_style='square', join_style='mitre', mitre_limit=3.5))
                 for x, y, r in md:
                     parts.append(Point(x + cx, y + ymark).buffer(r, quad_segs=8))
             glyphs[gname(ch)] = (unary_union(parts), adv)
@@ -273,6 +322,6 @@ def build(weight_name, sw, path):
 
 if __name__ == '__main__':
     out = os.path.join(OUT, '..', 'fonts'); os.makedirs(out, exist_ok=True)
-    for name, sw in [('Regular', 72), ('Bold', 118)]:
+    for name, sw in [('Regular', 90), ('Bold', 152)]:
         n = build(name, sw, os.path.join(out, f'WordrootSans-{name}.ttf'))
         print(name, n, 'glyphs')

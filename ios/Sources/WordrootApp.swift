@@ -373,8 +373,10 @@ struct ContentView: View {
             .background(PhotoBackground(url: entry?.photoURL, hue: hueForWord(entry?.word ?? wordOfTheDay ?? "wordroot")))
             // Everything drawn straight on the darkened background is white; the cards keep
             // the system look, so their text stays as it is.
+#if os(iOS)
             .toolbarColorScheme(.dark, for: .navigationBar)
             .toolbarBackground(.hidden, for: .navigationBar)
+#endif
             .searchable(text: $query, prompt: Text(settings.t("ui.searchPlaceholder")))
             .navigationTitle(entry?.word.capitalized ?? "Wordroot")
             .toolbar {

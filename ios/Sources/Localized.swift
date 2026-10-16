@@ -146,6 +146,7 @@ enum Catalog {
         "ui.definitionsInEnglish": "These definitions are in English.",
         "ui.openOnWiktionary": "Open on {wiktionary}",
         "ui.tagline": "See where words come from.",
+        "ui.about": "About",
     ]
     private static let table_es: [String: String] = [
         "app.tagline": "Diccionario con etimología profunda",
@@ -183,6 +184,7 @@ enum Catalog {
         "ui.definitionsInEnglish": "Estas definiciones están en inglés.",
         "ui.openOnWiktionary": "Abrir en {wiktionary}",
         "ui.tagline": "Mira de dónde vienen las palabras.",
+        "ui.about": "Acerca de",
     ]
     private static let table_fr: [String: String] = [
         "app.tagline": "Dictionnaire avec une étymologie approfondie",
@@ -220,6 +222,7 @@ enum Catalog {
         "ui.definitionsInEnglish": "Ces définitions sont en anglais.",
         "ui.openOnWiktionary": "Ouvrir sur le {wiktionary}",
         "ui.tagline": "Voyez d’où viennent les mots.",
+        "ui.about": "À propos",
     ]
     private static let table_de: [String: String] = [
         "app.tagline": "Wörterbuch mit tiefgehender Etymologie",
@@ -257,6 +260,7 @@ enum Catalog {
         "ui.definitionsInEnglish": "Diese Definitionen sind auf Englisch.",
         "ui.openOnWiktionary": "Im {wiktionary} öffnen",
         "ui.tagline": "Sieh, woher Wörter kommen.",
+        "ui.about": "Über",
     ]
     private static let table_pt: [String: String] = [
         "app.tagline": "Dicionário com etimologia profunda",
@@ -294,6 +298,7 @@ enum Catalog {
         "ui.definitionsInEnglish": "Estas definições estão em inglês.",
         "ui.openOnWiktionary": "Abrir no {wiktionary}",
         "ui.tagline": "Veja de onde vêm as palavras.",
+        "ui.about": "Sobre",
     ]
     private static let table_it: [String: String] = [
         "app.tagline": "Dizionario con etimologia approfondita",
@@ -331,6 +336,7 @@ enum Catalog {
         "ui.definitionsInEnglish": "Queste definizioni sono in inglese.",
         "ui.openOnWiktionary": "Apri sul {wiktionary}",
         "ui.tagline": "Scopri da dove vengono le parole.",
+        "ui.about": "Info",
     ]
     private static let table_nl: [String: String] = [
         "app.tagline": "Woordenboek met diepgaande etymologie",
@@ -368,6 +374,7 @@ enum Catalog {
         "ui.definitionsInEnglish": "Deze definities zijn in het Engels.",
         "ui.openOnWiktionary": "Openen in {wiktionary}",
         "ui.tagline": "Zie waar woorden vandaan komen.",
+        "ui.about": "Over",
     ]
     private static let table_ru: [String: String] = [
         "app.tagline": "Словарь с глубокой этимологией",
@@ -405,6 +412,7 @@ enum Catalog {
         "ui.definitionsInEnglish": "Эти определения на английском языке.",
         "ui.openOnWiktionary": "Открыть в {wiktionary}",
         "ui.tagline": "Узнайте, откуда пришли слова.",
+        "ui.about": "О проекте",
     ]
     private static let table_ja: [String: String] = [
         "app.tagline": "語源をたどる辞書",
@@ -442,6 +450,7 @@ enum Catalog {
         "ui.definitionsInEnglish": "これらの定義は英語です。",
         "ui.openOnWiktionary": "{wiktionary}で開く",
         "ui.tagline": "言葉のルーツを見てみよう。",
+        "ui.about": "概要",
     ]
     private static let table_zh_Hans: [String: String] = [
         "app.tagline": "带有深度词源的词典",
@@ -479,6 +488,7 @@ enum Catalog {
         "ui.definitionsInEnglish": "这些释义为英文。",
         "ui.openOnWiktionary": "在{wiktionary}中打开",
         "ui.tagline": "看看词语从何而来。",
+        "ui.about": "关于",
     ]
     private static let table_ko: [String: String] = [
         "app.tagline": "깊이 있는 어원 사전",
@@ -516,6 +526,7 @@ enum Catalog {
         "ui.definitionsInEnglish": "이 뜻풀이는 영어로 되어 있습니다.",
         "ui.openOnWiktionary": "{wiktionary}에서 열기",
         "ui.tagline": "단어가 어디서 왔는지 확인하세요.",
+        "ui.about": "소개",
     ]
     private static let table_ar: [String: String] = [
         "app.tagline": "قاموس مع أصول متعمقة للكلمات",
@@ -553,6 +564,7 @@ enum Catalog {
         "ui.definitionsInEnglish": "هذه التعريفات باللغة الإنجليزية.",
         "ui.openOnWiktionary": "افتح في {wiktionary}",
         "ui.tagline": "اكتشف من أين جاءت الكلمات.",
+        "ui.about": "حول",
     ]
 
     static let tables: [String: [String: String]] = [
