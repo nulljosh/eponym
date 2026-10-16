@@ -2,6 +2,9 @@ name: Wordroot
 options:
   bundleIdPrefix: com.heyitsmejosh
   developmentLanguage: en
+  deploymentTarget:
+    iOS: "17.0"
+    macOS: "14.0"
 # The twelve interface languages Wordroot ships. Strings resolve through the generated
 # Catalog rather than .lproj bundles, so the in-app picker works regardless of the system
 # language; this list documents the set and keeps Xcode's own language menus in step.
