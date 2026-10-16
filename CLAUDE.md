@@ -6,6 +6,7 @@ Dictionary + etymology app. Killer feature: interactive etymology tree (word →
 - `pipeline/`: Python 3, stdlib only. Wiktionary REST API (v0) → later full dump parse. Output: `wordroot.sqlite` (`words`, `edges` tables).
 - `ios/`: SwiftUI multiplatform via xcodegen, bundle `com.heyitsmejosh.etyma`, iOS + Mac targets.
 - `web/`: static app on the same dataset. `landing/` is the marketing page. `functions/` + `src/lib/tools.js` are the REST and MCP surface.
+- `watchos/`: Apple Watch app (SwiftUI, watchOS 10+), embedded in the iPhone app by `ios/project.yml`. Models test on the Mac with `watchos/test.sh`.
 - `kmp/`: Kotlin Multiplatform (Android, desktop). `tui/`: terminal client. `launch/`: post drafts. File map in `docs/ARCHITECTURE.md`.
 - `i18n/strings.json`: the single source of truth for every translated string, the 12 interface
   languages and the 30 word languages. `scripts/gen-i18n.py` generates `web/i18n.js`,

@@ -126,6 +126,7 @@ synthetic input**, so the standing no-UI-scripting preference is respected:
 *namo -> *h,nomn), the app's actual differentiator. No search input was needed. If a future capture
 lands on "mother", just compute the index and shoot on a day that does not.
 
+- [ ] Ship the watch app: bump to 1.1.0 once iOS 1.0.5 clears review, upload the iOS build (watch app inside), add Apple Watch screenshots, submit
 - [ ] More Mac screenshots (only 1 uploaded; the listing is thin). Needs the search path driven, so
       it is the one thing here still wanting a non-synthetic input route.
       **Not a submit blocker**, confirmed 2026-08-24: the single 1280x800 shot was enough,

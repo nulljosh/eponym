@@ -61,6 +61,7 @@ Wordroot is a dictionary with etymology. Look up a word, follow its roots back t
 | `kmp/shared/` | Shared network, parsing and word languages. `WiktionaryTest.kt` covers it |
 | `kmp/composeApp/` | Compose UI (`AppScreen.kt`) with Android and desktop entry points |
 | `tui/main.swift`, `Package.swift` | The terminal client |
+| `watchos/` | Apple Watch app: lookup, word of the day, photo backdrop. `test.sh` checks the models against the live API |
 
 ### Repo and project
 | File | What it owns |
