@@ -178,4 +178,3 @@ build-time artifact. Revisit storage when a rate limit or a latency measurement 
 
 ## Ingested 2026-10-16
 - [ ] Stale App Store screenshots (blank icon in listing). (screenshot: notes/attachments/2026-10-16/app-store-screenshots-4.png)
-- [ ] Stale App Store screenshots (blank icon in listing). (screenshot: notes/attachments/2026-10-16/app-store-screenshots-4.png)
