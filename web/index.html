@@ -7,128 +7,120 @@
 <script src="i18n.js"></script>
 <script>window.i18n.applyDocumentLanguage();</script>
 <style>
+  /* Wordroot, laid out like an Apple app: an 8 point grid, one set of radii, SF's type scale,
+     48 point controls, and glass for everything that floats over the photo. Nothing is
+     positioned by eye; every gap below is a step of the grid. */
   :root {
-    --bg: #ffffff; --bg2: #f5f5f5; --text: #252a49; --text2: #666;
-    --accent: #0a62d8;
-  --link: #0a58c2; --border: #e8e8e8;
+    --bg: #ffffff; --bg2: #f5f5f5; --text: #1d1d1f; --text2: #6e6e73;
+    --accent: #0a62d8; --link: #0a58c2; --border: rgba(60, 60, 67, .18);
+    --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px;
+    --page: 20px; --measure: 680px; --control: 48px;
+    --r-card: 28px; --r-group: 20px; --r-pill: 999px;
+    --glass: rgba(255, 255, 255, .26); --glass-edge: rgba(255, 255, 255, .5);
+    --glass-blur: blur(30px) saturate(190%) brightness(1.3);
+    --glass-shadow: inset 0 1px 0 rgba(255, 255, 255, .75), inset 0 -1px 0 rgba(255, 255, 255, .12), 0 12px 38px rgba(0, 0, 0, .16);
   }
   @media (prefers-color-scheme: dark) {
-    :root { --bg: #111111;
-    --link: #5aa9ff; --bg2: #1a1a1a; --text: #e8e8f0; --text2: rgba(232,232,240,.6); --border: rgba(232,232,240,.1); }
-  }
-  @media (prefers-reduced-motion: reduce) { #bg, #bgPhoto { transition: none; } }
-  .tagline { color: var(--text); opacity: .78; font-size: 1.05rem; margin: -.4rem 0 1.25rem; }
-  .embed .tagline { display: none; }
-  /* The pickers are glass pills, the same material as the card and the search field. */
-  .topbar select, .search select, .foot select {
-    font: inherit; font-size: .9rem; color: var(--text); padding: .45rem 1rem; border-radius: 999px; cursor: pointer;
-    background: rgba(255, 255, 255, .34); border: 1px solid rgba(255, 255, 255, .5);
-    -webkit-backdrop-filter: blur(26px) saturate(180%); backdrop-filter: blur(26px) saturate(180%);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7), 0 6px 20px rgba(0, 0, 0, .1);
-  }
-  @media (prefers-color-scheme: dark) {
-    .topbar select, .search select, .foot select { background: rgba(28, 28, 32, .38); border-color: rgba(255, 255, 255, .16); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .22), 0 6px 20px rgba(0, 0, 0, .3); }
-  }
-  h1 { letter-spacing: -.02em; }
-  /* Liquid glass: the card and the search field are clear, semi-transparent glass over the word's
-     photo: blurred and brightened behind, a bright top edge on top. `body` raises the specificity
-     so it beats the plain .card rule further down. */
-  body .card, body input[type=search] {
-    background: rgba(255, 255, 255, .26);
-    -webkit-backdrop-filter: blur(30px) saturate(190%) brightness(1.3); backdrop-filter: blur(30px) saturate(190%) brightness(1.3);
-    border: 1px solid rgba(255, 255, 255, .5);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .75), inset 0 -1px 0 rgba(255, 255, 255, .12), 0 12px 38px rgba(0, 0, 0, .16);
-  }
-  body .card .card { background: rgba(255, 255, 255, .22); -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .45); }
-  @media (prefers-color-scheme: dark) {
-    body .card, body input[type=search] {
-      background: rgba(24, 24, 28, .34); -webkit-backdrop-filter: blur(30px) saturate(170%) brightness(.78); backdrop-filter: blur(30px) saturate(170%) brightness(.78);
-      border-color: rgba(255, 255, 255, .16);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .22), inset 0 -1px 0 rgba(255, 255, 255, .04), 0 12px 38px rgba(0, 0, 0, .34);
-    }
-    body .card .card { background: rgba(255, 255, 255, .06); }
-  }
-  @media (prefers-reduced-motion: reduce) { #bg, #bgPhoto { transition: none; } }
-  .tagline { color: var(--text); opacity: .78; font-size: 1.05rem; margin: -.4rem 0 1.25rem; }
-  .embed .tagline { display: none; }
-  /* The pickers are glass pills, the same material as the card and the search field. */
-  .topbar select, .search select, .foot select {
-    font: inherit; font-size: .9rem; color: var(--text); padding: .45rem 1rem; border-radius: 999px; cursor: pointer;
-    background: rgba(255, 255, 255, .34); border: 1px solid rgba(255, 255, 255, .5);
-    -webkit-backdrop-filter: blur(26px) saturate(180%); backdrop-filter: blur(26px) saturate(180%);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7), 0 6px 20px rgba(0, 0, 0, .1);
-  }
-  @media (prefers-color-scheme: dark) {
-    .topbar select, .search select, .foot select { background: rgba(28, 28, 32, .38); border-color: rgba(255, 255, 255, .16); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .22), 0 6px 20px rgba(0, 0, 0, .3); }
-  }
-  h1 { letter-spacing: -.02em; }
-  /* Liquid glass: the result card and the search field are clear glass over the word's photo,
-     lit from above (a bright top edge), tinted just enough to keep the text readable. */
-  .card, input[type=search] {
-    background: rgba(255, 255, 255, .34);
-    -webkit-backdrop-filter: blur(26px) saturate(180%); backdrop-filter: blur(26px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, .5);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7), inset 0 -1px 0 rgba(255, 255, 255, .12), 0 10px 34px rgba(0, 0, 0, .14);
-  }
-  @media (prefers-color-scheme: dark) {
-    .card, input[type=search] {
-      background: rgba(28, 28, 32, .38); border-color: rgba(255, 255, 255, .16);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .22), inset 0 -1px 0 rgba(255, 255, 255, .04), 0 10px 34px rgba(0, 0, 0, .32);
+    :root {
+      --bg: #000000; --bg2: #1c1c1e; --text: #f5f5f7; --text2: rgba(235, 235, 245, .62); --link: #5aa9ff;
+      --border: rgba(84, 84, 88, .55);
+      --glass: rgba(24, 24, 28, .34); --glass-edge: rgba(255, 255, 255, .16);
+      --glass-blur: blur(30px) saturate(170%) brightness(.78);
+      --glass-shadow: inset 0 1px 0 rgba(255, 255, 255, .22), inset 0 -1px 0 rgba(255, 255, 255, .04), 0 12px 38px rgba(0, 0, 0, .34);
     }
   }
-  .foot { margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid var(--border); display: grid; gap: .75rem; font-size: .9rem; color: var(--text); }
-  .foot-brand { display: flex; align-items: center; gap: .5rem; opacity: .85; }
-  .foot-links { display: flex; flex-wrap: wrap; gap: .25rem 1.25rem; }
-  .foot-links a { color: var(--text); opacity: .75; text-decoration: none; }
-  .foot-links a:hover { opacity: 1; text-decoration: underline; }
-  .foot .attr { margin: 0; opacity: .6; font-size: .8rem; }
-  .embed .foot { display: none; }
   * { box-sizing: border-box; }
-  /* ponytail: one flat per-word tint, no gradients; hue is set per-word via JS */
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+  /* ponytail: one flat per-word tint behind everything; a real photo of the word fades over it. */
   #bg { position: fixed; inset: 0; z-index: -1; --hue: 210; background: hsl(var(--hue) 35% 90%); transition: background 1s ease; }
   @media (prefers-color-scheme: dark) { #bg { background: hsl(var(--hue) 25% 14%); } }
-  /* A real photo of the word replaces the tint once one loads; #bg stays as the
-     always-present fallback for words with no Wikipedia photo. */
-  #bgPhoto {
-    position: fixed; inset: 0; z-index: -1; background-size: cover; background-position: center;
-    opacity: 0; transition: opacity .6s ease;
-  }
+  #bgPhoto { position: fixed; inset: 0; z-index: -1; background-size: cover; background-position: center; opacity: 0; transition: opacity .6s ease; }
   #bgPhoto.on { opacity: 1; }
-  #bgPhoto::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, color-mix(in srgb, var(--bg) 70%, transparent), color-mix(in srgb, var(--bg) 14%, transparent) 300px); }
-  body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif; background: transparent; color: var(--text); max-width: 640px; margin: 0 auto; padding: 6vh 1rem 4rem; }
-  h1 { font-size: 1.4rem; letter-spacing: -.02em; margin: 0; }
-  input { width: 100%; font-size: 1.25rem; padding: .75rem 1rem; border: 1px solid var(--border); border-radius: 10px; background: var(--bg2); color: var(--text); outline: none; }
-  input:focus { border-color: var(--link, var(--accent)); }
-  .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.25rem; margin-top: 1.5rem; }
-  .card h2 { margin: 0 0 .25rem; font-size: 1.2rem; }
-  .label { font-size: .75rem; text-transform: uppercase; letter-spacing: .08em; color: var(--text2); margin-bottom: .5rem; }
-  .pos { color: var(--link, var(--accent)); font-size: .85rem; font-weight: 600; margin-top: .75rem; }
+  #bgPhoto::after { content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to bottom, color-mix(in srgb, var(--bg) 70%, transparent), color-mix(in srgb, var(--bg) 14%, transparent) 300px); }
+
+  body {
+    font: 17px/24px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased; background: transparent; color: var(--text);
+    max-width: var(--measure); margin: 0 auto;
+    padding: max(var(--s6), env(safe-area-inset-top)) max(var(--page), env(safe-area-inset-right))
+             calc(var(--s7) + env(safe-area-inset-bottom)) max(var(--page), env(safe-area-inset-left));
+  }
+
+  /* header: the icon, the name, one quiet line */
+  .topbar { display: flex; align-items: center; gap: var(--s3); margin: 0; }
+  .topbar img { width: 32px; height: 32px; border-radius: 22%; display: block; box-shadow: 0 1px 3px rgba(0, 0, 0, .25); }
+  h1 { font-size: 22px; line-height: 28px; font-weight: 700; letter-spacing: -.01em; margin: 0; }
+  /* the word language: a glass circle with a globe in the corner; the real select sits invisibly on top, so it opens natively everywhere */
+  .lang-btn { position: relative; margin-inline-start: auto; width: 40px; height: 40px; flex: none; border-radius: var(--r-pill);
+    background: var(--glass); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-edge); box-shadow: var(--glass-shadow); }
+  .lang-btn svg { position: absolute; inset: 0; margin: auto; width: 22px; height: 22px; color: var(--text2); pointer-events: none; }
+  .lang-btn #wordPicker { display: contents; }
+  .lang-btn select { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; padding: 0; opacity: 0; cursor: pointer; border-radius: var(--r-pill); }
+  .lang-btn:focus-within { box-shadow: var(--glass-shadow), 0 0 0 4px color-mix(in srgb, var(--accent) 30%, transparent); }
+  .tagline { font-size: 15px; line-height: 20px; color: var(--text2); margin: var(--s2) 0 var(--s5); }
+  .embed .tagline, .embed .foot { display: none; }
+
+  /* controls: 48 point capsules, the same glass as the card */
+  .search { display: flex; gap: var(--s2); align-items: center; }
+  input, select { font: inherit; color: var(--text); height: var(--control); }
+  input[type=search] {
+    flex: 1; min-width: 0; font-size: 17px; border-radius: var(--r-pill); outline: none; -webkit-appearance: none; appearance: none;
+    padding: 0 var(--s4) 0 44px;
+    background: var(--glass) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%238a8a8e' stroke-width='2.2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-3.5-3.5'/%3E%3C/svg%3E") no-repeat 16px center;
+    -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-edge); box-shadow: var(--glass-shadow);
+    transition: box-shadow .2s ease, border-color .2s ease;
+  }
+  input[type=search]::placeholder { color: var(--text2); }
+  input[type=search]:focus { border-color: var(--accent); box-shadow: var(--glass-shadow), 0 0 0 4px color-mix(in srgb, var(--accent) 30%, transparent); }
+  select {
+    -webkit-appearance: none; appearance: none; cursor: pointer; font-size: 15px; max-width: 160px;
+    padding: 0 36px 0 var(--s4); border-radius: var(--r-pill);
+    background: var(--glass) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none' stroke='%238a8a8e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E") no-repeat right 14px center;
+    -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-edge); box-shadow: var(--glass-shadow);
+  }
+  select:focus-visible { outline: none; box-shadow: var(--glass-shadow), 0 0 0 4px color-mix(in srgb, var(--accent) 30%, transparent); }
+
+  /* the result: one glass card, an inset grouped list inside it */
+  .card {
+    margin-top: var(--s5); padding: var(--s5); border-radius: var(--r-card);
+    background: var(--glass); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-edge); box-shadow: var(--glass-shadow);
+  }
+  .label { font-size: 13px; line-height: 18px; text-transform: uppercase; letter-spacing: .06em; color: var(--text2); margin: 0 0 var(--s2); }
+  .card h2 { font-size: 34px; line-height: 41px; font-weight: 700; letter-spacing: -.022em; margin: 0 0 var(--s2); }
+  .pos { font-size: 15px; line-height: 20px; font-weight: 600; color: var(--link); margin: var(--s4) 0 var(--s2); }
   /* padding-inline, not padding-left: the numbers must sit on the start edge in Arabic too */
-  ol.defs { margin: .25rem 0 0; padding-inline-start: 1.25rem; }
-  ol.defs li { margin: .3rem 0; line-height: 1.45; }
-  .chain { list-style: none; padding: 0; margin: .25rem 0 0; }
-  .chain li { padding: .45rem 0; border-bottom: 1px solid var(--border); }
-  .chain li:last-child { border-bottom: none; }
+  ol.defs { margin: 0; padding-inline-start: var(--s5); }
+  ol.defs li { margin: 0 0 var(--s2); }
+  ol.defs li::marker { color: var(--text2); }
+  .muted { color: var(--text2); }
+  .note { font-size: 13px; line-height: 18px; color: var(--text2); margin: var(--s3) 0 0; }
+  .note a, .attr a { color: var(--link); }
+
+  .group { margin-top: var(--s5); border-radius: var(--r-group); background: color-mix(in srgb, var(--bg) 22%, transparent); border: 1px solid var(--glass-edge); overflow: hidden; }
+  .group .label { padding: var(--s4) var(--s4) 0; margin: 0; }
+  .chain { list-style: none; margin: var(--s2) 0 0; padding: 0; }
+  .chain li { padding: var(--s3) var(--s4); position: relative; }
+  .chain li + li::before { content: ''; position: absolute; top: 0; inset-inline: var(--s4) 0; height: 1px; background: var(--border); }
   /* Ancestor first, relation and language as a caption beneath. A single run-on line
      ("inherited from X Latin") cannot be translated without reordering, and word order
      differs in every one of the twelve locales; two lines read correctly in all of them. */
   .chain .anc { font-weight: 600; }
-  .chain .meta { font-size: .85rem; color: var(--text2); }
-  .chain .meta .lang { color: var(--link, var(--accent)); }
-  .muted { color: var(--text2); }
-  .note { font-size: .78rem; color: var(--text2); margin: .6rem 0 0; }
-  .note a { color: var(--link, var(--accent)); }
-  .attr { font-size: .75rem; color: var(--text2); margin-top: 2rem; }
-  .attr a { color: var(--link, var(--accent)); }
-  .topbar { display: flex; align-items: center; justify-content: space-between; gap: .75rem; flex-wrap: wrap; margin-bottom: 1rem; }
-  select {
-    font: inherit; font-size: .8rem; padding: .3rem 1.6rem .3rem .5rem; max-width: 11rem;
-    border: 1px solid var(--border); border-radius: 8px; background: var(--bg2); color: var(--text);
-  }
-  /* The word-language picker scopes the search, so it sits with the field rather than beside
-     the interface picker — where, in Arabic, the two read as the same word twice over. */
-  .search { display: flex; gap: .5rem; align-items: stretch; }
-  .search select { font-size: .95rem; flex: 0 0 auto; }
+  .chain .meta { font-size: 13px; line-height: 18px; color: var(--text2); }
+  .chain .meta .lang { color: var(--link); }
+
+  /* footer: aligned to the same edge, quiet, on the grid */
+  .foot { margin-top: var(--s7); padding-top: var(--s5); border-top: 1px solid var(--border); display: grid; gap: var(--s4); font-size: 15px; line-height: 20px; }
+  .foot-brand { display: flex; align-items: center; gap: var(--s2); color: var(--text); }
+  .foot-links { display: flex; flex-wrap: wrap; gap: var(--s2) var(--s5); }
+  .foot-links a { color: var(--text2); text-decoration: none; transition: color .2s ease; }
+  .foot-links a:hover { color: var(--text); }
+  .foot-lang select { height: 40px; font-size: 13px; }
+  .attr { margin: 0; font-size: 13px; line-height: 18px; color: var(--text2); }
 </style>
   <link rel="manifest" href="/manifest.webmanifest">
   <meta name="theme-color" content="#5B9BD5">
@@ -141,12 +133,12 @@
 <div id="bg"></div>
 <div id="bgPhoto"></div>
 <div class="topbar">
-  <h1>Wordroot</h1>
+  <img src="icon-192.png" alt=""><h1>Wordroot</h1>
+  <span class="lang-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.9 5.6 3.9 9s-1.3 6.4-3.9 9c-2.6-2.6-3.9-5.6-3.9-9S9.4 5.6 12 3z"/></svg><span id="wordPicker"></span></span>
 </div>
 <p class="tagline" id="tagline"></p>
 <div class="search">
-  <span id="wordPicker"></span>
-  <input type="search" id="q" autofocus autocapitalize="none">
+    <input type="search" id="q" autofocus autocapitalize="none">
 </div>
 <div id="wotd"></div>
 <div id="out"></div>
@@ -300,7 +292,7 @@ function render(el, word, defs, chain) {
     html += `<p class="muted">${esc(t('ui.noDefinition'))}</p>`;
   }
   if (chain.length) {
-    html += `<div class="card" style="margin:1rem -0.25rem -0.25rem"><div class="label">${esc(t('ui.origin'))}</div><ul class="chain">` +
+    html += `<div class="group"><div class="label">${esc(t('ui.origin'))}</div><ul class="chain">` +
       chain.map(c =>
         `<li><div class="anc" dir="auto" lang="${esc(c.langCode)}">${esc(c.ancestor)}</div>` +
         `<div class="meta">${esc(c.rel)} · <span class="lang">${esc(c.lang)}</span></div></li>`).join('') +
@@ -321,26 +313,40 @@ function hueForWord(word) {
  *  that has one, else a Wikimedia Commons match. Thumbnails only, so it paints fast. */
 // Wikimedia serves any standard width from the same URL; the summary hands back 320px, too soft for a full-bleed backdrop.
 const big = u => u.replace(/\/\d+px-/, '/1280px-');
-async function photoFor(word) {
+const STOP = new Set(['that','with','from','whic','havi','used','this','thei','ther','othe','some','whos','wher','when','such','also','into','than','then','them','have','been','were','will','woul','coul','abou','typi','usual','espec','makin','makes','being','being','kind','type','form','thing','one','who']);
+const stems = t => (String(t || '').toLowerCase().match(/[a-z]{4,}/g) || []).map(w => w.slice(0, 5)).filter(w => !STOP.has(w));
+/** A picture is only worth showing if its page talks about what the word means: Nice the city is not "nice". */
+const related = (text, defText) => { const d = new Set(stems(defText)); return stems(text).some(w => d.has(w)); };
+const loads = url => new Promise(res => { const i = new Image(); const done = ok => { i.onload = i.onerror = null; res(ok); }; i.onload = () => done(true); i.onerror = () => done(false); setTimeout(() => done(false), 7000); i.src = url; });
+
+/** A photo for the word: the article's lead image, else the best-matching search result. Each
+ *  candidate must relate to the definition and actually load; otherwise the flat tint stays. */
+async function photoFor(word, defText) {
   const get = async url => { try { const r = await fetch(url); return r.ok ? await r.json() : null; } catch { return null; } };
-  const q = encodeURIComponent(word);
+  const q = encodeURIComponent(word), w = word.toLowerCase();
+  const ok = async u => (u && await loads(u)) ? u : null;
   const sum = await get(`https://en.wikipedia.org/api/rest_v1/page/summary/${q}`);
-  if (sum && sum.type !== 'disambiguation' && sum.thumbnail) return big(sum.thumbnail.source);
-  const hit = await get(`https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&generator=search&gsrsearch=${q}&gsrlimit=6&prop=pageimages&piprop=thumbnail&pithumbsize=1280`);
+  if (sum && sum.type === 'standard' && sum.thumbnail && (!defText || related(sum.extract, defText))) {
+    const u = await ok(big(sum.thumbnail.source)); if (u) return u;
+  }
+  const hit = await get(`https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&generator=search&gsrsearch=${q}&gsrlimit=6&prop=pageimages|extracts&piprop=thumbnail&pithumbsize=1280&exintro=1&explaintext=1&exsentences=2&exlimit=6`);
   const pages = Object.values((hit && hit.query && hit.query.pages) || {}).filter(p => p.thumbnail).sort((a, b) => a.index - b.index);
-  if (pages.length) return big(pages[0].thumbnail.source);
-  const com = await get(`https://commons.wikimedia.org/w/api.php?action=query&format=json&origin=*&generator=search&gsrnamespace=6&gsrsearch=${encodeURIComponent(word + ' filetype:bitmap')}&gsrlimit=4&prop=imageinfo&iiprop=url&iiurlwidth=1280`);
-  const files = Object.values((com && com.query && com.query.pages) || {}).sort((a, b) => a.index - b.index);
-  return (files[0] && files[0].imageinfo && files[0].imageinfo[0].thumburl) || null;
+  for (const p of pages) {
+    if (defText ? related(p.extract, defText) : p.title.toLowerCase() === w) { const u = await ok(p.thumbnail.source); if (u) return u; }
+  }
+  return null;
 }
 
 let bgToken = 0;
-async function setBgWord(word) {
+async function setBgWord(word, defsPromise) {
   $('bg').style.setProperty('--hue', hueForWord(word));
   const token = ++bgToken;
   const photo = $('bgPhoto');
   photo.classList.remove('on');
-  const src = await photoFor(word);
+  let defText = '';
+  try { const d = await defsPromise; if (d) defText = d.groups.slice(0, 2).flatMap(g => g.defs.slice(0, 3)).join(' '); } catch { /* no definition: fall back to a title match */ }
+  if (token !== bgToken) return;
+  const src = await photoFor(word, defText);
   if (token !== bgToken) return;  // a newer search landed while this one was in flight
   if (src) {
     photo.style.backgroundImage = `url("${src}")`;
@@ -351,11 +357,12 @@ async function setBgWord(word) {
 }
 
 async function lookup(word, el) {
-  setBgWord(word);
-  el.innerHTML = `<p class="muted">${esc(t('ui.lookingUp'))}</p>`;
   const lang = wordLang;
+  const defsP = definitions(word, lang);
+  setBgWord(word, defsP.catch(() => null));
+  el.innerHTML = `<p class="muted">${esc(t('ui.lookingUp'))}</p>`;
   try {
-    const [defs, chain] = await Promise.all([definitions(word, lang), etymology(word, lang)]);
+    const [defs, chain] = await Promise.all([defsP, etymology(word, lang)]);
     if (lang !== wordLang) return;  // the picker moved while we were in flight
     if (!defs && !chain.length) {
       el.innerHTML = `<p class="muted">${esc(t('ui.nothingFoundFor', { word }))}</p>`;

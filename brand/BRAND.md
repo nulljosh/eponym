@@ -43,29 +43,21 @@ The system font. San Francisco on Apple, Helvetica Neue or Arial everywhere else
 - Words and headings: bold, tight tracking, large. Definitions: regular. Labels: small, uppercase, secondary text color.
 - No monospace anywhere in the interface. No custom typeface: we tried drawing one and the system font was better.
 
-## Shape and space
-- Inputs 10 px, cards 12 px, small controls 8 px. One border, 1 px, in the border color.
-- Generous space at the top of the page, tight inside a card. The reading column is 640 px.
-- One column. The result is a card; the roots sit inside it, one per line: the ancestor, then `relation · language` beneath.
+## Layout
+Built like an Apple app, from constraints, not by eye.
+
+- **The 8 point grid.** Every gap is 4, 8, 12, 16, 24, 32 or 48. Side margins 20, the reading column 680. Respect the safe areas on a phone.
+- **Controls are 48 points tall**, capsules, the search field and the pickers alike. Focus is a 4 point ring of the accent at 30 percent, never a thin colored border.
+- **One set of radii.** Cards 28, inset grouped lists 20, controls fully round, the icon 22 percent.
+- **Type scale** is San Francisco's: 34 for the word, 22 for the app name, 17 for definitions, 15 for labels and the tagline, 13 for captions. Line height is always a step of 4.
+- **Lists are inset grouped**, as in Settings: rows 12 by 16, a hairline between them inset 16 from the start edge, no outer borders on the rows.
+- One column. The word is the largest thing on the screen.
+
+## Material
+Liquid glass: the result card, the search field and the pickers are semi-transparent, blurred and brightened behind, with a bright 1 point top edge and a soft shadow. The word's photo shows through. A soft scrim at the top keeps the header readable on any photo. The photo loads only if it relates to the definition (Nice the city is not "nice"); otherwise the flat per-word tint stays. No gradients on the page, only in the icon.
 
 ## Motion
-The background tint eases over a second when the word changes. The photo fades in over 0.6 seconds. Nothing else moves. Reduced motion turns both off.
-
-## Voice
-Short sentences, plain words, no hedging. Say what the thing does for a person.
-
-- Yes: "Where did that word come from?" "A dictionary with the roots showing."
-- No: "leverage", "seamlessly", "powerful", exclamation marks, emoji, em dashes.
-
-Never write a sentence by joining translated pieces. Word order differs across the twelve interface languages and Arabic runs right to left.
-
-## Platforms
-| | Today |
-|---|---|
-| Web and landing | `tokens.css` values, used directly |
-| iOS and macOS | System fonts and the system accent. The icon comes from `Wordroot.icon`. The background tint is a SwiftUI color from the word's hue |
-| Android and desktop | Not aligned yet. The Compose app still uses the Material default scheme. Set `primary` to `#0a62d8` to bring it in line |
-| Docs | `architecture.svg` uses the accent and surface colors above on white |
+The tint eases over a second when the word changes, the photo fades in over 0.6 seconds, and focus eases in over 0.2. Nothing else moves. Reduced motion turns all of it off.
 
 ## Changing it
 Change `tokens.css` first, then the Swift and Kotlin values to match. Never invent a new color in a single screen.

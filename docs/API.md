@@ -59,3 +59,13 @@ language is a 400 naming the mistake, not a silent fall back to English on the w
 `list_languages`. All read-only, nothing here is stored or mutated.
 
 Content is Wiktionary's, CC BY-SA 4.0; every `lookup_word` response carries its source URL.
+
+### Errors, limits and safety
+
+- **No key, no account, read-only.** REST takes `GET` only. Any other method is a 405 saying so, and `OPTIONS` answers 204. Nothing is stored or changed.
+- **Input is checked before it goes anywhere.** `word` is required, at most 100 characters, and may not contain pipes, braces or newlines (it ends up inside a Wiktionary query, so those could smuggle in wikitext). Anything else is a 400 with a one-line reason.
+- **Status codes.** 200 on success, 400 for bad input or an unknown language, 404 for an unknown endpoint (the body lists the real ones), 405 for a write.
+- **Chains stop.** An etymology walks at most 10 ancestors, so a cycle in the source data cannot run away.
+- **MCP errors.** Bad JSON is a 400 parse error. An unknown tool is a JSON-RPC error (-32602). A tool rejecting its input, or Wiktionary being unreachable, comes back as a normal tool result with `isError: true`, so a client can read the reason and retry.
+- **CORS is open** to any origin, because the data is public and read-only. Responses are cached for an hour.
+- **Rate limits.** The API has none of its own. Cloudflare's platform protections sit in front of it, and Wiktionary's own limits apply behind it, which is another reason answers are cached.

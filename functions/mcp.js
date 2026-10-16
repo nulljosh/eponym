@@ -8,7 +8,7 @@
 // and MCP surfaces cannot describe different behaviour. They hit Wiktionary, so unlike
 // charwork's they are async — `await` here, or every call resolves to a Promise object.
 
-import { callTool, ToolError, TOOLS } from '../src/lib/tools.js';
+import { callTool, ToolError, TOOLS, TOOL_NAMES } from '../src/lib/tools.js';
 
 const VERSION = '1.0.0';
 
@@ -57,6 +57,9 @@ export async function onRequest({ request: req }) {
     case 'tools/list':
       return reply({ tools: TOOLS });
     case 'tools/call': {
+      if (!params || !TOOL_NAMES.includes(params.name)) {
+        return json({ jsonrpc: '2.0', id, error: { code: -32602, message: `Unknown tool: ${params && params.name}` } });
+      }
       let result;
       try {
         result = await callTool(params.name, params.arguments || {});
