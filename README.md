@@ -3,9 +3,7 @@
 # Wordroot
 
 ![version](https://img.shields.io/badge/version-1.0.5-blue)
-![license](https://img.shields.io/badge/license-MIT-green) [![GitHub](https://img.shields.io/badge/GitHub-nulljosh%2Fwordroot-black?logo=github)](https://github.com/nulljosh/wordroot)
-
-**Live:** https://wordroot.jaybulb.com
+![license](https://img.shields.io/badge/license-MIT-green)
 
 Where did that word come from? Look it up and follow it back, through Latin, Greek, all the way to Proto-Indo-European. A dictionary with the roots showing.
 
@@ -14,8 +12,8 @@ Where did that word come from? Look it up and follow it back, through Latin, Gre
 ## Screenshots
 
 <p>
-<img src="screenshots/wordroot-1.jpg" width="49%" alt="Wordroot on Mac">
-<img src="screenshots/wordroot-2.jpg" width="49%" alt="Wordroot on iPhone">
+<img src="screenshots/wordroot-1.jpg" width="49%" alt="Wordroot on desktop">
+<img src="screenshots/wordroot-2.jpg" width="49%" alt="Wordroot on a phone">
 </p>
 
 ## How it works
