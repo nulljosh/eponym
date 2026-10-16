@@ -462,15 +462,18 @@ if (wordLang === 'en' && !isEmbed()) {
 // Idle demo: after IDLE_MS of nobody touching the page, type through DEMO_WORDS one at a time.
 // Any touch, key, click or scroll ends it and the page is theirs; the demo comes back if
 // they walk away again. ponytail: plain timers, no library; reduced-motion visitors never see it.
-const DEMO_WORDS = ('nice salary quarantine sinister companion husband alcohol algebra assassin candidate cereal clue daisy ' +
-  'dexterity disaster echo galaxy gossip january lunatic muscle nightmare nostalgia orient precocious rival sarcasm silly ' +
-  'sincere tragedy volcano window atlas panic vaccine calculate bank bonfire pedigree curfew daffodil goodbye nausea pants ' +
-  'sandwich boycott denim jeans marathon mentor narcissism odyssey pandemonium tantalize robot pioneer salad sabotage trivial ' +
-  'mortgage ketchup kindergarten tsunami safari pajamas shampoo bungalow coffee sugar tea chocolate tomato avocado banana ' +
-  'ginger orange lemon whisky vodka magazine arsenal admiral zero cipher alchemy elixir sapphire amber ivory coral pearl ' +
-  'oasis tundra jungle desert island peninsula volcano glacier horizon eclipse comet planet aurora zenith nadir harvest ' +
-  'orchard meadow thunder lightning breeze mirage ghost phantom spirit genius muse rhapsody lyric sonnet ballad ' +
-  'symphony chorus rhythm melody').split(' ').filter((w, i, a) => a.indexOf(w) === i);
+const DEMO_WORDS = ('admiral alchemy alcohol algebra amber arsenal assassin atlas aurora avocado ballad banana bank bonfire boycott ' +
+  'breeze bungalow candidate cereal chocolate chorus cipher clue coffee comet companion coral curfew daffodil ' +
+  'denim desert disaster eclipse elixir ghost galaxy glacier ginger harvest gossip horizon island husband ivory ' +
+  'jeans jungle kindergarten lemon lunatic marathon lyric mentor meadow muscle mirage muse narcissism nausea ' +
+  'nightmare nostalgia ketchup orange lightning pajamas magazine pants melody peninsula mortgage planet nadir ' +
+  'rhapsody robot orient salad panic sapphire pedigree silly pioneer sonnet quarantine symphony rival thunder ' +
+  'safari oasis trivial sandwich vaccine shampoo orchard whisky sugar pearl tea cactus tragedy tundra compass ' +
+  'volcano zenith dragon fountain bridge iceberg cathedral lantern diamond mountain feather orchid hurricane ' +
+  'kangaroo rainbow snowflake lobster telescope rhythm octopus tulip sabotage pyramid salary sarcasm skeleton ' +
+  'sincere sunflower violin spirit zebra chandelier tornado giraffe umbrella windmill carousel tomato elephant ' +
+  'tsunami jaguar vodka magnet window quartz igloo anchor trumpet ladder castle yacht parachute barn crystal ' +
+  'canyon saddle falcon clock walrus harbor cranberry anvil jellyfish eagle lighthouse bonsai forest').split(' ').filter((w, i, a) => a.indexOf(w) === i);
 const IDLE_MS = 10000, TYPE_MS = 110, HOLD_MS = 5500;
 const calm = typeof matchMedia !== 'function' || matchMedia('(prefers-reduced-motion: reduce)').matches;
 const sleep = ms => new Promise(r => setTimeout(r, ms));
