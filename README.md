@@ -2,7 +2,7 @@
 
 # Wordroot
 
-![version](https://img.shields.io/badge/version-1.0.2-blue)
+![version](https://img.shields.io/badge/version-1.0.5-blue)
 ![license](https://img.shields.io/badge/license-MIT-green) [![GitHub](https://img.shields.io/badge/GitHub-nulljosh%2Fwordroot-black?logo=github)](https://github.com/nulljosh/wordroot)
 
 **Live:** https://wordroot.jaybulb.com
@@ -18,46 +18,17 @@ Where did that word come from? Look it up and follow it back, through Latin, Gre
 <img src="screenshots/wordroot-2.jpg" width="49%" alt="Wordroot on iPhone">
 </p>
 
-## Why
-No app pairs a clean dictionary with real etymology. The big dictionary apps have ads and no history. The one etymology app is mediocre.
-
-## Architecture
+## How it works
 <img src="architecture.svg" width="600">
 
-- **pipeline/**: a Python parser, stdlib only. Wiktionary in, etymology graph out, SQLite on disk
-- **ios/**: SwiftUI for iOS and Mac, xcodegen
-- **web/**: static frontend on the same dataset
-- **i18n/**: one string catalog for every surface (below)
+Wiktionary (CC-BY-SA) is parsed into a graph of words and edges. WordNet fills gaps. No OED, no Etymonline, no etymology a model made up.
 
-## Data
-Wiktionary (CC-BY-SA), parsed into a graph of words and edges. WordNet fills gaps. No OED. No Etymonline. No etymology a model made up.
+Twelve interface languages, thirty word languages. Etymology always comes from the English Wiktionary. Definitions come from your own language's Wiktionary first, then English.
 
-## Languages
-
-Two independent axes:
-
-- **Interface language**: the app's own chrome, in 12 languages. English, Spanish, French,
-  German, Portuguese, Italian, Dutch, Russian, Japanese, Simplified Chinese, Korean and
-  Arabic, right to left. Detected on first run, then yours to change, and remembered.
-- **Word language**: the language of the word you're looking up. 30 of them, including Latin,
-  Ancient Greek, Sanskrit, Old English and Old Norse. Defaults to the interface language when
-  a dictionary exists for it.
-
-**Etymology** always comes from the English Wiktionary, whatever the interface language. It
-covers thousands of languages under one set of templates (`inh`, `der`, `bor`). Every other
-edition uses its own markup. The word language picks which `==Language==` section to read, so
-`chat` gives Middle English ancestry in English and Old French ancestry in French, not
-whichever comes first.
-
-**Definitions** are prose, so the edition decides the language. Wordroot asks your own edition
-first (`fr.wiktionary` defines in French) and falls back to English, the only edition sure to
-answer. Both requests go out together, so the fallback costs no extra round trip. An edition
-that doesn't serve definitions isn't asked again that session. When English was the fallback,
-the entry says so and links to your own Wiktionary.
-
-`i18n/strings.json` is the only place a string is written. `scripts/gen-i18n.py` generates
-`web/i18n.js`, `landing/i18n.js` and `ios/Sources/Localized.swift` from it. Don't edit those
-three by hand. `scripts/build-site.sh` refuses to build if they're stale.
+- **pipeline/**: Python parser, stdlib only
+- **ios/**: SwiftUI for iPhone and Mac
+- **web/**: static site on the same data
+- **i18n/**: one string catalog for every surface
 
 ## Run
 ```sh
@@ -76,10 +47,4 @@ node scripts/test-web.mjs             # web app + landing page: i18n and lookup
 ## License
 MIT © 2026 Joshua Trommel
 
-## Whitepaper
-
-[Technical whitepaper](WHITEPAPER.md)
-
-## API and agent tools
-Wordroot has no backend of its own. [docs/API.md](docs/API.md) lists the Wiktionary endpoints it
-calls directly and the read-only WebMCP tools the web app registers.
+[Whitepaper](WHITEPAPER.md) · [API and agent tools](docs/API.md)

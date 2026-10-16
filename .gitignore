@@ -13,3 +13,6 @@ dist/
 ios/.asc/export-mac/
 .build/
 .asc/artifacts/
+.asc/runs/
+.asc/reports/
+ios/.asc/release/

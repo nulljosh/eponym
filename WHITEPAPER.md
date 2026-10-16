@@ -1,6 +1,6 @@
 # Wordroot Technical Whitepaper
 
-**v1.0** | August 2026
+**v1.0.5** | October 2026
 
 Where did that word come from?
 
@@ -41,8 +41,9 @@ chain rendered inline, on web and iOS. The offline SQLite dataset is the
 long-term path, since a live API call is slower and a full local graph would
 let the app work offline and answer instantly; live lookup keeps the app
 useful before the full dump is processed rather than waiting on that
-pipeline to finish before shipping anything. iOS 1.0 and macOS 1.0 both went
-live on the App Store 2026-08-27.
+pipeline to finish before shipping anything. iOS and macOS both went live on the
+App Store 2026-08-27. The web app lives at wordroot.jaybulb.com and speaks 12
+interface languages and 30 word languages.
 
 ## Data Licensing
 
@@ -55,7 +56,7 @@ edge, the chain ends, no synthetic ancestry to fill the gap.
 
 | Platform | Stack | Notes |
 |----------|-------|-------|
-| Web | Static frontend | Shared dataset |
+| Web | Static frontend, Cloudflare Pages | Same lookup, plus a read-only REST and MCP surface ([docs/API.md](docs/API.md)) |
 | iOS / Mac | SwiftUI multiplatform, xcodegen | Live lookup + chain view |
 | Pipeline | Python 3, stdlib only | `parse.py` + `test_parse.py` |
 
