@@ -21,9 +21,16 @@
   @media (prefers-reduced-motion: reduce) { #bg, #bgPhoto { transition: none; } }
   .tagline { color: var(--text); opacity: .78; font-size: 1.05rem; margin: -.4rem 0 1.25rem; }
   .embed .tagline { display: none; }
-  /* The pickers are settings, not content: no box, no fill, secondary color. */
-  .topbar select, .search select { border: 0; background: transparent; color: var(--text); opacity: .72; font: inherit; font-size: .9rem; padding: .35rem .2rem; box-shadow: none; }
-  .topbar select:hover, .search select:hover { opacity: 1; }
+  /* The pickers are glass pills, the same material as the card and the search field. */
+  .topbar select, .search select {
+    font: inherit; font-size: .9rem; color: var(--text); padding: .45rem 1rem; border-radius: 999px; cursor: pointer;
+    background: rgba(255, 255, 255, .34); border: 1px solid rgba(255, 255, 255, .5);
+    -webkit-backdrop-filter: blur(26px) saturate(180%); backdrop-filter: blur(26px) saturate(180%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7), 0 6px 20px rgba(0, 0, 0, .1);
+  }
+  @media (prefers-color-scheme: dark) {
+    .topbar select, .search select { background: rgba(28, 28, 32, .38); border-color: rgba(255, 255, 255, .16); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .22), 0 6px 20px rgba(0, 0, 0, .3); }
+  }
   h1 { letter-spacing: -.02em; }
   /* Liquid glass: the result card and the search field are clear glass over the word's photo,
      lit from above (a bright top edge), tinted just enough to keep the text readable. */
@@ -388,6 +395,7 @@ function renderChrome() {
   if ($('footLinks')) $('footLinks').innerHTML =
     `<a href="/about/">${esc(t('ui.about'))}</a>` +
     `<a href="/privacy.html">${esc(t('ui.privacy'))}</a>` +
+    `<a href="https://apps.apple.com/app/id6794988021">App Store</a>` +
     `<a href="https://github.com/nulljosh/wordroot">GitHub</a>`;
   $('attr').innerHTML =
     `${esc(t('ui.alsoOnApple'))} ` +
