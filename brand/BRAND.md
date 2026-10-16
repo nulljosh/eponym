@@ -1,6 +1,6 @@
 # Wordroot brand kit and design system
 
-One idea: a word is the top of a tree, and its roots are underneath. Everything here serves that. Plain, quiet, Apple-clean, built with the care of something you hold, and the word is always the biggest thing on the screen.
+One idea: a word is the top of a tree, and its roots are underneath. Everything here serves that. Plain, quiet, Apple-clean, and the word is always the biggest thing on the screen.
 
 ## The mark
 A dot that splits into two branches that end in two dots. It reads as a word and its ancestors.
@@ -37,12 +37,11 @@ Defined in `tokens.css`. Light first, dark follows the system.
 The ink is a navy, never pure black. Blue is the only accent and appears on actions and links, nowhere else. Each word also gets one flat tint behind it, a single hue picked from the word. When a photo of the word exists it replaces the tint. No gradients on the page, only in the icon.
 
 ## Type
-**Wordroot Sans**, our own typeface. A rounded, single-weight-stroke, proportionally spaced sans-serif. Two weights, Regular and Bold, drawn from one skeleton so they stay one family. Nothing to license, about 9 KB a weight.
+The system font. San Francisco on Apple, Helvetica Neue or Arial everywhere else. Nothing to download, nothing to load late, and it already looks right on every device.
 
-- Files: `fonts/WordrootSans-Regular` and `-Bold`, as `.ttf` and `.woff2`. The source is `font/build.py`, a script that draws every glyph from a few centerline strokes. Run it to rebuild.
-- Covers the Latin alphabet, digits, punctuation, and the accents and macrons the etymology text uses (ā ē ī ō ū, grave, acute, circumflex, tilde, diaeresis, ring, caron, cedilla).
-- Everything else, Cyrillic, Arabic, Japanese and so on, falls through to the system font behind it in the stack: San Francisco, then Segoe UI.
-- Words and headings in Bold with tight tracking. Definitions in Regular. Labels small, uppercase, in the secondary text color. No monospace anywhere in the interface.
+- Stack: `-apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif`.
+- Words and headings: bold, tight tracking, large. Definitions: regular. Labels: small, uppercase, secondary text color.
+- No monospace anywhere in the interface. No custom typeface: we tried drawing one and the system font was better.
 
 ## Shape and space
 - Inputs 10 px, cards 12 px, small controls 8 px. One border, 1 px, in the border color.

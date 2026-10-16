@@ -1,6 +1,3 @@
-@font-face { font-family: "Wordroot Sans"; font-weight: 400; font-display: swap; src: url(fonts/WordrootSans-Regular.woff2) format("woff2"); }
-@font-face { font-family: "Wordroot Sans"; font-weight: 700; font-display: swap; src: url(fonts/WordrootSans-Bold.woff2) format("woff2"); }
-
 /* Wordroot design tokens. One source for the web app, the landing page and the docs.
    iOS and macOS use the same values through SwiftUI system colors (see BRAND.md). */
 :root {
@@ -15,8 +12,8 @@
   --text2: #666666;
   --border: #e8e8e8;
 
-  /* type: Wordroot Sans, with the system font behind it for scripts it does not draw */
-  --font: "Wordroot Sans", -apple-system, system-ui, "Segoe UI", sans-serif;
+  /* type: San Francisco on Apple, Helvetica Neue or Arial everywhere else. Nothing to download. */
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --size-body: 1rem;
   --size-input: 1.25rem;
   --weight-title: 700;

@@ -68,7 +68,7 @@ Wordroot is a dictionary with etymology. Look up a word, follow its roots back t
 | `.github/workflows/test.yml` | Runs the tests on every push and pull request |
 | `.github/workflows/native-release.yml` | Builds the Windows, Linux and Android binaries from `kmp/` on a `native-v*` tag |
 | `launch/` | Post drafts for Product Hunt, Hacker News, Reddit and X, plus a hero image |
-| `brand/` | Brand kit and design system: tokens, mark, icon, the Wordroot Sans typeface (`font/build.py` draws it, `fonts/` holds it), rules |
+| `brand/` | Brand kit and design system: tokens, mark, icon, rules |
 | `docs/MONEY.md`, `roadmap.md` | Pricing, and open work. `roadmap.md` and `CLAUDE.md` stay in the root because the tooling looks for them there |
 | `docs/WHITEPAPER.md`, `docs/API.md` | The data pipeline, and the HTTP, MCP and WebMCP surfaces |
 | `docs/CONTRIBUTING.md`, `docs/SECURITY.md`, `LICENSE` | Contributing, security contact, MIT |

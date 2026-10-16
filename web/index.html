@@ -7,8 +7,6 @@
 <script src="i18n.js"></script>
 <script>window.i18n.applyDocumentLanguage();</script>
 <style>
-  @font-face { font-family: "Wordroot Sans"; font-weight: 400; font-display: swap; src: url(fonts/WordrootSans-Regular.woff2) format("woff2"); }
-  @font-face { font-family: "Wordroot Sans"; font-weight: 700; font-display: swap; src: url(fonts/WordrootSans-Bold.woff2) format("woff2"); }
   :root {
     --bg: #ffffff; --bg2: #f5f5f5; --text: #252a49; --text2: #666;
     --accent: #0a62d8;
@@ -22,14 +20,46 @@
   .tagline { color: var(--text); opacity: .78; font-size: 1.05rem; margin: -.4rem 0 1.25rem; }
   .embed .tagline { display: none; }
   /* The pickers are glass pills, the same material as the card and the search field. */
-  .topbar select, .search select {
+  .topbar select, .search select, .foot select {
     font: inherit; font-size: .9rem; color: var(--text); padding: .45rem 1rem; border-radius: 999px; cursor: pointer;
     background: rgba(255, 255, 255, .34); border: 1px solid rgba(255, 255, 255, .5);
     -webkit-backdrop-filter: blur(26px) saturate(180%); backdrop-filter: blur(26px) saturate(180%);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7), 0 6px 20px rgba(0, 0, 0, .1);
   }
   @media (prefers-color-scheme: dark) {
-    .topbar select, .search select { background: rgba(28, 28, 32, .38); border-color: rgba(255, 255, 255, .16); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .22), 0 6px 20px rgba(0, 0, 0, .3); }
+    .topbar select, .search select, .foot select { background: rgba(28, 28, 32, .38); border-color: rgba(255, 255, 255, .16); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .22), 0 6px 20px rgba(0, 0, 0, .3); }
+  }
+  h1 { letter-spacing: -.02em; }
+  /* Liquid glass: the card and the search field are clear, semi-transparent glass over the word's
+     photo: blurred and brightened behind, a bright top edge on top. `body` raises the specificity
+     so it beats the plain .card rule further down. */
+  body .card, body input[type=search] {
+    background: rgba(255, 255, 255, .26);
+    -webkit-backdrop-filter: blur(30px) saturate(190%) brightness(1.3); backdrop-filter: blur(30px) saturate(190%) brightness(1.3);
+    border: 1px solid rgba(255, 255, 255, .5);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .75), inset 0 -1px 0 rgba(255, 255, 255, .12), 0 12px 38px rgba(0, 0, 0, .16);
+  }
+  body .card .card { background: rgba(255, 255, 255, .22); -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .45); }
+  @media (prefers-color-scheme: dark) {
+    body .card, body input[type=search] {
+      background: rgba(24, 24, 28, .34); -webkit-backdrop-filter: blur(30px) saturate(170%) brightness(.78); backdrop-filter: blur(30px) saturate(170%) brightness(.78);
+      border-color: rgba(255, 255, 255, .16);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .22), inset 0 -1px 0 rgba(255, 255, 255, .04), 0 12px 38px rgba(0, 0, 0, .34);
+    }
+    body .card .card { background: rgba(255, 255, 255, .06); }
+  }
+  @media (prefers-reduced-motion: reduce) { #bg, #bgPhoto { transition: none; } }
+  .tagline { color: var(--text); opacity: .78; font-size: 1.05rem; margin: -.4rem 0 1.25rem; }
+  .embed .tagline { display: none; }
+  /* The pickers are glass pills, the same material as the card and the search field. */
+  .topbar select, .search select, .foot select {
+    font: inherit; font-size: .9rem; color: var(--text); padding: .45rem 1rem; border-radius: 999px; cursor: pointer;
+    background: rgba(255, 255, 255, .34); border: 1px solid rgba(255, 255, 255, .5);
+    -webkit-backdrop-filter: blur(26px) saturate(180%); backdrop-filter: blur(26px) saturate(180%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .7), 0 6px 20px rgba(0, 0, 0, .1);
+  }
+  @media (prefers-color-scheme: dark) {
+    .topbar select, .search select, .foot select { background: rgba(28, 28, 32, .38); border-color: rgba(255, 255, 255, .16); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .22), 0 6px 20px rgba(0, 0, 0, .3); }
   }
   h1 { letter-spacing: -.02em; }
   /* Liquid glass: the result card and the search field are clear glass over the word's photo,
@@ -64,8 +94,8 @@
     opacity: 0; transition: opacity .6s ease;
   }
   #bgPhoto.on { opacity: 1; }
-  #bgPhoto::after { content: ''; position: absolute; inset: 0; background: var(--bg); opacity: .55; }
-  body { font-family: "Wordroot Sans", -apple-system, system-ui, "Segoe UI", sans-serif; background: transparent; color: var(--text); max-width: 640px; margin: 0 auto; padding: 6vh 1rem 4rem; }
+  #bgPhoto::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, color-mix(in srgb, var(--bg) 70%, transparent), color-mix(in srgb, var(--bg) 14%, transparent) 300px); }
+  body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif; background: transparent; color: var(--text); max-width: 640px; margin: 0 auto; padding: 6vh 1rem 4rem; }
   h1 { font-size: 1.4rem; letter-spacing: -.02em; margin: 0; }
   input { width: 100%; font-size: 1.25rem; padding: .75rem 1rem; border: 1px solid var(--border); border-radius: 10px; background: var(--bg2); color: var(--text); outline: none; }
   input:focus { border-color: var(--link, var(--accent)); }
@@ -112,7 +142,6 @@
 <div id="bgPhoto"></div>
 <div class="topbar">
   <h1>Wordroot</h1>
-  <span id="uiPicker"></span>
 </div>
 <p class="tagline" id="tagline"></p>
 <div class="search">
@@ -124,6 +153,7 @@
 <footer class="foot">
   <div class="foot-brand"><svg viewBox="0 0 1024 1024" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M512 300V470C512 580 330 560 330 730M512 470C512 580 694 560 694 730" fill="none" stroke="currentColor" stroke-width="64" stroke-linecap="round"/><circle cx="512" cy="280" r="96"/><circle cx="330" cy="746" r="80"/><circle cx="694" cy="746" r="80"/></svg><b>Wordroot</b></div>
   <nav class="foot-links" id="footLinks"></nav>
+  <div class="foot-lang"><span id="uiPicker"></span></div>
   <p class="attr" id="attr"></p>
 </footer>
 <script>
