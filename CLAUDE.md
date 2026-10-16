@@ -5,7 +5,8 @@ Dictionary + etymology app. Killer feature: interactive etymology tree (word →
 ## Stack
 - `pipeline/`: Python 3, stdlib only. Wiktionary REST API (v0) → later full dump parse. Output: `wordroot.sqlite` (`words`, `edges` tables).
 - `ios/`: SwiftUI multiplatform via xcodegen, bundle `com.heyitsmejosh.etyma`, iOS + Mac targets.
-- `web/`: static HTML for now, shared dataset.
+- `web/`: static app on the same dataset. `landing/` is the marketing page. `functions/` + `src/lib/tools.js` are the REST and MCP surface.
+- `kmp/`: Kotlin Multiplatform (Android, desktop). `tui/`: terminal client. `launch/`: post drafts. File map in `docs/ARCHITECTURE.md`.
 - `i18n/strings.json`: the single source of truth for every translated string, the 12 interface
   languages and the 30 word languages. `scripts/gen-i18n.py` generates `web/i18n.js`,
   `landing/i18n.js` and `ios/Sources/Localized.swift`; never hand-edit those three.
