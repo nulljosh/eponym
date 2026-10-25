@@ -182,3 +182,6 @@ build-time artifact. Revisit storage when a rate limit or a latency measurement 
 
 ## Open 2026-10-16
 - [ ] Fix the eight failing web-app tests in scripts/test-web.mjs. They were failing before the 2026-10-16 landing change and that change did not touch them.
+
+## Ingested 2026-10-25
+- [ ] Needs a better name. (Probe Apple first, one name everywhere.)
