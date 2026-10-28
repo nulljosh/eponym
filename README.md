@@ -16,8 +16,8 @@ Formerly Wordroot. An eponym is a word named after a person, like sandwich or bo
 ## Screenshots
 
 <p>
-<img src="screenshots/eponym-1.jpg" width="49%" alt="Eponym on desktop">
-<img src="screenshots/eponym-2.jpg" width="49%" alt="Eponym on a phone">
+<img src="screenshots/eponym-1.jpg" width="75%" alt="Eponym on the Mac">
+<img src="screenshots/eponym-2.jpg" width="21.5%" alt="Eponym on iPhone">
 </p>
 
 ## How it works
