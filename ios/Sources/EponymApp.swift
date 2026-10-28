@@ -16,6 +16,9 @@ struct EponymApp: App {
 
     var body: some Scene {
         WindowGroup { RootView() }
+#if os(macOS)
+            .defaultSize(width: 1100, height: 760)
+#endif
     }
 }
 #endif
@@ -429,7 +432,12 @@ private struct PhotoBackground: View {
             } else {
                 WordBackground(hue: hue)
             }
+            // The Mac's cards are see-through where the iPhone's are solid, so it dims the photo further.
+#if os(macOS)
+            Color.black.opacity(0.65)
+#else
             Color.black.opacity(0.5)
+#endif
         }
         .ignoresSafeArea()
     }
@@ -464,7 +472,20 @@ struct TreeRow<Content: View>: View {
             .frame(width: 14)
             content.padding(.vertical, 11).frame(maxWidth: .infinity, alignment: .leading)
         }
-        .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+    }
+}
+
+/// The inset grouped list: List on iPhone and iPad; on the Mac, where List draws no cards,
+/// a grouped Form draws the same ones.
+struct Page<Content: View>: View {
+    @ViewBuilder let content: Content
+
+    var body: some View {
+#if os(macOS)
+        Form { content }.formStyle(.grouped)
+#else
+        List { content }
+#endif
     }
 }
 
@@ -589,6 +610,7 @@ struct ContentView: View {
             }
             if let ipa { Text(verbatim: ipa).font(.root(.body)).opacity(0.8).textCase(nil) }
         }
+        .padding(.bottom, 8)
         .foregroundStyle(.white)
     }
 
@@ -609,113 +631,16 @@ struct ContentView: View {
         return list[Int(Date().timeIntervalSince1970 / 86400) % list.count]
     }
 
-#if os(iOS)
-    private static let controlsPlacement = ToolbarItemPlacement.bottomBar
-#else
-    private static let controlsPlacement = ToolbarItemPlacement.automatic
-#endif
+    private func randomWord() {
+        let current = query.trimmingCharacters(in: .whitespaces).lowercased()
+        if let word = Catalog.wordsOfTheDay[settings.wordLanguage]?.filter({ $0 != current }).randomElement() {
+            query = word
+        }
+    }
 
     var body: some View {
-        NavigationStack {
-          ScrollViewReader { proxy in
-            List {
-                if query.isEmpty {
-                    shelfSection("ui.saved", saved)
-                    shelfSection("ui.recent", recent)
-                }
-                if loading {
-                    HStack { Spacer(); ProgressView(); Spacer() }
-                } else if let entry {
-                    if query.isEmpty {
-                        Section {} header: { entryHeader(settings.t("ui.wotdWord", ["word": entry.word]), entry.word, ipa: entry.ipa) }
-                    } else {
-                        Section {} header: { entryHeader(settings.t("ui.resultsFor", ["word": entry.word]), entry.word, ipa: entry.ipa) }
-                    }
-                    entrySections(entry)
-                } else if failed {
-                    // Reachable on launch with an empty query, so it cannot be gated on `query`.
-                    Text(settings.t("ui.offline"))
-                } else if !query.isEmpty {
-                    Text(settings.t("ui.nothingFound"))
-                }
-                // The prefix and suffix index closes the home screen; each capsule opens like any word.
-                if query.isEmpty, let affixes = Catalog.affixes[settings.wordLanguage], !affixes.isEmpty {
-                    Section {
-                        Flow(spacing: 8) {
-                            ForEach(affixes, id: \.self) { affix in
-                                Button {
-                                    query = affix
-                                } label: {
-                                    Text(verbatim: affix).font(.root(.subheadline))
-                                        .padding(.horizontal, 14).frame(height: 34)
-                                        .background(Capsule().fill(Color.primary.opacity(0.06)))
-                                        .overlay(Capsule().strokeBorder(Color.primary.opacity(0.12)))
-                                }
-                                .buttonStyle(.plain)
-                            }
-                        }
-                        .padding(.vertical, 4)
-                    } header: {
-                        Text(settings.t("ui.affixes")).font(.root(.subheadline, .semibold)).foregroundStyle(.white)
-                    }
-                    .id("affixes")
-                }
-            }
-            .scrollContentBackground(.hidden)
-            // A reading column on iPad and wide Mac windows; the photo behind still fills the screen.
-            .frame(maxWidth: 760)
-            .frame(maxWidth: .infinity)
-            .task(id: entry?.word) {
-                kin = []
-                guard let word = entry?.word, let q = entry?.rootQuery else { return }
-                let found = await Wiktionary.relatives(of: word, rootQuery: q)
-                if entry?.word == word { kin = found }
-                // Screenshots only: `-UITEST_SCROLL origin` (or `affixes`) scrolls to that section once the page is drawn.
-                if let target = UserDefaults.standard.string(forKey: "UITEST_SCROLL") { proxy.scrollTo(target, anchor: .top) }
-            }
-            .background(PhotoBackground(url: entry?.photoURL, hue: hueForWord(entry?.word ?? wordOfTheDay ?? "eponym")))
-            // Everything drawn straight on the darkened background is white; the cards keep
-            // the system look, so their text stays as it is.
-#if os(iOS)
-            .toolbarColorScheme(.dark, for: .navigationBar)
-            .toolbarBackground(.hidden, for: .navigationBar)
-#endif
-#if os(iOS)
-            // Pinned at the top like the web app; on iOS 26 the default placement folds it away.
-            .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always), prompt: Text(settings.t("ui.searchPlaceholder")))
-            .navigationBarTitleDisplayMode(.inline)
-#else
-            .searchable(text: $query, prompt: Text(settings.t("ui.searchPlaceholder")))
-#endif
-            .navigationTitle("")   // no app name on screen: people know which app they opened
-            // Controls live in the bottom bar on the phone, never in the top corner (Joshua 2026-10-28).
+        container
             .onSubmit(of: .search) { remember(query.trimmingCharacters(in: .whitespaces).lowercased()) }
-            .toolbar {
-                ToolbarItem(placement: Self.controlsPlacement) {
-                    Button {
-                        query = ""
-                    } label: {
-                        Label(settings.t("ui.saved"), systemImage: "bookmark")
-                    }
-                }
-                ToolbarItem(placement: Self.controlsPlacement) {
-                    Button {
-                        let current = query.trimmingCharacters(in: .whitespaces).lowercased()
-                        if let word = Catalog.wordsOfTheDay[settings.wordLanguage]?.filter({ $0 != current }).randomElement() {
-                            query = word
-                        }
-                    } label: {
-                        Label(settings.t("ui.random"), systemImage: "die.face.5")
-                    }
-                }
-                ToolbarItem(placement: Self.controlsPlacement) {
-                    Button {
-                        showingSettings = true
-                    } label: {
-                        Label(settings.t("ui.settings"), systemImage: "gearshape")
-                    }
-                }
-            }
             .sheet(isPresented: $showingSettings) {
                 LanguageSettingsView()
                     .environmentObject(settings)
@@ -765,9 +690,142 @@ struct ContentView: View {
             .onOpenURL { url in
                 if ["eponym", "wordroot"].contains(url.scheme ?? ""), url.host == "word", !url.lastPathComponent.isEmpty { query = url.lastPathComponent }
             }
-          }
+    }
+
+    /// The word page: cards on the word's own photo, in a reading column on wide screens.
+    private var page: some View {
+        ScrollViewReader { proxy in
+            Page {
+#if os(iOS)
+                // On the Mac these live in the sidebar.
+                if query.isEmpty {
+                    shelfSection("ui.saved", saved)
+                    shelfSection("ui.recent", recent)
+                }
+#endif
+                if loading {
+                    HStack { Spacer(); ProgressView(); Spacer() }
+                } else if let entry {
+                    if query.isEmpty {
+                        Section {} header: { entryHeader(settings.t("ui.wotdWord", ["word": entry.word]), entry.word, ipa: entry.ipa) }
+                    } else {
+                        Section {} header: { entryHeader(settings.t("ui.resultsFor", ["word": entry.word]), entry.word, ipa: entry.ipa) }
+                    }
+                    entrySections(entry)
+                } else if failed {
+                    // Reachable on launch with an empty query, so it cannot be gated on `query`.
+                    Text(settings.t("ui.offline"))
+                } else if !query.isEmpty {
+                    Text(settings.t("ui.nothingFound"))
+                }
+                // The prefix and suffix index closes the home screen; each capsule opens like any word.
+                if query.isEmpty, let affixes = Catalog.affixes[settings.wordLanguage], !affixes.isEmpty {
+                    Section {
+                        Flow(spacing: 8) {
+                            ForEach(affixes, id: \.self) { affix in
+                                Button {
+                                    query = affix
+                                } label: {
+                                    Text(verbatim: affix).font(.root(.subheadline))
+                                        .padding(.horizontal, 14).frame(height: 34)
+                                        .background(Capsule().fill(Color.primary.opacity(0.06)))
+                                        .overlay(Capsule().strokeBorder(Color.primary.opacity(0.12)))
+                                }
+                                .buttonStyle(.plain)
+                            }
+                        }
+                        .padding(.vertical, 4)
+                    } header: {
+                        Text(settings.t("ui.affixes")).font(.root(.subheadline, .semibold)).foregroundStyle(.white)
+                    }
+                    .id("affixes")
+                }
+            }
+            .scrollContentBackground(.hidden)
+            .frame(maxWidth: 760)
+            .frame(maxWidth: .infinity)
+            .task(id: entry?.word) {
+                kin = []
+                guard let word = entry?.word, let q = entry?.rootQuery else { return }
+                let found = await Wiktionary.relatives(of: word, rootQuery: q)
+                if entry?.word == word { kin = found }
+                // Screenshots only: `-UITEST_SCROLL origin` (or `affixes`) scrolls to that section once the page is drawn.
+                if let target = UserDefaults.standard.string(forKey: "UITEST_SCROLL") { proxy.scrollTo(target, anchor: .top) }
+            }
+            .background(PhotoBackground(url: entry?.photoURL, hue: hueForWord(entry?.word ?? wordOfTheDay ?? "eponym")))
         }
     }
+
+#if os(iOS)
+    private var container: some View {
+        NavigationStack {
+            page
+                // Everything drawn straight on the darkened background is white; the cards keep
+                // the system look, so their text stays as it is.
+                .toolbarColorScheme(.dark, for: .navigationBar)
+                .toolbarBackground(.hidden, for: .navigationBar)
+                // Pinned at the top like the web app; on iOS 26 the default placement folds it away.
+                .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always), prompt: Text(settings.t("ui.searchPlaceholder")))
+                .navigationBarTitleDisplayMode(.inline)
+                .navigationTitle("")   // no app name on screen: people know which app they opened
+                // Controls live in the bottom bar, never in the top corner (Joshua 2026-10-28).
+                .toolbar {
+                    ToolbarItem(placement: .bottomBar) {
+                        Button { query = "" } label: { Label(settings.t("ui.saved"), systemImage: "bookmark") }
+                    }
+                    ToolbarItem(placement: .bottomBar) {
+                        Button(action: randomWord) { Label(settings.t("ui.random"), systemImage: "die.face.5") }
+                    }
+                    ToolbarItem(placement: .bottomBar) {
+                        Button { showingSettings = true } label: { Label(settings.t("ui.settings"), systemImage: "gearshape") }
+                    }
+                }
+        }
+    }
+#else
+    /// The Mac's own shape: search, today's word, saved and recent words in a sidebar with the
+    /// controls along its bottom edge (never a top corner, Joshua 2026-10-28); the word fills the rest.
+    private var container: some View {
+        NavigationSplitView {
+            List(selection: Binding(get: { query.isEmpty ? nil : query }, set: { if let word = $0 { query = word } })) {
+                if let word = wordOfTheDay {
+                    Section(settings.t("ui.wotd")) { Text(verbatim: word).tag(word) }
+                }
+                sidebarSection("ui.saved", saved)
+                sidebarSection("ui.recent", recent)
+            }
+            .safeAreaInset(edge: .bottom) {
+                HStack {
+                    Button(action: randomWord) { Label(settings.t("ui.random"), systemImage: "die.face.5") }
+                    Spacer()
+                    Button { showingSettings = true } label: { Label(settings.t("ui.settings"), systemImage: "gearshape") }
+                        .labelStyle(.iconOnly)
+                        .help(settings.t("ui.settings"))
+                }
+                .buttonStyle(.borderless)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 12)
+            }
+            .toolbar(removing: .sidebarToggle)
+            .navigationSplitViewColumnWidth(min: 200, ideal: 240, max: 320)
+        } detail: {
+            page.toolbarBackground(.hidden, for: .windowToolbar)
+        }
+        .searchable(text: $query, placement: .sidebar, prompt: Text(settings.t("ui.searchPlaceholder")))
+        .navigationTitle("")   // no app name on screen: people know which app they opened
+        // The page sits on a dimmed photo; light mode's dark text and see-through cards vanish on it.
+        .preferredColorScheme(.dark)
+    }
+
+    @ViewBuilder private func sidebarSection(_ key: String, _ list: [ShelfWord]) -> some View {
+        let words = list.filter { $0.l == settings.wordLanguage }
+        if !words.isEmpty {
+            Section(settings.t(key)) {
+                ForEach(words, id: \.self) { Text(verbatim: $0.w).tag($0.w) }
+            }
+        }
+    }
+#endif
 
     @ViewBuilder
     private func entrySections(_ entry: Entry) -> some View {
@@ -797,7 +855,9 @@ struct ContentView: View {
         }
         if !entry.chain.isEmpty {
             // The root tree: the word on top, each ancestor a dot further down one line, like the mark.
+            // One row, so no separator or row padding breaks the rail between generations.
             Section {
+              VStack(spacing: 0) {
                 TreeRow(top: true, first: true, last: false) {
                     Text(verbatim: entry.word).font(.root(.body, .bold))
                 }
@@ -817,6 +877,8 @@ struct ContentView: View {
                         .buttonStyle(.plain)   // a Link tints its whole label; the tree keeps the list's own colours
                     }
                 }
+              }
+              .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
             } header: {
                 Text(settings.t("ui.origin")).font(.root(.subheadline, .semibold)).foregroundStyle(.white)
             }
@@ -927,10 +989,16 @@ struct LanguageSettingsView: View {
                     Text(settings.t("ui.attribution")).font(.root(.caption))
                 }
             }
+            .formStyle(.grouped)
             .navigationTitle(settings.t("ui.settings"))
             .toolbar {
-                Button(settings.t("ui.done")) { dismiss() }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button(settings.t("ui.done")) { dismiss() }
+                }
             }
         }
+#if os(macOS)
+        .frame(width: 460, height: 540)
+#endif
     }
 }

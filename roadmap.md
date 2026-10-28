@@ -208,7 +208,7 @@ build-time artifact. Revisit storage when a rate limit or a latency measurement 
 
 ## 2.0.0 submitted 2026-10-28
 iOS (with the watch app and widget inside) and Mac 2.0.0, build 202610281345, both WAITING_FOR_REVIEW, release on approval. New screenshots for iPhone 6.9 and 6.5, iPad 13 and 12.9, Apple Watch; the Mac listing still shows the 1.0.2 shot (fresh Mac shots are a follow-up). Name stays Wordroot.
-- [ ] Fresh Mac App Store screenshots
+- [x] Fresh Mac App Store screenshots (screenshots/appstore/mac, upload with 2.0.1)
 - [x] iOS Action extension: look up text selected in any app (ios/Action, ships in 2.0.1)
 - [x] Watch word of the day uses its own list; move it to Catalog.wordsOfTheDay so phone, watch and widget agree
 
