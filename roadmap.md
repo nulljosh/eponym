@@ -215,3 +215,7 @@ From the App Store screens of Etymonline, EtymologyExplorer, Merriam-Webster, Ox
 | 1.11 | Offline: every word you looked up opens without a connection (web: service worker word cache, newest 600; Apple: 200 MB URLCache with a cache-only retry) | Oxford, Merriam-Webster, Terminology | M | [x] 2026-10-28 |
 
 Skipped on purpose: quizzes and word games, paywalled extra dictionaries, AI chat, ads.
+
+## Still open after the prune
+
+- [ ] Upload the new Mac App Store screenshots (screenshots/appstore/mac) with 2.0.1.
