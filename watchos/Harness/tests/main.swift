@@ -27,14 +27,15 @@ let sparse = #"{"word":"x"}"#.data(using: .utf8)!
 let decoded = try? JSONDecoder().decode(Entry.self, from: sparse)
 check(decoded == Entry(word: "x"), "missing lists decode as empty")
 
-// word of the day
-let cal = Calendar(identifier: .gregorian)
-let d1 = cal.date(from: DateComponents(year: 2026, month: 10, day: 16, hour: 9))!
+// word of the day: the phone's list and day count
+var cal = Calendar(identifier: .gregorian); cal.timeZone = TimeZone(identifier: "UTC")!
+let d1 = cal.date(from: DateComponents(year: 2026, month: 10, day: 16, hour: 1))!
 let d1b = cal.date(from: DateComponents(year: 2026, month: 10, day: 16, hour: 23))!
-let d2 = cal.date(from: DateComponents(year: 2026, month: 10, day: 17, hour: 9))!
-check(WordOfTheDay.word(on: d1, calendar: cal) == WordOfTheDay.word(on: d1b, calendar: cal), "same word all day")
-check(WordOfTheDay.word(on: d1, calendar: cal) != WordOfTheDay.word(on: d2, calendar: cal), "a new word tomorrow")
-check(WordOfTheDay.words.count == Set(WordOfTheDay.words).count && WordOfTheDay.words.count >= 40, "list is unique and 40+")
+let d2 = cal.date(from: DateComponents(year: 2026, month: 10, day: 17, hour: 1))!
+check(WordOfTheDay.word(on: d1) == WordOfTheDay.word(on: d1b), "same word all day")
+check(WordOfTheDay.word(on: d1) != WordOfTheDay.word(on: d2), "a new word tomorrow")
+let en = Catalog.wordsOfTheDay["en"]!
+check(WordOfTheDay.word(on: d1) == en[Int(d1.timeIntervalSince1970 / 86400) % en.count], "matches the phone and widget")
 
 // recents
 let suite = UserDefaults(suiteName: "eponym-watch-tests")!

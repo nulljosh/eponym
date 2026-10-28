@@ -19,3 +19,4 @@ ios/.asc/release/
 
 # Mac export output (pkg, logs): build artifacts, never committed
 .asc/export-mac/
+ios/build/

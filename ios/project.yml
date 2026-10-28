@@ -96,6 +96,7 @@ targets:
     sources:
       - path: ../watchos
         excludes: ["*.xcodeproj", "*.yml", "*.md", "*.sh", "Harness"]
+      - path: Sources/Localized.swift
       - path: Sources/RootSans.swift
       - path: ../fonts
         excludes: ["*.woff2"]

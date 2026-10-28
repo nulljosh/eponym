@@ -210,7 +210,7 @@ build-time artifact. Revisit storage when a rate limit or a latency measurement 
 iOS (with the watch app and widget inside) and Mac 2.0.0, build 202610281345, both WAITING_FOR_REVIEW, release on approval. New screenshots for iPhone 6.9 and 6.5, iPad 13 and 12.9, Apple Watch; the Mac listing still shows the 1.0.2 shot (fresh Mac shots are a follow-up). Name stays Wordroot.
 - [ ] Fresh Mac App Store screenshots
 - [ ] iOS Action extension: look up text selected in any app
-- [ ] Watch word of the day uses its own list; move it to Catalog.wordsOfTheDay so phone, watch and widget agree
+- [x] Watch word of the day uses its own list; move it to Catalog.wordsOfTheDay so phone, watch and widget agree
 
 ## Gap matrix vs the best dictionary apps (2026-10-28, /mobbin)
 From the App Store screens of Etymonline, EtymologyExplorer, Merriam-Webster, Oxford, American Heritage, Terminology, WordWeb, Collins, Chambers and Wiktionary Reader. Daily use first, polish before novelty, on-device over cloud. One row is one minor version, shipped on iOS, Mac and web together. 1.1.0 stays reserved for the watch app.
