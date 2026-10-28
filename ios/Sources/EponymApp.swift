@@ -569,24 +569,36 @@ struct ContentView: View {
         Shelf.store(recent, Shelf.recentKey)
     }
 
-    /// Saved or recent words for the current word language, as one inset grouped section.
+    /// Saved or recent words for the current word language, as chips: a long list of rows
+    /// pushed today's word off the first screen.
     @ViewBuilder private func shelfSection(_ key: String, _ list: [ShelfWord]) -> some View {
-        let words = list.filter { $0.l == settings.wordLanguage }
+        let words = list.filter { $0.l == settings.wordLanguage }.map(\.w)
         if !words.isEmpty {
             Section {
-                ForEach(words, id: \.self) { item in
-                    Button {
-                        query = item.w
-                        remember(item.w)
-                    } label: {
-                        Text(verbatim: item.w)
-                    }
-                    .tint(.primary)
-                }
+                chips(words)
             } header: {
                 Text(settings.t(key)).font(.root(.subheadline, .semibold)).foregroundStyle(.white)
             }
         }
+    }
+
+    /// Words as capsules that wrap; tapping one looks it up. Saved, recent, affixes and same-root words share it.
+    private func chips(_ words: [String], remember keep: Bool = true) -> some View {
+        Flow(spacing: 8) {
+            ForEach(words, id: \.self) { word in
+                Button {
+                    query = word
+                    if keep { remember(word) }
+                } label: {
+                    Text(verbatim: word).font(.root(.subheadline))
+                        .padding(.horizontal, 16).frame(height: 36)
+                        .background(Capsule().fill(Color.primary.opacity(0.06)))
+                        .overlay(Capsule().strokeBorder(Color.primary.opacity(0.12)))
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(.vertical, 4)
     }
 
     /// The line above an entry, with the save toggle at its end.
@@ -724,20 +736,7 @@ struct ContentView: View {
                 // The prefix and suffix index closes the home screen; each capsule opens like any word.
                 if query.isEmpty, let affixes = Catalog.affixes[settings.wordLanguage], !affixes.isEmpty {
                     Section {
-                        Flow(spacing: 8) {
-                            ForEach(affixes, id: \.self) { affix in
-                                Button {
-                                    query = affix
-                                } label: {
-                                    Text(verbatim: affix).font(.root(.subheadline))
-                                        .padding(.horizontal, 14).frame(height: 34)
-                                        .background(Capsule().fill(Color.primary.opacity(0.06)))
-                                        .overlay(Capsule().strokeBorder(Color.primary.opacity(0.12)))
-                                }
-                                .buttonStyle(.plain)
-                            }
-                        }
-                        .padding(.vertical, 4)
+                        chips(affixes, remember: false)
                     } header: {
                         Text(settings.t("ui.affixes")).font(.root(.subheadline, .semibold)).foregroundStyle(.white)
                     }
@@ -894,21 +893,7 @@ struct ContentView: View {
         }
         if !kin.isEmpty {
             Section {
-                Flow(spacing: 8) {
-                    ForEach(kin, id: \.self) { word in
-                        Button {
-                            query = word
-                            remember(word)
-                        } label: {
-                            Text(verbatim: word).font(.root(.subheadline))
-                                .padding(.horizontal, 16).frame(height: 36)
-                                .background(Capsule().fill(Color.primary.opacity(0.06)))
-                                .overlay(Capsule().strokeBorder(Color.primary.opacity(0.12)))
-                        }
-                        .buttonStyle(.plain)
-                    }
-                }
-                .padding(.vertical, 4)
+                chips(kin)
             } header: {
                 Text(settings.t("ui.sameRoot")).font(.root(.subheadline, .semibold)).foregroundStyle(.white)
             }
