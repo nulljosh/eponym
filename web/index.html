@@ -60,7 +60,7 @@
   input[type=search] {
     flex: 1; min-width: 0; font-size: 17px; border-radius: var(--r-pill); outline: none; -webkit-appearance: none; appearance: none;
     padding: 0 var(--s4) 0 44px;
-    background: var(--glass) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%238a8a8e' stroke-width='2.2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-3.5-3.5'/%3E%3C/svg%3E") no-repeat 16px center;
+    background: color-mix(in srgb, var(--bg) 88%, transparent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%238a8a8e' stroke-width='2.2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-3.5-3.5'/%3E%3C/svg%3E") no-repeat 16px center;
     -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
     border: 1px solid var(--glass-edge); box-shadow: var(--glass-shadow);
     transition: box-shadow .2s ease, border-color .2s ease;
@@ -77,9 +77,10 @@
   select:focus-visible { outline: none; box-shadow: var(--glass-shadow), 0 0 0 4px color-mix(in srgb, var(--accent) 30%, transparent); }
 
   /* the result: one glass card, an inset grouped list inside it */
+  /* Reading surfaces stay nearly solid: thin glass let busy photos smear through the text. */
   .card {
     margin-top: var(--s5); padding: var(--s5); border-radius: var(--r-card);
-    background: var(--glass); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+    background: color-mix(in srgb, var(--bg) 88%, transparent); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
     border: 1px solid var(--glass-edge); box-shadow: var(--glass-shadow);
   }
   .label { font-size: 13px; line-height: 18px; text-transform: uppercase; letter-spacing: .06em; color: var(--text2); margin: 0 0 var(--s2); }
@@ -129,7 +130,7 @@
   .save:focus-visible, .shelf-row:focus-visible { outline: none; box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 30%, transparent); }
 
   /* saved and recent words: inset grouped lists on the home screen */
-  .shelf { border-radius: var(--r-group); background: var(--glass); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+  .shelf { border-radius: var(--r-group); background: color-mix(in srgb, var(--bg) 88%, transparent); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
     border: 1px solid var(--glass-edge); box-shadow: var(--glass-shadow); overflow: hidden; margin: 0 0 var(--s5); }
   .shelf-row { display: block; width: 100%; padding: var(--s3) var(--s4); border: 0; background: none; font: inherit; color: var(--text); text-align: start; cursor: pointer; position: relative; }
   .shelf-row + .shelf-row::before { content: ''; position: absolute; top: 0; inset-inline: var(--s4) 0; height: 1px; background: var(--border); }

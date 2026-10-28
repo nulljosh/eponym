@@ -1110,7 +1110,23 @@
     "it": "Italian",
     "itc-pro": "Proto-Italic",
     "ar": "Arabic",
-    "sa": "Sanskrit"
+    "sa": "Sanskrit",
+    "la-new": "New Latin",
+    "la-lat": "Late Latin",
+    "LL.": "Late Latin",
+    "la-vul": "Vulgar Latin",
+    "la-ecc": "Ecclesiastical Latin",
+    "ML.": "Medieval Latin",
+    "frk": "Frankish",
+    "xno": "Anglo-Norman",
+    "dum": "Middle Dutch",
+    "gml": "Middle Low German",
+    "goh": "Old High German",
+    "gmh": "Middle High German",
+    "sla-pro": "Proto-Slavic",
+    "cel-pro": "Proto-Celtic",
+    "grk-pro": "Proto-Hellenic",
+    "iir-pro": "Proto-Indo-Iranian"
   },
   "wordsOfTheDay": {
     "en": [
