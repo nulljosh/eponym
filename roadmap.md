@@ -187,7 +187,7 @@ build-time artifact. Revisit storage when a rate limit or a latency measurement 
 - [ ] Needs a better name. (Probe Apple first, one name everywhere.)
   Name hunt 2026-10-28: one real single word only, never two words glued together. Probed on the 1.0.6 draft
   (`scratchpad/probe-wordroot.sh`), about 130 tried. Joshua said no to Forebear, Varro, Rootward (compound).
-  Free but not picked: Tamarisk, Totara, Galangal, Chicory, Alkanet, Ordet, Sloka, Lexeis, Glottal, Primeval, Glossator, Provenience, Etymologist, Ancient, Atavism, Archaism, Relict, Cognomen, Isidore, Progenitor, Begetter, Stirps, Proles, Onomast, Rhizoid, Etymic, Juuri, Skeat.
+  Free but not picked: Etymonic, Exordium, Nascent, Tamarisk, Totara, Galangal, Chicory, Alkanet, Ordet, Sloka, Lexeis, Glottal, Primeval, Glossator, Provenience, Etymologist, Ancient, Atavism, Archaism, Relict, Cognomen, Isidore, Progenitor, Begetter, Stirps, Proles, Onomast, Rhizoid, Etymic, Juuri, Skeat.
   Taken (skip): Rhizome Etymon Taproot Cognate Radix Stemma Lexeme Etyma Provenance Banyan Acorn Racine Raiz
   Verba Lingua Lexis Origo Genus Lexicon Glossa Kernel Rhiza Arche Onoma Sema Radicle Fons Loam Linden Aspen
   Cedar Mycelium Babel Rosetta Grimm Proto Runic Ogham Rune Argot Quill Vellum Saga Idiom Lingo Scribe Cadmus
@@ -195,7 +195,8 @@ build-time artifact. Revisit storage when a rate limit or a latency measurement 
   Radical Vocable Locution Dictum Logion Grapheme Syllable Annals Chronicle Archive Tome Folio Canto Primal Ancestry
   Lexical Semantic Philology Heritage Pedigree Relic Fossil Amber Strata Spore Graft Scion Progeny Clade Genome
   Ord Mot Wort Slovo Sana Parola Palabra Kalima Davar Logos Verbe Woord Lexi Kotoba Parole Langue Verbatim Rhema Sprache Taal
-  Mandrake Orris Madder Ginseng Mesquite Kauri Ficus Burdock Turmeric Lotus Iris Bamboo Ginger Cypress Tamarind Acacia Sassafras Parsnip Taro Cassava Yam.
+  Mandrake Orris Madder Ginseng Mesquite Kauri Ficus Burdock Turmeric Lotus Iris Bamboo Ginger Cypress Tamarind Acacia Sassafras Parsnip Taro Cassava Yam
+  Derivative Fountain Source Spring Seedling Sprout Nucleus Primus Alpha Omega Incipit Proem Prologue Preface Overture Prelude Dawn Aurora Inception.
 
 ## Gap matrix vs the best dictionary apps (2026-10-28, /mobbin)
 From the App Store screens of Etymonline, EtymologyExplorer, Merriam-Webster, Oxford, American Heritage, Terminology, WordWeb, Collins, Chambers and Wiktionary Reader. Daily use first, polish before novelty, on-device over cloud. One row is one minor version, shipped on iOS, Mac and web together. 1.1.0 stays reserved for the watch app.
@@ -205,7 +206,7 @@ From the App Store screens of Etymonline, EtymologyExplorer, Merriam-Webster, Ox
 | 1.2 | Recent searches and saved words, one tap from the search field | every one of them | S | [x] 2026-10-28 |
 | 1.3 | Pronunciation: IPA under the word and a speak button (on-device voice) | Merriam-Webster, Oxford, American Heritage, EtymologyExplorer | S | [x] 2026-10-28 |
 | 1.4 | Suggestions while typing (Wiktionary prefix search; native search suggestions on Apple) | Oxford, American Heritage, Etymonline | M | [x] 2026-10-28 |
-| 1.5 | Root tree: the chain drawn as a tree, tap any ancestor to open it | Etymonline charts, EtymologyExplorer, American Heritage IE chart | M | [ ] |
+| 1.5 | Root tree: the chain drawn as a tree, tap any ancestor to open it (its Wiktionary entry for now) | Etymonline charts, EtymologyExplorer, American Heritage IE chart | M | [x] 2026-10-28 |
 | 1.6 | Same-root words: other words that come from this word's root | Etymonline related entries, EtymologyExplorer descendants | M | [ ] |
 | 1.7 | Random word button | EtymologyExplorer, Terminology | S | [ ] |
 | 1.8 | Word of the day, with a Home Screen widget | Merriam-Webster, Oxford, EtymologyExplorer, Etymonline trending | M | [ ] |

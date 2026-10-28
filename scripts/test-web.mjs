@@ -337,6 +337,12 @@ test('suggestions are single words that extend what was typed, lowercase and uni
   same(got, ['etymology', 'etymon', 'etymologia', 'etymologie', 'etymological', 'etymologist']);
 });
 
+test('an ancestor opens its own Wiktionary entry, starred forms on the Reconstruction page', () => {
+  const ctx = runPage({});
+  assert.equal(ctx.ancestorURL('*wódr̥', 'ine-pro'), 'https://en.wiktionary.org/wiki/Reconstruction:Proto-Indo-European/w%C3%B3dr%CC%A5');
+  assert.equal(ctx.ancestorURL('wæter', 'ang'), 'https://en.wiktionary.org/wiki/w%C3%A6ter#Old_English');
+});
+
 test('every hero wall entry has a meaning in every shipped locale', () => {
   for (const { code } of landing().locales) {
     for (const entry of landing({ lang: code }).wall) {

@@ -229,6 +229,17 @@ enum Wiktionary {
         return wikitext
     }
 
+    /// An ancestor's own entry: its language's section, or the Reconstruction page for a starred form. Same rule as the web.
+    static func ancestorURL(_ ancestor: String, langCode: String) -> URL {
+        let name = Catalog.ancestorLanguages[langCode] ?? Catalog.wordLanguages.first { $0.code == langCode }?.section ?? ""
+        let slug = name.replacingOccurrences(of: " ", with: "_")
+        let enc = { (s: String) in s.addingPercentEncoding(withAllowedCharacters: .alphanumerics.union(.init(charactersIn: "-._~"))) ?? s }
+        if ancestor.hasPrefix("*"), !name.isEmpty {
+            return URL(string: "\(host)/wiki/Reconstruction:\(enc(slug))/\(enc(String(ancestor.dropFirst())))")!
+        }
+        return URL(string: "\(host)/wiki/\(enc(ancestor))" + (name.isEmpty ? "" : "#\(enc(slug))"))!
+    }
+
     /// Up to six completions for a prefix: single words that extend it, lowercase, no repeats. Same rule as the web.
     static func suggest(from titles: [String], query: String) -> [String] {
         var seen = Set<String>()
@@ -374,6 +385,27 @@ enum Voice {
         let u = AVSpeechUtterance(string: word)
         u.voice = AVSpeechSynthesisVoice(language: language)
         synth.speak(u)
+    }
+}
+
+/// One generation of the root tree: a rail with a dot on the leading edge, the content beside it.
+/// The rail runs the full row height, so consecutive rows draw one unbroken line.
+struct TreeRow<Content: View>: View {
+    let top: Bool, first: Bool, last: Bool
+    @ViewBuilder let content: Content
+    private static var accent: Color { Color(red: 0.039, green: 0.384, blue: 0.847) }   // #0a62d8, tokens.css --accent
+
+    var body: some View {
+        HStack(spacing: 12) {
+            VStack(spacing: 0) {
+                Rectangle().fill(first ? .clear : Self.accent.opacity(0.45)).frame(width: 2)
+                Circle().fill(Self.accent).frame(width: top ? 14 : 10, height: top ? 14 : 10)
+                Rectangle().fill(last ? .clear : Self.accent.opacity(0.45)).frame(width: 2)
+            }
+            .frame(width: 14)
+            content.padding(.vertical, 11).frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
     }
 }
 
@@ -622,16 +654,24 @@ struct ContentView: View {
             }
         }
         if !entry.chain.isEmpty {
+            // The root tree: the word on top, each ancestor a dot further down one line, like the mark.
             Section {
-                ForEach(entry.chain) { link in
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(link.ancestor).fontWeight(.semibold)
-                        // Ancestor first, relation and language beneath: a single run-on line
-                        // cannot be reordered per language, and word order differs across the
-                        // twelve locales.
-                        Text(verbatim: "\(settings.t(link.rel)) · \(settings.languageName(link.langCode))")
-                            .font(.root(.caption))
-                            .foregroundStyle(.secondary)
+                TreeRow(top: true, first: true, last: false) {
+                    Text(verbatim: entry.word).font(.root(.body, .bold))
+                }
+                ForEach(Array(entry.chain.enumerated()), id: \.element.id) { index, link in
+                    TreeRow(top: false, first: false, last: index == entry.chain.count - 1) {
+                        Link(destination: Wiktionary.ancestorURL(link.ancestor, langCode: link.langCode)) {
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(verbatim: link.ancestor).font(.root(.body, .semibold)).foregroundStyle(.primary)
+                                // Ancestor first, relation and language beneath: a single run-on line
+                                // cannot be reordered per language, and word order differs across the
+                                // twelve locales.
+                                Text(verbatim: "\(settings.t(link.rel)) · \(settings.languageName(link.langCode))")
+                                    .font(.root(.caption))
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
                     }
                 }
             } header: {

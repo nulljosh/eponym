@@ -1358,6 +1358,7 @@
     locales: DATA.locales,
     wordLanguages: DATA.wordLanguages || [],
     wordsOfTheDay: DATA.wordsOfTheDay || {},
+    ancestorLanguages: DATA.ancestorLanguages || {},
 
     /**
      * Landing-page hero wall, meanings already resolved to this locale. The headword and its

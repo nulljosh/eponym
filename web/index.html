@@ -101,7 +101,16 @@
   /* Ancestor first, relation and language as a caption beneath. A single run-on line
      ("inherited from X Latin") cannot be translated without reordering, and word order
      differs in every one of the twelve locales; two lines read correctly in all of them. */
-  .chain .anc { font-weight: 600; }
+  .chain .anc { font-weight: 600; color: var(--text); text-decoration: none; }
+  a.anc:hover { text-decoration: underline; }
+  /* the tree: one vertical line on the start edge, a dot per generation, the word's dot the largest */
+  .tree { position: relative; }
+  .tree li.node { padding-inline-start: calc(var(--s4) + 24px); }
+  .tree li.node + li.node::before { inset-inline-start: calc(var(--s4) + 24px); }
+  .tree li.node::after { content: ''; position: absolute; inset-inline-start: calc(var(--s4) + 3px); top: 19px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
+  .tree li.top::after { width: 14px; height: 14px; top: 17px; inset-inline-start: calc(var(--s4) + 1px); }
+  .tree li.top .anc { font-size: 17px; }
+  .tree::before { content: ''; position: absolute; inset-inline-start: calc(var(--s4) + 7px); top: 28px; bottom: 28px; width: 2px; border-radius: 1px; background: color-mix(in srgb, var(--accent) 45%, transparent); }
   .chain .meta { font-size: 13px; line-height: 18px; color: var(--text2); }
   .chain .meta .lang { color: var(--link); }
 
@@ -334,6 +343,16 @@ async function etymology(word, lang) {
   return chain;
 }
 
+/** An ancestor's own Wiktionary entry: its language's section, or the Reconstruction page for a starred form.
+ *  ponytail: opens Wiktionary; in-app lookup of ancestors waits on per-lookup word languages. */
+function ancestorURL(ancestor, langCode) {
+  const meta = i18n.wordLanguages.filter(l => l.code === langCode)[0];
+  const name = (i18n.ancestorLanguages || {})[langCode] || (meta && meta.section) || '';
+  const slug = name.replace(/ /g, '_');
+  if (ancestor.startsWith('*') && name) return `${WIKI}/wiki/Reconstruction:${encodeURIComponent(slug)}/${encodeURIComponent(ancestor.slice(1))}`;
+  return `${WIKI}/wiki/${encodeURIComponent(ancestor)}${name ? '#' + encodeURIComponent(slug) : ''}`;
+}
+
 function render(el, word, defs, chain, ipa) {
   // dir="auto" throughout: the headword and its ancestors can be in any script — an Arabic
   // ancestor inside an English page, or a Latin one inside an Arabic page — and each element
@@ -359,9 +378,11 @@ function render(el, word, defs, chain, ipa) {
     html += `<p class="muted">${esc(t('ui.noDefinition'))}</p>`;
   }
   if (chain.length) {
-    html += `<div class="group"><div class="label">${esc(t('ui.origin'))}</div><ul class="chain">` +
+    // The root tree: the word on top, each ancestor a dot further down one line, like the mark.
+    html += `<div class="group"><div class="label">${esc(t('ui.origin'))}</div><ul class="chain tree">` +
+      `<li class="node top"><div class="anc" dir="auto" lang="${esc(wordLang)}">${esc(word)}</div></li>` +
       chain.map(c =>
-        `<li><div class="anc" dir="auto" lang="${esc(c.langCode)}">${esc(c.ancestor)}</div>` +
+        `<li class="node"><a class="anc" href="${esc(ancestorURL(c.ancestor, c.langCode))}" target="_blank" rel="noopener" dir="auto" lang="${esc(c.langCode)}">${esc(c.ancestor)}</a>` +
         `<div class="meta">${esc(c.rel)} · <span class="lang">${esc(c.lang)}</span></div></li>`).join('') +
       '</ul></div>';
   }

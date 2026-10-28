@@ -27,3 +27,13 @@ final class SuggestionTests: XCTestCase {
                        ["etymology", "etymon", "etymologia", "etymologie", "etymological", "etymologist"])
     }
 }
+
+// The root tree's links: same URLs as the web app.
+final class AncestorURLTests: XCTestCase {
+    func testReconstructionAndSectionLinks() {
+        XCTAssertEqual(Wiktionary.ancestorURL("*wódr̥", langCode: "ine-pro").absoluteString,
+                       "https://en.wiktionary.org/wiki/Reconstruction:Proto-Indo-European/w%C3%B3dr%CC%A5")
+        XCTAssertEqual(Wiktionary.ancestorURL("wæter", langCode: "ang").absoluteString,
+                       "https://en.wiktionary.org/wiki/w%C3%A6ter#Old_English")
+    }
+}
