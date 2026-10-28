@@ -10,10 +10,9 @@ options:
 # language; this list documents the set and keeps Xcode's own language menus in step.
 knownRegions: [en, es, fr, de, pt, it, nl, ru, ja, zh-Hans, ko, ar]
 settings:
-  MARKETING_VERSION: "1.11.0"
-  "MARKETING_VERSION[sdk=macosx*]": "1.11.0"
-  CURRENT_PROJECT_VERSION: 202610161204
-  "CURRENT_PROJECT_VERSION[sdk=macosx*]": 202610161220
+  # One version and one build number for iPhone, Mac, watch and widget. Bump both here every release.
+  MARKETING_VERSION: "2.0.0"
+  CURRENT_PROJECT_VERSION: 202610281345
   SWIFT_VERSION: "5.9"
 targets:
   Wordroot:

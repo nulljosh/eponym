@@ -655,6 +655,9 @@ struct ContentView: View {
                 }
             }
             .scrollContentBackground(.hidden)
+            // A reading column on iPad and wide Mac windows; the photo behind still fills the screen.
+            .frame(maxWidth: 760)
+            .frame(maxWidth: .infinity)
             .task(id: entry?.word) {
                 kin = []
                 guard let word = entry?.word, let q = entry?.rootQuery else { return }
@@ -742,7 +745,8 @@ struct ContentView: View {
                 search(query.isEmpty ? (wordOfTheDay ?? "") : query)
             }
             .task {
-                if let w = wordOfTheDay { search(w) }
+                // Screenshots only: `-UITEST_WORD nostalgia` opens on that word instead of the word of the day.
+                if let w = UserDefaults.standard.string(forKey: "UITEST_WORD") { query = w } else if let w = wordOfTheDay { search(w) }
             }
             // Shortcuts, Siri, Spotlight and the Mac Services menu hand words over through the inbox.
             .onReceive(Inbox.shared.$word.compactMap { $0 }) { word in

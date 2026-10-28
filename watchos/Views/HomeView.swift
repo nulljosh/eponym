@@ -26,7 +26,7 @@ struct HomeView: View {
                     }
                 }
             }
-            .navigationTitle("Wordroot")
+            // No app name on screen, same as the phone (Joshua 2026-10-28).
             .containerBackground(for: .navigation) { Backdrop() }
             .onAppear {
                 // `-openWord volcano` on launch opens that word, so the simulator can be checked without tapping.
