@@ -1206,6 +1206,7 @@
     locales: DATA.locales,
     wordLanguages: DATA.wordLanguages || [],
     wordsOfTheDay: DATA.wordsOfTheDay || {},
+    affixes: DATA.affixes || {},
     ancestorLanguages: DATA.ancestorLanguages || {},
 
     /**

@@ -364,6 +364,13 @@ test('a ?q= link opens on that word', () => {
   assert.equal(ctx.__elements.q.value, 'nice');
 });
 
+test('the home screen ends with the prefix and suffix index', () => {
+  const ctx = runPage({});
+  ctx.renderWordOfTheDay();
+  const html = ctx.__elements.wotd.children.map(c => c.innerHTML).join('');
+  assert.ok(html.includes('data-word="bio-"') && html.includes('data-word="-logy"'));
+});
+
 test('every hero wall entry has a meaning in every shipped locale', () => {
   for (const { code } of landing().locales) {
     for (const entry of landing({ lang: code }).wall) {

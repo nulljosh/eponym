@@ -615,6 +615,28 @@ struct ContentView: View {
                 } else if !query.isEmpty {
                     Text(settings.t("ui.nothingFound"))
                 }
+                // The prefix and suffix index closes the home screen; each capsule opens like any word.
+                if query.isEmpty, let affixes = Catalog.affixes[settings.wordLanguage], !affixes.isEmpty {
+                    Section {
+                        Flow(spacing: 8) {
+                            ForEach(affixes, id: \.self) { affix in
+                                Button {
+                                    query = affix
+                                } label: {
+                                    Text(verbatim: affix).font(.root(.subheadline))
+                                        .padding(.horizontal, 14).frame(height: 34)
+                                        .background(Capsule().fill(Color.primary.opacity(0.06)))
+                                        .overlay(Capsule().strokeBorder(Color.primary.opacity(0.12)))
+                                }
+                                .buttonStyle(.plain)
+                            }
+                        }
+                        .padding(.vertical, 4)
+                    } header: {
+                        Text(settings.t("ui.affixes")).font(.root(.subheadline, .semibold)).foregroundStyle(.white)
+                    }
+                    .id("affixes")
+                }
             }
             .scrollContentBackground(.hidden)
             .task(id: entry?.word) {
@@ -622,8 +644,8 @@ struct ContentView: View {
                 guard let word = entry?.word, let q = entry?.rootQuery else { return }
                 let found = await Wiktionary.relatives(of: word, rootQuery: q)
                 if entry?.word == word { kin = found }
-                // Screenshots only: `-UITEST_ORIGIN 1` scrolls to the root tree once it is drawn.
-                if UserDefaults.standard.bool(forKey: "UITEST_ORIGIN") { proxy.scrollTo("origin", anchor: .top) }
+                // Screenshots only: `-UITEST_SCROLL origin` (or `affixes`) scrolls to that section once the page is drawn.
+                if let target = UserDefaults.standard.string(forKey: "UITEST_SCROLL") { proxy.scrollTo(target, anchor: .top) }
             }
             .background(PhotoBackground(url: entry?.photoURL, hue: hueForWord(entry?.word ?? wordOfTheDay ?? "wordroot")))
             // Everything drawn straight on the darkened background is white; the cards keep

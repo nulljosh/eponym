@@ -134,6 +134,8 @@
   .shelf-row { display: block; width: 100%; padding: var(--s3) var(--s4); border: 0; background: none; font: inherit; color: var(--text); text-align: start; cursor: pointer; position: relative; }
   .shelf-row + .shelf-row::before { content: ''; position: absolute; top: 0; inset-inline: var(--s4) 0; height: 1px; background: var(--border); }
   #wotd > .label { margin-top: var(--s5); }
+  .affix-index { margin-top: var(--s5); }
+  .affix-index .kin-list { padding: var(--s4); }
   .suggest { margin: var(--s2) 0 0; }
   .suggest[hidden] { display: none; }
   /* home labels sit straight on the photo, so they carry their own contrast */
@@ -541,7 +543,13 @@ function renderWordOfTheDay() {
   const mine = k => readList(k).filter(e => e.l === wordLang);
   const lists = document.createElement('div');
   lists.innerHTML = shelf('ui.saved', mine(SAVED_KEY)) + shelf('ui.recent', mine(RECENT_KEY));
-  if (!w) { $('wotd').append(lists); return; }
+  // The prefix and suffix index closes the home screen; each capsule opens like any word.
+  const affixes = i18n.affixes[wordLang] || [];
+  const index = document.createElement('div');
+  index.className = 'affix-index';
+  if (affixes.length) index.innerHTML = `<div class="label">${esc(t('ui.affixes'))}</div><div class="shelf kin-list">` +
+    affixes.map(a => `<button type="button" class="kin" data-word="${esc(a)}" dir="ltr">${esc(a)}</button>`).join('') + '</div>';
+  if (!w) { $('wotd').append(lists, index); return; }
   const label = document.createElement('div');
   label.className = 'label';
   label.textContent = t('ui.wotd');
@@ -549,7 +557,7 @@ function renderWordOfTheDay() {
   mascot.src = '/mascot.svg'; mascot.alt = ''; mascot.width = mascot.height = 64;
   mascot.style.cssText = 'display:block;margin:var(--s6) auto var(--s5)';
   const card = document.createElement('div');
-  $('wotd').append(mascot, lists, label, card);
+  $('wotd').append(mascot, lists, label, card, index);
   lookup(w, card);
 }
 
@@ -700,7 +708,7 @@ if ($('tabRandom')) $('tabRandom').addEventListener('click', () => {
 });
 
 $('wotd').addEventListener('click', e => {
-  const r = e.target.closest('.shelf-row');
+  const r = e.target.closest('.shelf-row, .kin');
   if (!r) return;
   $('q').value = r.dataset.word;
   $('wotd').style.display = 'none';

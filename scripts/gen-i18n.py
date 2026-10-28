@@ -44,6 +44,7 @@ def js_bundle(cat, keys, lookup_data, wall=False):
         data["wordLanguages"] = cat["wordLanguages"]
         data["ancestorLanguages"] = cat["ancestorLanguages"]
         data["wordsOfTheDay"] = cat["wordsOfTheDay"]
+        data["affixes"] = cat["affixes"]
     return f"""// {BANNER}
 //
 // Exposes `window.i18n`: the string table plus the small runtime the pages share —
@@ -101,6 +102,7 @@ def js_bundle(cat, keys, lookup_data, wall=False):
     locales: DATA.locales,
     wordLanguages: DATA.wordLanguages || [],
     wordsOfTheDay: DATA.wordsOfTheDay || {{}},
+    affixes: DATA.affixes || {{}},
     ancestorLanguages: DATA.ancestorLanguages || {{}},
 
     /**
@@ -208,6 +210,10 @@ def swift_bundle(cat, keys):
         f"        {lit(k)}: [{', '.join(lit(w) for w in v)}],\n"
         for k, v in cat["wordsOfTheDay"].items()
     )
+    affix_rows = "".join(
+        f"        {lit(k)}: [{', '.join(lit(w) for w in v)}],\n"
+        for k, v in cat["affixes"].items()
+    )
 
     return f"""// {BANNER}
 import Foundation
@@ -243,6 +249,10 @@ enum Catalog {{
     /// Word-of-the-day rotation per word language. A language absent here shows none.
     static let wordsOfTheDay: [String: [String]] = [
 {wotd_rows}    ]
+
+    /// Prefixes and suffixes worth knowing, per word language, for the home screen index.
+    static let affixes: [String: [String]] = [
+{affix_rows}    ]
 
 {"".join(tables)}
     static let tables: [String: [String: String]] = [
