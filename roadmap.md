@@ -181,7 +181,7 @@ build-time artifact. Revisit storage when a rate limit or a latency measurement 
 - [x] Stale App Store screenshots (blank icon in listing). (screenshot: notes/attachments/2026-10-16/app-store-screenshots-4.png)
 
 ## Open 2026-10-16
-- [ ] Fix the eight failing web-app tests in scripts/test-web.mjs. They were failing before the 2026-10-16 landing change and that change did not touch them.
+- [x] Fix the eight failing web-app tests in scripts/test-web.mjs (2026-10-28: the stub DOMParser had no querySelectorAll). They were failing before the 2026-10-16 landing change and that change did not touch them.
 
 ## Ingested 2026-10-25
 - [ ] Needs a better name. (Probe Apple first, one name everywhere.)
@@ -198,7 +198,7 @@ From the App Store screens of Etymonline, EtymologyExplorer, Merriam-Webster, Ox
 
 | Ver | Gap | Who has it | Size | Status |
 |---|---|---|---|---|
-| 1.2 | Recent searches and saved words, one tap from the search field | every one of them | S | [ ] |
+| 1.2 | Recent searches and saved words, one tap from the search field | every one of them | S | web [x], iOS/Mac [ ] |
 | 1.3 | Pronunciation: IPA under the word and a speak button (on-device voice) | Merriam-Webster, Oxford, American Heritage, EtymologyExplorer | S | [ ] |
 | 1.4 | Suggestions while typing (prefix list from the local word list) | Oxford, American Heritage, Etymonline | M | [ ] |
 | 1.5 | Root tree: the chain drawn as a tree, tap any ancestor to open it | Etymonline charts, EtymologyExplorer, American Heritage IE chart | M | [ ] |

@@ -117,6 +117,24 @@
   .chain .meta { font-size: 13px; line-height: 18px; color: var(--text2); }
   .chain .meta .lang { color: var(--link); }
 
+  /* the word with its save button beside it */
+  .card-head { display: flex; align-items: flex-start; gap: var(--s2); }
+  .card-head h2 { flex: 1; min-width: 0; }
+  .save { flex: none; width: 40px; height: 40px; margin-top: 1px; border-radius: var(--r-pill); border: 0; background: none; color: var(--text2); cursor: pointer; display: grid; place-items: center; }
+  .save svg { width: 22px; height: 22px; }
+  .save[aria-pressed="true"] { color: var(--accent); }
+  .save[aria-pressed="true"] svg { fill: currentColor; }
+  .save:focus-visible, .shelf-row:focus-visible { outline: none; box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 30%, transparent); }
+
+  /* saved and recent words: inset grouped lists on the home screen */
+  .shelf { border-radius: var(--r-group); background: var(--glass); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-edge); box-shadow: var(--glass-shadow); overflow: hidden; margin: 0 0 var(--s5); }
+  .shelf-row { display: block; width: 100%; padding: var(--s3) var(--s4); border: 0; background: none; font: inherit; color: var(--text); text-align: start; cursor: pointer; position: relative; }
+  .shelf-row + .shelf-row::before { content: ''; position: absolute; top: 0; inset-inline: var(--s4) 0; height: 1px; background: var(--border); }
+  #wotd > .label { margin-top: var(--s5); }
+  /* home labels sit straight on the photo, so they carry their own contrast */
+  #wotd .label { color: var(--text); opacity: .72; text-shadow: 0 0 6px color-mix(in srgb, var(--bg) 70%, transparent); }
+
   /* footer: aligned to the same edge, quiet, on the grid */
   .foot { margin-top: var(--s7); padding-top: var(--s5); border-top: 1px solid var(--border); display: grid; gap: var(--s4); font-size: 15px; line-height: 20px; }
   .foot-brand { display: flex; align-items: center; gap: var(--s2); color: var(--text); }
@@ -147,7 +165,7 @@
 <div id="wotd"></div>
 <div id="out"></div>
 <footer class="foot">
-  <div class="foot-brand"><svg viewBox="0 0 1024 1024" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M512 300V470C512 580 330 560 330 730M512 470C512 580 694 560 694 730" fill="none" stroke="currentColor" stroke-width="64" stroke-linecap="round"/><circle cx="512" cy="280" r="96"/><circle cx="330" cy="746" r="80"/><circle cx="694" cy="746" r="80"/></svg><b>Wordroot</b></div>
+  <div class="foot-brand"><svg viewBox="0 0 1024 1024" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M512 310V462C512 570 340 562 340 712M512 462C512 570 684 562 684 712" fill="none" stroke="currentColor" stroke-width="76" stroke-linecap="round" stroke-linejoin="round"/><circle cx="512" cy="284" r="104"/><circle cx="340" cy="738" r="88"/><circle cx="684" cy="738" r="88"/></svg><b>Wordroot</b></div>
   <nav class="foot-links" id="footLinks"></nav>
   <div class="foot-lang"><span id="uiPicker"></span></div>
   <p class="attr" id="attr"></p>
@@ -277,7 +295,7 @@ function render(el, word, defs, chain) {
   // ancestor inside an English page, or a Latin one inside an Arabic page — and each element
   // has to pick up its own direction independently of the page's.
   let html = `<div class="card"><div class="label">${esc(t('ui.resultsFor', { word }))}</div>` +
-    `<h2 dir="auto" lang="${esc(wordLang)}">${esc(word)}</h2>`;
+    `<div class="card-head"><h2 dir="auto" lang="${esc(wordLang)}">${esc(word)}</h2>${saveButton(word)}</div>`;
   if (defs && defs.groups.length) {
     for (const g of defs.groups) {
       // Glosses are prose in the edition's own language, not the looked-up word's.
@@ -378,6 +396,21 @@ async function lookup(word, el) {
   }
 }
 
+// Saved and recent words, per word language, newest first. ponytail: localStorage, no sync; the
+// lists are a convenience and survive a cleared cache only as well as the browser lets them.
+const SAVED_KEY = 'wordroot.saved', RECENT_KEY = 'wordroot.recent', RECENT_MAX = 8, SAVED_MAX = 200;
+const readList = k => { try { const v = JSON.parse(localStorage.getItem(k)); return Array.isArray(v) ? v : []; } catch { return []; } };
+const writeList = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* storage disabled */ } };
+const same = (e, w) => e.w === w && e.l === wordLang;
+const listed = (k, w) => readList(k).some(e => same(e, w));
+const remember = (k, w, max) => writeList(k, [{ w, l: wordLang }, ...readList(k).filter(e => !same(e, w))].slice(0, max));
+const forget = (k, w) => writeList(k, readList(k).filter(e => !same(e, w)));
+const BOOKMARK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 3.5h11v17l-5.5-4-5.5 4z"/></svg>';
+function saveButton(word) {
+  const on = listed(SAVED_KEY, word);
+  return `<button type="button" class="save" data-word="${esc(word)}" aria-pressed="${on}" aria-label="${esc(t(on ? 'ui.unsave' : 'ui.save'))}">${BOOKMARK}</button>`;
+}
+
 /** Today's word in the current word language, or null if we ship no list for it. */
 function wordOfTheDay() {
   const list = i18n.wordsOfTheDay[wordLang];
@@ -385,19 +418,24 @@ function wordOfTheDay() {
   return list[Math.floor(Date.now() / 864e5) % list.length];  // stable per calendar day
 }
 
+/** The home screen: the mascot, saved and recent words, then the word of the day. */
 function renderWordOfTheDay() {
   const w = wordOfTheDay();
   $('wotd').innerHTML = '';
-  if (!w) return;
+  const shelf = (key, items) => items.length ? `<div class="label">${esc(t(key))}</div><div class="shelf">` +
+    items.map(e => `<button type="button" class="shelf-row" data-word="${esc(e.w)}" dir="auto" lang="${esc(e.l)}">${esc(e.w)}</button>`).join('') + '</div>' : '';
+  const mine = k => readList(k).filter(e => e.l === wordLang);
+  const lists = document.createElement('div');
+  lists.innerHTML = shelf('ui.saved', mine(SAVED_KEY)) + shelf('ui.recent', mine(RECENT_KEY));
+  if (!w) { $('wotd').append(lists); return; }
   const label = document.createElement('div');
   label.className = 'label';
-  label.style.marginTop = '1.5rem';
   label.textContent = t('ui.wotd');
   const mascot = document.createElement('img');
   mascot.src = '/mascot.svg'; mascot.alt = ''; mascot.width = mascot.height = 64;
-  mascot.style.cssText = 'display:block;margin:var(--s6, 32px) auto 0';
+  mascot.style.cssText = 'display:block;margin:var(--s6) auto var(--s5)';
   const card = document.createElement('div');
-  $('wotd').append(mascot, label, card);
+  $('wotd').append(mascot, lists, label, card);
   lookup(w, card);
 }
 
@@ -450,9 +488,30 @@ let debounce = null;
 $('q').addEventListener('input', e => {
   const word = e.target.value.trim().toLowerCase();
   clearTimeout(debounce);
-  if (!word) { $('out').innerHTML = ''; $('wotd').style.display = 'block'; return; }
+  if (!word) { $('out').innerHTML = ''; renderWordOfTheDay(); $('wotd').style.display = 'block'; return; }
   $('wotd').style.display = 'none';
   debounce = setTimeout(() => lookup(word, $('out')), 350);
+});
+
+// A search counts as recent once the reader commits to it (Enter or leaving the field) and it found something.
+$('q').addEventListener('change', e => {
+  const word = e.target.value.trim().toLowerCase();
+  if (word && $('out').querySelector('.card')) remember(RECENT_KEY, word, RECENT_MAX);
+});
+$('out').addEventListener('click', e => {
+  const b = e.target.closest('.save');
+  if (!b) return;
+  const word = b.dataset.word;
+  if (listed(SAVED_KEY, word)) forget(SAVED_KEY, word); else remember(SAVED_KEY, word, SAVED_MAX);
+  b.outerHTML = saveButton(word);
+});
+$('wotd').addEventListener('click', e => {
+  const r = e.target.closest('.shelf-row');
+  if (!r) return;
+  $('q').value = r.dataset.word;
+  $('wotd').style.display = 'none';
+  remember(RECENT_KEY, r.dataset.word, RECENT_MAX);
+  lookup(r.dataset.word, $('out'));
 });
 
 renderChrome();

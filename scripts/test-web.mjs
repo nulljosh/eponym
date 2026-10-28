@@ -50,7 +50,7 @@ function makeContext({ lang = 'en', search = '', store = {}, fetch: fetchImpl, b
       set title(v) { this._title = v; },
       get title() { return this._title; },
     },
-    DOMParser: class { parseFromString(s) { return { body: { textContent: s.replace(/<[^>]*>/g, '') } } } },
+    DOMParser: class { parseFromString(s) { return { body: { textContent: s.replace(/<[^>]*>/g, ''), querySelectorAll: () => [] } } } },
     fetch: fetchImpl || (async () => ({ ok: false })),
   };
   ctx.__elements = byId;  // so tests can read what was rendered
@@ -307,6 +307,20 @@ test('hero wall keeps the headword and source form, translating only the meaning
   assert.equal(salary('de').form, 'salarium', 'the Latin source form must not be translated');
   assert.equal(salary('de').meaning, 'Salzgeld');
   assert.equal(salary('ar').meaning, 'مال الملح');
+});
+
+test('saved and recent words show on the home screen, only for the current word language', () => {
+  const store = {
+    'wordroot.saved': JSON.stringify([{ w: 'nice', l: 'en' }, { w: 'haus', l: 'de' }]),
+    'wordroot.recent': JSON.stringify([{ w: 'muscle', l: 'en' }]),
+  };
+  const ctx = runPage({ store });
+  ctx.renderWordOfTheDay();
+  const html = ctx.__elements.wotd.children.map(c => c.innerHTML).join('');
+  assert.ok(html.includes('nice') && html.includes('muscle'), 'saved and recent words are listed');
+  assert.ok(!html.includes('haus'), 'another word language stays out');
+  assert.ok(ctx.saveButton('nice').includes('aria-pressed="true"'));
+  assert.ok(ctx.saveButton('muscle').includes('aria-pressed="false"'));
 });
 
 test('every hero wall entry has a meaning in every shipped locale', () => {
