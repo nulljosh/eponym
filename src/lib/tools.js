@@ -35,7 +35,7 @@ const ENTITIES = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ' }
 export const strip = (s) => {
   // Wiktionary inlines a <style> block into the first definition of many pages; dropping
   // tags alone would leave the CSS itself sitting in the middle of the sentence.
-  let out = String(s).replace(/<(style|script)\b[^>]*>[\s\S]*?<\/\1>/gi, '');
+  let out = String(s).replace(/<(style|script|ol|ul)\b[^>]*>[\s\S]*?<\/\1>/gi, '');   // nested sub-senses also come as their own senses
   for (let prev = null; prev !== out; ) { prev = out; out = out.replace(/<[^>]*>/g, ''); }
   return out
     .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(Number(n)))

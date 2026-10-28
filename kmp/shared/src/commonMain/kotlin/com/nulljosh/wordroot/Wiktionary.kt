@@ -20,7 +20,9 @@ data class EtymologyStep(val relation: String, val langCode: String, val languag
 
 private val HTML_TAG = Regex("<[^>]+>")
 
-private fun strip(html: String): String = html.replace(HTML_TAG, "").trim()
+private val NESTED_LIST = Regex("<(ol|ul)\\b[^>]*>[\\s\\S]*?</\\1>", RegexOption.IGNORE_CASE)   // sub-senses also come as their own senses
+
+private fun strip(html: String): String = html.replace(NESTED_LIST, "").replace(HTML_TAG, "").trim()
 
 private val REL_LABEL = mapOf("inh" to "inherited from", "der" to "derived from", "bor" to "borrowed from")
 

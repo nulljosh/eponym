@@ -164,7 +164,7 @@ const $ = id => document.getElementById(id);
 // and Wiktionary pages are publicly editable.
 const strip = s => {
   const body = new DOMParser().parseFromString(s, 'text/html').body;
-  body.querySelectorAll('style, script').forEach(el => el.remove());
+  body.querySelectorAll('style, script, ol, ul').forEach(el => el.remove());   // nested sub-senses also come as their own senses
   return body.textContent;
 };
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -393,8 +393,11 @@ function renderWordOfTheDay() {
   label.className = 'label';
   label.style.marginTop = '1.5rem';
   label.textContent = t('ui.wotd');
+  const mascot = document.createElement('img');
+  mascot.src = '/mascot.svg'; mascot.alt = ''; mascot.width = mascot.height = 64;
+  mascot.style.cssText = 'display:block;margin:var(--s6, 32px) auto 0';
   const card = document.createElement('div');
-  $('wotd').append(label, card);
+  $('wotd').append(mascot, label, card);
   lookup(w, card);
 }
 

@@ -19,6 +19,8 @@ globalThis.fetch = async (url) => {
 const { callTool, strip, ToolError } = await import('../src/lib/tools.js');
 
 assert.equal(strip('<style>.a{}</style>a <b>b</b> &amp; c'), 'a b & c');
+// Sub-senses come nested inside a sense and again as their own senses; the nested copy goes.
+assert.equal(strip('The smallest unit.<ol><li>Spoken unit.</li><li>Written unit.</li></ol>'), 'The smallest unit.');
 // Nested angle brackets: what matters is that no tag survives, not the leftover text.
 assert.ok(!strip('<<b>b>bold<scr<script>ipt>x').includes('<'));
 

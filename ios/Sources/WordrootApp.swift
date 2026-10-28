@@ -171,7 +171,7 @@ enum Wiktionary {
 
     static func stripTags(_ s: String) -> String {
         let noStyleScript = s.replacingOccurrences(
-            of: "<(style|script)\\b[^>]*>.*?</\\1>", with: "", options: [.regularExpression, .caseInsensitive])
+            of: "(?s)<(style|script|ol|ul)\\b[^>]*>.*?</\\1>", with: "", options: [.regularExpression, .caseInsensitive])  // nested sub-senses also come as their own senses
         return noStyleScript.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression)
     }
 

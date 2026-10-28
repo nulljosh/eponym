@@ -7,6 +7,8 @@
 
 Where did that word come from? Look it up and follow it back, through Latin, Greek, all the way to Proto-Indo-European. A dictionary with the roots showing.
 
+<img src="brand/mascot.svg" width="96" alt="The Wordroot mascot">
+
 <img src="progress.svg" width="460">
 
 ## Screenshots
