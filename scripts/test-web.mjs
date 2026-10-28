@@ -359,6 +359,11 @@ test('a random word comes from the shipped list and is never the word on screen'
   }
 });
 
+test('a ?q= link opens on that word', () => {
+  const ctx = runPage({ search: '?q=%20Nice%20' });
+  assert.equal(ctx.__elements.q.value, 'nice');
+});
+
 test('every hero wall entry has a meaning in every shipped locale', () => {
   for (const { code } of landing().locales) {
     for (const entry of landing({ lang: code }).wall) {

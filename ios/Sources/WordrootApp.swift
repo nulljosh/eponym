@@ -6,7 +6,12 @@ import SwiftUI
 struct WordrootApp: App {
     @StateObject private var settings = Settings()
 
-    init() { RootSans.register() }
+    init() {
+        RootSans.register()
+#if os(macOS)
+        NSApplication.shared.servicesProvider = LookUpService.shared
+#endif
+    }
 
     var body: some Scene {
         WindowGroup {
@@ -700,6 +705,12 @@ struct ContentView: View {
             }
             .task {
                 if let w = wordOfTheDay { search(w) }
+            }
+            // Shortcuts, Siri, Spotlight and the Mac Services menu hand words over through the inbox.
+            .onReceive(Inbox.shared.$word.compactMap { $0 }) { word in
+                query = word
+                remember(word)
+                Inbox.shared.word = nil
             }
             // The widget opens its word here: wordroot://word/<word>.
             .onOpenURL { url in

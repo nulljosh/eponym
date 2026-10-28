@@ -212,7 +212,7 @@ From the App Store screens of Etymonline, EtymologyExplorer, Merriam-Webster, Ox
 | 1.6 | Same-root words: other words that come from this word's root (Wiktionary search on the {{root}} template, else the oldest ancestor) | Etymonline related entries, EtymologyExplorer descendants | M | [x] 2026-10-28 |
 | 1.7 | Random word button (bottom bar; English list grew from 25 to 192 words) | EtymologyExplorer, Terminology | S | [x] 2026-10-28 |
 | 1.8 | Word of the day, with a Home Screen widget (small and medium, iPhone and Mac, opens the word via wordroot://word/) | Merriam-Webster, Oxford, EtymologyExplorer, Etymonline trending | M | [x] 2026-10-28 |
-| 1.9 | Look up from other apps: share sheet and Services menu on the Mac | Terminology | M | [ ] |
+| 1.9 | Look up from other apps: App Intent for Shortcuts, Siri and Spotlight; Services menu on the Mac; ?q= links and OpenSearch on the web. An iOS Action extension for selected text is still to do | Terminology | M | [x] 2026-10-28 |
 | 1.10 | Prefixes and suffixes index (-logy, bio-, anti-) | Etymonline | M | [ ] |
 | 1.11 | Offline: every word you looked up opens without a connection | Oxford, Merriam-Webster, Terminology | M | [ ] |
 

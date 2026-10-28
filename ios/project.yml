@@ -10,8 +10,8 @@ options:
 # language; this list documents the set and keeps Xcode's own language menus in step.
 knownRegions: [en, es, fr, de, pt, it, nl, ru, ja, zh-Hans, ko, ar]
 settings:
-  MARKETING_VERSION: "1.8.0"
-  "MARKETING_VERSION[sdk=macosx*]": "1.8.0"
+  MARKETING_VERSION: "1.9.0"
+  "MARKETING_VERSION[sdk=macosx*]": "1.9.0"
   CURRENT_PROJECT_VERSION: 202610161204
   "CURRENT_PROJECT_VERSION[sdk=macosx*]": 202610161220
   SWIFT_VERSION: "5.9"
@@ -43,9 +43,20 @@ targets:
     info:
       path: Info.plist
       properties:
+        # xcodegen writes 1.0 and 1 here unless told; these keep the versions coming from the build settings.
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         CFBundleURLTypes:
           - CFBundleURLName: com.heyitsmejosh.etyma
             CFBundleURLSchemes: [wordroot]
+        # Mac: Services > Look Up in Wordroot on any selected text (LookUpService). iOS ignores it.
+        NSServices:
+          - NSMenuItem:
+              default: Look Up in Wordroot
+            NSMessage: lookUp
+            NSPortName: Wordroot
+            NSSendTypes: [public.utf8-plain-text, NSStringPboardType]
+            NSRequiredContext: {}
     dependencies:
       - target: WordrootWatch
         platformFilter: iOS
@@ -65,6 +76,8 @@ targets:
     info:
       path: Widget/Info.plist
       properties:
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         NSExtension:
           NSExtensionPointIdentifier: com.apple.widgetkit-extension
     settings:
