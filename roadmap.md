@@ -126,8 +126,8 @@ synthetic input**, so the standing no-UI-scripting preference is respected:
 *namo -> *h,nomn), the app's actual differentiator. No search input was needed. If a future capture
 lands on "mother", just compute the index and shoot on a day that does not.
 
-- [ ] Ship the watch app: bump to 1.1.0 once iOS 1.0.5 clears review, upload the iOS build (watch app inside), add Apple Watch screenshots, submit
-- [ ] More Mac screenshots (only 1 uploaded; the listing is thin). Needs the search path driven, so
+- [x] Ship the watch app (went out inside the 2.0.0 iPhone build, 2026-10-28)
+- [x] More Mac screenshots (three new ones in screenshots/appstore/mac, upload with 2.0.1). Needs the search path driven, so
       it is the one thing here still wanting a non-synthetic input route.
       **Not a submit blocker**, confirmed 2026-08-24: the single 1280x800 shot was enough,
       macOS 1.0 submitted fine. This is a post-approval listing improvement.
@@ -172,10 +172,10 @@ build-time artifact. Revisit storage when a rate limit or a latency measurement 
 
 ## Ingested 2026-10-01
 - [x] Refresh App Store screenshots.
-- [ ] Wordroot QA (Apple Note 2026-10-01 said only "Wordroot QA"). Which platform, full feature pass or a specific bug?
+- [x] Wordroot QA: full pass on Mac, web, iPhone and watch 2026-10-28 (Mac redesign, solid web cards, chips, watch rail)
 
 ## Ingested 2026-10-05
-- [ ] QA
+- [x] QA (same pass, 2026-10-28)
 
 ## Ingested 2026-10-16
 - [x] Stale App Store screenshots (blank icon in listing). (screenshot: notes/attachments/2026-10-16/app-store-screenshots-4.png)
