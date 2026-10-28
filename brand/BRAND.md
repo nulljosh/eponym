@@ -62,3 +62,6 @@ The tint eases over a second when the word changes, the photo fades in over 0.6 
 
 ## Changing it
 Change `tokens.css` first, then the Swift and Kotlin values to match. Never invent a new color in a single screen.
+
+## Mascot
+`mascot.svg`: the mark come alive. The top dot is a round head with dot eyes, cheeks, a smile and one sprout leaf; the two branches are stubby root feet. Brand blues only, flat, on a pale blue disc. Use it on empty states, the README and social cards, never inside the app icon.
