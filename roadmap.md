@@ -186,8 +186,8 @@ build-time artifact. Revisit storage when a rate limit or a latency measurement 
 ## Ingested 2026-10-25
 - [ ] Needs a better name. (Probe Apple first, one name everywhere.)
   Name hunt 2026-10-28: one real single word only, never two words glued together. Probed on the 1.0.6 draft
-  (`scratchpad/probe-wordroot.sh`), about 130 tried. Joshua said no to Forebear, Varro, Rootward (compound).
-  Free but not picked: Purport, Denotation, Philologist, Lexicology, Lexiphile, Etymologer, Cognatus, Rooter, Etymonic, Exordium, Nascent, Tamarisk, Totara, Galangal, Chicory, Alkanet, Ordet, Sloka, Lexeis, Glottal, Primeval, Glossator, Provenience, Etymologist, Ancient, Atavism, Archaism, Relict, Cognomen, Isidore, Progenitor, Begetter, Stirps, Proles, Onomast, Rhizoid, Etymic, Juuri, Skeat.
+  (Wordroot's own record while a draft is editable, else ASC_PROBE_APP=6825014407 Oohaah, all REJECTED), about 360 tried. Joshua said no to Forebear, Varro, Rootward (compound).
+  Free but not picked: Nirukta, Eponym, Wherefore, Yaska, Ishtiqaq, Paronym, Sememe, Toponym, Exonym, Endonym, Anent, Erstwhile, Dictio, Purport, Denotation, Philologist, Lexicology, Lexiphile, Etymologer, Cognatus, Rooter, Etymonic, Exordium, Nascent, Tamarisk, Totara, Galangal, Chicory, Alkanet, Ordet, Sloka, Lexeis, Glottal, Primeval, Glossator, Provenience, Etymologist, Ancient, Atavism, Archaism, Relict, Cognomen, Isidore, Progenitor, Begetter, Stirps, Proles, Onomast, Rhizoid, Etymic, Juuri, Skeat.
   Taken (skip): Rhizome Etymon Taproot Cognate Radix Stemma Lexeme Etyma Provenance Banyan Acorn Racine Raiz
   Verba Lingua Lexis Origo Genus Lexicon Glossa Kernel Rhiza Arche Onoma Sema Radicle Fons Loam Linden Aspen
   Cedar Mycelium Babel Rosetta Grimm Proto Runic Ogham Rune Argot Quill Vellum Saga Idiom Lingo Scribe Cadmus
@@ -198,6 +198,8 @@ build-time artifact. Revisit storage when a rate limit or a latency measurement 
   Mandrake Orris Madder Ginseng Mesquite Kauri Ficus Burdock Turmeric Lotus Iris Bamboo Ginger Cypress Tamarind Acacia Sassafras Parsnip Taro Cassava Yam
   Derivative Fountain Source Spring Seedling Sprout Nucleus Primus Alpha Omega Incipit Proem Prologue Preface Overture Prelude Dawn Aurora Inception
   Lexis Logophile Linguist Glossary Thesaurus Dictionary Morphology Semantics Syntax Grammar Rhetoric Eloquence Cognition Legend Fable Myth Tale Clan Tribe Dynasty
+  Root Roots Mimir Urd Norn Yggdrasil Bodhi Shoresh Koren Mula Dhatu Nomen Vox Sermo Gens Spoor Sleuth Stolon Genos Archon Mythos Lexikon Littera Tabula Wortel Kindling Trace Thread Scent
+  Whence Yore Olden Erst Bygone Asl Doublet Calque Neologism Beech Birch Elm Oak Ash Rowan Hence Thence Hither
   Verity Candor Lucid Clarity Gist Essence Crux Core Pith Marrow Nub Quintessence Substance Meaning Sense Notion Concept Idea Term
   Rooted Logic Verbal Mnemo Memento Muse Oracle Sibyl Augur Herald Envoy Courier Emissary Scholar Savant Sage Pundit Erudite Maven Polymath Codex Scroll Parchment Papyrus
   Philter Tincture Elixir Distill Ferment Leaven Yeast Brine Tannin Resin Sap Bark Xylem Phloem Cambium Burl Knot Ring Bole Trunk Limb Bough Twig Frond.
