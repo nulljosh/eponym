@@ -327,6 +327,28 @@ private struct PhotoBackground: View {
     }
 }
 
+/// A saved or recent word: the word and its word language, the same shape the web app keeps.
+struct ShelfWord: Codable, Hashable {
+    let w: String
+    let l: String
+}
+
+/// Saved and recent words in UserDefaults, newest first. ponytail: no sync; add iCloud when someone asks.
+enum Shelf {
+    static let savedKey = "wordroot.saved", recentKey = "wordroot.recent"
+    static func load(_ key: String) -> [ShelfWord] {
+        guard let data = UserDefaults.standard.data(forKey: key) else { return [] }
+        return (try? JSONDecoder().decode([ShelfWord].self, from: data)) ?? []
+    }
+    static func store(_ list: [ShelfWord], _ key: String) {
+        UserDefaults.standard.set(try? JSONEncoder().encode(list), forKey: key)
+    }
+    /// `word` first, its older copy dropped, at most `max` kept.
+    static func adding(_ word: ShelfWord, to list: [ShelfWord], max: Int) -> [ShelfWord] {
+        Array(([word] + list.filter { $0 != word }).prefix(max))
+    }
+}
+
 struct ContentView: View {
     @EnvironmentObject private var settings: Settings
     @State private var query = ""
@@ -335,6 +357,62 @@ struct ContentView: View {
     @State private var failed = false
     @State private var showingSettings = false
     @State private var searchTask: Task<Void, Never>?
+    @State private var saved = Shelf.load(Shelf.savedKey)
+    @State private var recent = Shelf.load(Shelf.recentKey)
+
+    private func isSaved(_ word: String) -> Bool { saved.contains(ShelfWord(w: word, l: settings.wordLanguage)) }
+
+    private func toggleSaved(_ word: String) {
+        let item = ShelfWord(w: word, l: settings.wordLanguage)
+        saved = isSaved(word) ? saved.filter { $0 != item } : Shelf.adding(item, to: saved, max: 200)
+        Shelf.store(saved, Shelf.savedKey)
+    }
+
+    private func remember(_ word: String) {
+        guard !word.isEmpty else { return }
+        recent = Shelf.adding(ShelfWord(w: word, l: settings.wordLanguage), to: recent, max: 8)
+        Shelf.store(recent, Shelf.recentKey)
+    }
+
+    /// Saved or recent words for the current word language, as one inset grouped section.
+    @ViewBuilder private func shelfSection(_ key: String, _ list: [ShelfWord]) -> some View {
+        let words = list.filter { $0.l == settings.wordLanguage }
+        if !words.isEmpty {
+            Section {
+                ForEach(words, id: \.self) { item in
+                    Button {
+                        query = item.w
+                        remember(item.w)
+                    } label: {
+                        Text(verbatim: item.w)
+                    }
+                    .tint(.primary)
+                }
+            } header: {
+                Text(settings.t(key)).font(.root(.subheadline, .semibold)).foregroundStyle(.white)
+            }
+        }
+    }
+
+    /// The line above an entry, with the save toggle at its end.
+    /// The word itself, large, is the title; there is no app name on screen.
+    private func entryHeader(_ title: String, _ word: String) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(title).font(.root(.subheadline, .semibold)).textCase(nil)
+            HStack(alignment: .firstTextBaseline) {
+                Text(verbatim: word).font(.root(.largeTitle, .bold)).textCase(nil)
+                Spacer()
+                Button {
+                    toggleSaved(word)
+                } label: {
+                    Image(systemName: isSaved(word) ? "bookmark.fill" : "bookmark").font(.title2)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(settings.t(isSaved(word) ? "ui.unsave" : "ui.save"))
+            }
+        }
+        .foregroundStyle(.white)
+    }
 
     /// The Wiktionary edition whose definitions would be in the reader's own language.
     private var readerEdition: String {
@@ -362,13 +440,17 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             List {
+                if query.isEmpty {
+                    shelfSection("ui.saved", saved)
+                    shelfSection("ui.recent", recent)
+                }
                 if loading {
                     HStack { Spacer(); ProgressView(); Spacer() }
                 } else if let entry {
                     if query.isEmpty {
-                        Section {} header: { Text(settings.t("ui.wotdWord", ["word": entry.word])).font(.root(.subheadline, .semibold)).foregroundStyle(.white) }
+                        Section {} header: { entryHeader(settings.t("ui.wotdWord", ["word": entry.word]), entry.word) }
                     } else {
-                        Section {} header: { Text(settings.t("ui.resultsFor", ["word": entry.word])).font(.root(.subheadline, .semibold)).foregroundStyle(.white) }
+                        Section {} header: { entryHeader(settings.t("ui.resultsFor", ["word": entry.word]), entry.word) }
                     }
                     entrySections(entry)
                 } else if failed {
@@ -386,10 +468,24 @@ struct ContentView: View {
             .toolbarColorScheme(.dark, for: .navigationBar)
             .toolbarBackground(.hidden, for: .navigationBar)
 #endif
+#if os(iOS)
+            // Pinned at the top like the web app; on iOS 26 the default placement folds it away.
+            .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always), prompt: Text(settings.t("ui.searchPlaceholder")))
+            .navigationBarTitleDisplayMode(.inline)
+#else
             .searchable(text: $query, prompt: Text(settings.t("ui.searchPlaceholder")))
-            .navigationTitle(entry?.word.capitalized ?? "")   // no app name on screen: people know which app they opened
+#endif
+            .navigationTitle("")   // no app name on screen: people know which app they opened
             // Controls live in the bottom bar on the phone, never in the top corner (Joshua 2026-10-28).
+            .onSubmit(of: .search) { remember(query.trimmingCharacters(in: .whitespaces).lowercased()) }
             .toolbar {
+                ToolbarItem(placement: Self.controlsPlacement) {
+                    Button {
+                        query = ""
+                    } label: {
+                        Label(settings.t("ui.saved"), systemImage: "bookmark")
+                    }
+                }
                 ToolbarItem(placement: Self.controlsPlacement) {
                     Button {
                         showingSettings = true
