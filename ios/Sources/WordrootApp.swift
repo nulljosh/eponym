@@ -8,6 +8,8 @@ struct WordrootApp: App {
 
     init() {
         RootSans.register()
+        // Room for every page looked up, which is what lets them open offline (Wiktionary.load).
+        URLCache.shared = URLCache(memoryCapacity: 8 << 20, diskCapacity: 200 << 20, directory: nil)
 #if os(macOS)
         NSApplication.shared.servicesProvider = LookUpService.shared
 #endif
@@ -171,6 +173,20 @@ enum Wiktionary {
     static let rels = ["inh": "rel.inherited", "der": "rel.derived", "bor": "rel.borrowed"]
 
     // Wikimedia's UA policy allows throttling or 403ing generic agents.
+    /// The network first; with no connection, whatever the cache kept from an earlier lookup,
+    /// so every word you have looked up opens offline.
+    static func load(_ url: URL) async throws -> (Data, URLResponse) {
+        do {
+            return try await URLSession.shared.data(for: request(url))
+        } catch let error as URLError where offline.contains(error.code) {
+            var cached = request(url)
+            cached.cachePolicy = .returnCacheDataDontLoad
+            return try await URLSession.shared.data(for: cached)
+        }
+    }
+    private static let offline: Set<URLError.Code> = [.notConnectedToInternet, .networkConnectionLost, .timedOut,
+                                                       .cannotFindHost, .cannotConnectToHost, .dataNotAllowed]
+
     static func request(_ url: URL) -> URLRequest {
         var r = URLRequest(url: url)
         r.setValue("wordroot/1.0 (trommatic@icloud.com)", forHTTPHeaderField: "User-Agent")
@@ -194,7 +210,7 @@ enum Wiktionary {
         let data: Data
         let resp: URLResponse
         do {
-            (data, resp) = try await URLSession.shared.data(for: request(url))
+            (data, resp) = try await load(url)
         } catch {
             return nil
         }
@@ -228,7 +244,7 @@ enum Wiktionary {
             .init(name: "action", value: "parse"), .init(name: "page", value: word),
             .init(name: "prop", value: "wikitext"), .init(name: "format", value: "json"),
         ]
-        let (data, _) = try await URLSession.shared.data(for: request(comps.url!))
+        let (data, _) = try await load(comps.url!)
         guard let root = try JSONSerialization.jsonObject(with: data) as? [String: Any],
               let parse = root["parse"] as? [String: Any],
               let wikitext = (parse["wikitext"] as? [String: Any])?["*"] as? String else { return "" }

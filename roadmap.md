@@ -199,7 +199,8 @@ build-time artifact. Revisit storage when a rate limit or a latency measurement 
   Derivative Fountain Source Spring Seedling Sprout Nucleus Primus Alpha Omega Incipit Proem Prologue Preface Overture Prelude Dawn Aurora Inception
   Lexis Logophile Linguist Glossary Thesaurus Dictionary Morphology Semantics Syntax Grammar Rhetoric Eloquence Cognition Legend Fable Myth Tale Clan Tribe Dynasty
   Verity Candor Lucid Clarity Gist Essence Crux Core Pith Marrow Nub Quintessence Substance Meaning Sense Notion Concept Idea Term
-  Rooted Logic Verbal Mnemo Memento Muse Oracle Sibyl Augur Herald Envoy Courier Emissary Scholar Savant Sage Pundit Erudite Maven Polymath Codex Scroll Parchment Papyrus.
+  Rooted Logic Verbal Mnemo Memento Muse Oracle Sibyl Augur Herald Envoy Courier Emissary Scholar Savant Sage Pundit Erudite Maven Polymath Codex Scroll Parchment Papyrus
+  Philter Tincture Elixir Distill Ferment Leaven Yeast Brine Tannin Resin Sap Bark Xylem Phloem Cambium Burl Knot Ring Bole Trunk Limb Bough Twig Frond.
 
 ## Gap matrix vs the best dictionary apps (2026-10-28, /mobbin)
 From the App Store screens of Etymonline, EtymologyExplorer, Merriam-Webster, Oxford, American Heritage, Terminology, WordWeb, Collins, Chambers and Wiktionary Reader. Daily use first, polish before novelty, on-device over cloud. One row is one minor version, shipped on iOS, Mac and web together. 1.1.0 stays reserved for the watch app.
@@ -215,6 +216,6 @@ From the App Store screens of Etymonline, EtymologyExplorer, Merriam-Webster, Ox
 | 1.8 | Word of the day, with a Home Screen widget (small and medium, iPhone and Mac, opens the word via wordroot://word/) | Merriam-Webster, Oxford, EtymologyExplorer, Etymonline trending | M | [x] 2026-10-28 |
 | 1.9 | Look up from other apps: App Intent for Shortcuts, Siri and Spotlight; Services menu on the Mac; ?q= links and OpenSearch on the web. An iOS Action extension for selected text is still to do | Terminology | M | [x] 2026-10-28 |
 | 1.10 | Prefixes and suffixes index (-logy, bio-, anti-): 93 curated English affixes at the foot of the home screen | Etymonline | M | [x] 2026-10-28 |
-| 1.11 | Offline: every word you looked up opens without a connection | Oxford, Merriam-Webster, Terminology | M | [ ] |
+| 1.11 | Offline: every word you looked up opens without a connection (web: service worker word cache, newest 600; Apple: 200 MB URLCache with a cache-only retry) | Oxford, Merriam-Webster, Terminology | M | [x] 2026-10-28 |
 
 Skipped on purpose: quizzes and word games, paywalled extra dictionaries, AI chat, ads.
