@@ -44,3 +44,9 @@ Freemium: $3/mo or $30 lifetime. Paid = offline, trees, collections.
 
 ## Reality check
 Niche, low revenue ceiling, portfolio piece.
+
+## UI rules (Joshua 2026-10-28)
+No logo or app title on the main screen. Every control lives in the bottom bar (web: Search, Saved, Random, Settings; iPhone: Saved, Random, Settings with search pinned on top), never a top corner. Brand, links and both language pickers live in Settings > About. Font is Root Sans (`scripts/gen_font.py`, Inter renamed).
+
+## Releasing
+One `MARKETING_VERSION` and one `CURRENT_PROJECT_VERSION` in `ios/project.yml` cover iPhone, Mac, watch and widget; no `[sdk=macosx*]` overrides. The generated `Info.plist` files read both build settings, never literals. Store screenshots: simulator launch flags `-UITEST_WORD <word>` and `-UITEST_SCROLL origin|affixes`; strip alpha before upload (`magick f.png -alpha off f.png`) and use `ASC_TIMEOUT=300s`.

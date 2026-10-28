@@ -1,0 +1,11 @@
+Wordroot 2.0 shows where every word comes from as a tree. Start at today's word and follow it back through Latin and Greek to Proto-Indo-European. Tap any ancestor to open it.
+
+Under the tree you get words that share the same root. Heart brings courage, credit and cardiology.
+
+Hear each word and see how it is said. Save words, find the ones you looked up, or roll a random one. Suggestions show up while you type, and a prefix and suffix index sits at the bottom of the home screen.
+
+Put the word of the day on your Home Screen. Look up any word from Shortcuts, Siri or Spotlight, and on the Mac from the Services menu.
+
+Words you looked up open without a connection.
+
+A new typeface, a bolder icon, and every control now sits at the bottom, where your thumb is.
