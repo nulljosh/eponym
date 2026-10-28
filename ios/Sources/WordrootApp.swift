@@ -229,6 +229,26 @@ enum Wiktionary {
         return wikitext
     }
 
+    /// Up to six completions for a prefix: single words that extend it, lowercase, no repeats. Same rule as the web.
+    static func suggest(from titles: [String], query: String) -> [String] {
+        var seen = Set<String>()
+        return Array(titles.map { $0.lowercased() }
+            .filter { $0.hasPrefix(query) && $0 != query && !$0.contains(" ") && seen.insert($0).inserted }
+            .prefix(6))
+    }
+
+    static func suggestions(_ query: String) async -> [String] {
+        var comps = URLComponents(string: "\(host)/w/api.php")!
+        comps.queryItems = [
+            .init(name: "action", value: "opensearch"), .init(name: "search", value: query),
+            .init(name: "limit", value: "20"), .init(name: "namespace", value: "0"), .init(name: "format", value: "json"),
+        ]
+        guard let (data, _) = try? await URLSession.shared.data(for: request(comps.url!)),
+              let root = try? JSONSerialization.jsonObject(with: data) as? [Any],
+              root.count > 1, let titles = root[1] as? [String] else { return [] }
+        return suggest(from: titles, query: query)
+    }
+
     /// The first IPA transcription in the language section, like "/wɜːd/", or nil. Same rule as the web.
     static func ipa(fromWikitext wikitext: String, section name: String) -> String? {
         guard let body = languageSection(wikitext, named: name),
@@ -387,6 +407,8 @@ struct ContentView: View {
     @State private var failed = false
     @State private var showingSettings = false
     @State private var searchTask: Task<Void, Never>?
+    @State private var completions: [String] = []
+    @State private var completionTask: Task<Void, Never>?
     @State private var saved = Shelf.load(Shelf.savedKey)
     @State private var recent = Shelf.load(Shelf.recentKey)
 
@@ -539,7 +561,21 @@ struct ContentView: View {
                     .environment(\.layoutDirection, settings.isRightToLeft ? .rightToLeft : .leftToRight)
             }
             .onChange(of: query) { _, q in
-                search(q.trimmingCharacters(in: .whitespaces).lowercased())
+                let word = q.trimmingCharacters(in: .whitespaces).lowercased()
+                search(word)
+                completionTask?.cancel()
+                guard word.count >= 2 else { completions = []; return }
+                completionTask = Task {
+                    try? await Task.sleep(for: .milliseconds(150))
+                    guard !Task.isCancelled else { return }
+                    let found = await Wiktionary.suggestions(word)
+                    if !Task.isCancelled { completions = found }
+                }
+            }
+            .searchSuggestions {
+                ForEach(completions, id: \.self) { word in
+                    Text(verbatim: word).searchCompletion(word)
+                }
             }
             // Switching either language invalidates what is on screen: a word only exists in
             // one language, and the chain's labels are rendered in the interface language.

@@ -331,6 +331,12 @@ test('the pronunciation is the first IPA transcription, skipping named params', 
   assert.equal(ctx.ipaFrom(null), null);
 });
 
+test('suggestions are single words that extend what was typed, lowercase and unique', () => {
+  const ctx = runPage({});
+  const got = ctx.suggestFrom('etym', ['etym', 'etymology', 'Etymology', 'etymon', 'etymology of words', 'stem', 'etymologia', 'etymologie', 'etymological', 'etymologist']);
+  same(got, ['etymology', 'etymon', 'etymologia', 'etymologie', 'etymological', 'etymologist']);
+});
+
 test('every hero wall entry has a meaning in every shipped locale', () => {
   for (const { code } of landing().locales) {
     for (const entry of landing({ lang: code }).wall) {

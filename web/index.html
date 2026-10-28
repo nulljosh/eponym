@@ -121,6 +121,8 @@
   .shelf-row { display: block; width: 100%; padding: var(--s3) var(--s4); border: 0; background: none; font: inherit; color: var(--text); text-align: start; cursor: pointer; position: relative; }
   .shelf-row + .shelf-row::before { content: ''; position: absolute; top: 0; inset-inline: var(--s4) 0; height: 1px; background: var(--border); }
   #wotd > .label { margin-top: var(--s5); }
+  .suggest { margin: var(--s2) 0 0; }
+  .suggest[hidden] { display: none; }
   /* home labels sit straight on the photo, so they carry their own contrast */
   #wotd .label { color: var(--text); opacity: .72; text-shadow: 0 0 6px color-mix(in srgb, var(--bg) 70%, transparent); }
 
@@ -170,6 +172,7 @@
 <div class="search">
     <input type="search" id="q" autofocus autocapitalize="none">
 </div>
+<div id="suggest" class="shelf suggest" hidden></div>
 <div id="wotd"></div>
 <div id="out"></div>
 <nav class="tabbar" aria-label="Wordroot">
@@ -542,17 +545,57 @@ function renderChrome() {
     `<a href="https://en.wiktionary.org">${esc(t('ui.attribution'))}</a>`;
 }
 
-let debounce = null;
+/** Up to six completions for what the reader is typing: single words that start with it, lowercase, no repeats. */
+function suggestFrom(query, titles) {
+  const seen = new Set();
+  return titles.map(x => String(x).toLowerCase())
+    .filter(x => x.startsWith(query) && x !== query && !x.includes(' ') && !seen.has(x) && seen.add(x))
+    .slice(0, 6);
+}
+async function suggestions(query) {
+  try {
+    const r = await fetch(`${WIKI}/w/api.php?action=opensearch&search=${encodeURIComponent(query)}&limit=20&namespace=0&format=json&origin=*`);
+    return r.ok ? suggestFrom(query, (await r.json())[1] || []) : [];
+  } catch { return []; }
+}
+function showSuggest(list) {
+  const el = $('suggest');
+  if (!el) return;
+  el.innerHTML = list.map(w => `<button type="button" class="shelf-row" data-word="${esc(w)}" dir="auto">${esc(w)}</button>`).join('');
+  el.hidden = !list.length;
+}
+
+let debounce = null, suggestTimer = null;
 $('q').addEventListener('input', e => {
   const word = e.target.value.trim().toLowerCase();
   clearTimeout(debounce);
+  clearTimeout(suggestTimer);
+  if (word.length < 2) showSuggest([]);
+  else suggestTimer = setTimeout(async () => {
+    const list = await suggestions(word);
+    if ($('q').value.trim().toLowerCase() === word) showSuggest(list);   // the reader may have typed on
+  }, 150);
   if (!word) { $('out').innerHTML = ''; renderWordOfTheDay(); $('wotd').style.display = 'block'; return; }
   $('wotd').style.display = 'none';
   debounce = setTimeout(() => lookup(word, $('out')), 350);
 });
+// pointerdown, not click: it lands before the field's blur hides the list.
+if ($('suggest')) $('suggest').addEventListener('pointerdown', e => {
+  const r = e.target.closest('.shelf-row');
+  if (!r) return;
+  e.preventDefault();
+  const word = r.dataset.word;
+  $('q').value = word;
+  showSuggest([]);
+  clearTimeout(debounce);
+  $('wotd').style.display = 'none';
+  remember(RECENT_KEY, word, RECENT_MAX);
+  lookup(word, $('out'));
+});
 
 // A search counts as recent once the reader commits to it (Enter or leaving the field) and it found something.
 $('q').addEventListener('change', e => {
+  showSuggest([]);
   const word = e.target.value.trim().toLowerCase();
   if (word && $('out').querySelector('.card')) remember(RECENT_KEY, word, RECENT_MAX);
 });

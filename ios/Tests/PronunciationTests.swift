@@ -18,3 +18,12 @@ final class PronunciationTests: XCTestCase {
         XCTAssertNil(Wiktionary.ipa(fromWikitext: wikitext, section: "German"))
     }
 }
+
+// Suggestions while typing: same filter as the web app.
+final class SuggestionTests: XCTestCase {
+    func testSingleWordsThatExtendThePrefix() {
+        let titles = ["etym", "etymology", "Etymology", "etymon", "etymology of words", "stem", "etymologia", "etymologie", "etymological", "etymologist"]
+        XCTAssertEqual(Wiktionary.suggest(from: titles, query: "etym"),
+                       ["etymology", "etymon", "etymologia", "etymologie", "etymological", "etymologist"])
+    }
+}
