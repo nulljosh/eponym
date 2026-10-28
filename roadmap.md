@@ -126,11 +126,6 @@ synthetic input**, so the standing no-UI-scripting preference is respected:
 *namo -> *h,nomn), the app's actual differentiator. No search input was needed. If a future capture
 lands on "mother", just compute the index and shoot on a day that does not.
 
-- [x] Ship the watch app (went out inside the 2.0.0 iPhone build, 2026-10-28)
-- [x] More Mac screenshots (three new ones in screenshots/appstore/mac, upload with 2.0.1). Needs the search path driven, so
-      it is the one thing here still wanting a non-synthetic input route.
-      **Not a submit blocker**, confirmed 2026-08-24: the single 1280x800 shot was enough,
-      macOS 1.0 submitted fine. This is a post-approval listing improvement.
 
 ## Done 2026-08-28, infrastructure finalized
 - Added official App Store badge to the landing page (hero + CTA, linking to apps.apple.com/us/app/wordroot/id6794988021)
@@ -171,20 +166,14 @@ build-time artifact. Revisit storage when a rate limit or a latency measurement 
 - `wordroot-tui` SwiftPM target (SwiftTUI). `swift build && ./.build/debug/wordroot-tui etymology` fetches the live `/api/word/:word` and renders definitions + etymology chain as a terminal card. Needs a real TTY.
 
 ## Ingested 2026-10-01
-- [x] Refresh App Store screenshots.
-- [x] Wordroot QA: full pass on Mac, web, iPhone and watch 2026-10-28 (Mac redesign, solid web cards, chips, watch rail)
 
 ## Ingested 2026-10-05
-- [x] QA (same pass, 2026-10-28)
 
 ## Ingested 2026-10-16
-- [x] Stale App Store screenshots (blank icon in listing). (screenshot: notes/attachments/2026-10-16/app-store-screenshots-4.png)
 
 ## Open 2026-10-16
-- [x] Fix the eight failing web-app tests in scripts/test-web.mjs (2026-10-28: the stub DOMParser had no querySelectorAll). They were failing before the 2026-10-16 landing change and that change did not touch them.
 
 ## Ingested 2026-10-25
-- [x] Needs a better name. Renamed Eponym 2026-10-28 (Joshua: "you can do it"). The store listing still says Wordroot until the version after 2.0.0; put the name Eponym on that version's app info first thing.
 - [ ] Store name: set Eponym on the next editable app info, probe it there first (it was free 2026-10-28)
   Name hunt 2026-10-28: one real single word only, never two words glued together. Probed on the 1.0.6 draft
   (Wordroot's own record while a draft is editable, else ASC_PROBE_APP=6825014407 Oohaah, all REJECTED), about 360 tried. Joshua said no to Forebear, Varro, Rootward (compound).
@@ -208,9 +197,6 @@ build-time artifact. Revisit storage when a rate limit or a latency measurement 
 
 ## 2.0.0 submitted 2026-10-28
 iOS (with the watch app and widget inside) and Mac 2.0.0, build 202610281345, both WAITING_FOR_REVIEW, release on approval. New screenshots for iPhone 6.9 and 6.5, iPad 13 and 12.9, Apple Watch; the Mac listing still shows the 1.0.2 shot (fresh Mac shots are a follow-up). Name stays Wordroot.
-- [x] Fresh Mac App Store screenshots (screenshots/appstore/mac, upload with 2.0.1)
-- [x] iOS Action extension: look up text selected in any app (ios/Action, ships in 2.0.1)
-- [x] Watch word of the day uses its own list; move it to Catalog.wordsOfTheDay so phone, watch and widget agree
 
 ## Gap matrix vs the best dictionary apps (2026-10-28, /mobbin)
 From the App Store screens of Etymonline, EtymologyExplorer, Merriam-Webster, Oxford, American Heritage, Terminology, WordWeb, Collins, Chambers and Wiktionary Reader. Daily use first, polish before novelty, on-device over cloud. One row is one minor version, shipped on iOS, Mac and web together. 1.1.0 stays reserved for the watch app.
