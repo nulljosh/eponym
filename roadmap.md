@@ -185,6 +185,13 @@ build-time artifact. Revisit storage when a rate limit or a latency measurement 
 
 ## Ingested 2026-10-25
 - [ ] Needs a better name. (Probe Apple first, one name everywhere.)
+  Name hunt 2026-10-28: one real single word only, never two words glued together. Probed on the 1.0.6 draft
+  (`scratchpad/probe-wordroot.sh`), about 130 tried. Joshua said no to Forebear, Varro, Rootward (compound).
+  Free but not picked: Isidore, Progenitor, Begetter, Stirps, Proles, Onomast, Rhizoid, Etymic, Juuri, Skeat.
+  Taken (skip): Rhizome Etymon Taproot Cognate Radix Stemma Lexeme Etyma Provenance Banyan Acorn Racine Raiz
+  Verba Lingua Lexis Origo Genus Lexicon Glossa Kernel Rhiza Arche Onoma Sema Radicle Fons Loam Linden Aspen
+  Cedar Mycelium Babel Rosetta Grimm Proto Runic Ogham Rune Argot Quill Vellum Saga Idiom Lingo Scribe Cadmus
+  Ogma Nabu Thoth Seshat Carmenta Bragi Calliope Gloss Rubric Genesis Origin Seed Stem Sprig Germ Fount.
 
 ## Gap matrix vs the best dictionary apps (2026-10-28, /mobbin)
 From the App Store screens of Etymonline, EtymologyExplorer, Merriam-Webster, Oxford, American Heritage, Terminology, WordWeb, Collins, Chambers and Wiktionary Reader. Daily use first, polish before novelty, on-device over cloud. One row is one minor version, shipped on iOS, Mac and web together. 1.1.0 stays reserved for the watch app.
