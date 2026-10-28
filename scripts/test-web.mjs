@@ -351,6 +351,14 @@ test('relatives come from the named root, else the oldest ancestor, as single ne
   same(ctx.relativesFrom('water', ['water', 'wet', 'Otter', 'otter', 'rectus abdominis muscle', 'hydra']), ['wet', 'otter', 'hydra']);
 });
 
+test('a random word comes from the shipped list and is never the word on screen', () => {
+  const ctx = runPage({});
+  for (let i = 0; i < 50; i++) {
+    const w = ctx.randomWord('heart');
+    assert.ok(ctx.i18n.wordsOfTheDay.en.includes(w) && w !== 'heart');
+  }
+});
+
 test('every hero wall entry has a meaning in every shipped locale', () => {
   for (const { code } of landing().locales) {
     for (const entry of landing({ lang: code }).wall) {

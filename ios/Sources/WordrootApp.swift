@@ -647,6 +647,16 @@ struct ContentView: View {
                 }
                 ToolbarItem(placement: Self.controlsPlacement) {
                     Button {
+                        let current = query.trimmingCharacters(in: .whitespaces).lowercased()
+                        if let word = Catalog.wordsOfTheDay[settings.wordLanguage]?.filter({ $0 != current }).randomElement() {
+                            query = word
+                        }
+                    } label: {
+                        Label(settings.t("ui.random"), systemImage: "die.face.5")
+                    }
+                }
+                ToolbarItem(placement: Self.controlsPlacement) {
+                    Button {
                         showingSettings = true
                     } label: {
                         Label(settings.t("ui.settings"), systemImage: "gearshape")

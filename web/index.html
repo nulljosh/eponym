@@ -191,6 +191,7 @@
 <nav class="tabbar" aria-label="Wordroot">
   <button type="button" class="tab on" id="tabSearch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 20 20"/></svg><span id="tabSearchLabel"></span></button>
   <button type="button" class="tab" id="tabSaved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 3.5h11v17l-5.5-4-5.5 4z"/></svg><span id="tabSavedLabel"></span></button>
+  <button type="button" class="tab" id="tabRandom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="9" cy="9" r="1.2" fill="currentColor"/><circle cx="15" cy="15" r="1.2" fill="currentColor"/><circle cx="15" cy="9" r="1.2" fill="currentColor"/><circle cx="9" cy="15" r="1.2" fill="currentColor"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></svg><span id="tabRandomLabel"></span></button>
   <button type="button" class="tab" id="tabSettings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg><span id="tabSettingsLabel"></span></button>
 </nav>
 <dialog class="sheet" id="settings" aria-labelledby="settingsTitle">
@@ -586,7 +587,7 @@ function renderChrome() {
   uiPicker.title = t('ui.interfaceLanguage');
   $('uiPicker').appendChild(uiPicker);
   $('wordPicker').appendChild(wordLangPicker());
-  for (const [id, key] of [['tabSearchLabel', 'ui.tabSearch'], ['tabSavedLabel', 'ui.saved'], ['tabSettingsLabel', 'ui.settings'], ['settingsTitle', 'ui.settings'],
+  for (const [id, key] of [['tabSearchLabel', 'ui.tabSearch'], ['tabSavedLabel', 'ui.saved'], ['tabRandomLabel', 'ui.random'], ['tabSettingsLabel', 'ui.settings'], ['settingsTitle', 'ui.settings'],
     ['settingsDone', 'ui.done'], ['langLabel', 'ui.language'], ['wordLangLabel', 'ui.wordLanguage'], ['uiLangLabel', 'ui.interfaceLanguage'], ['aboutLabel', 'ui.about']])
     if ($(id)) $(id).textContent = t(key);
   if ($('footLinks')) $('footLinks').innerHTML =
@@ -681,6 +682,21 @@ if ($('tabSaved')) $('tabSaved').addEventListener('click', () => {
 });
 $('q').addEventListener('focus', () => setTab('tabSearch'));
 if ($('tabSettings')) $('tabSettings').addEventListener('click', () => $('settings').showModal());
+/** Any word from the language's shipped list but the one on screen, or null when there is no list. */
+function randomWord(current) {
+  const pool = (i18n.wordsOfTheDay[wordLang] || []).filter(w => w !== current);
+  return pool.length ? pool[Math.floor(Math.random() * pool.length)] : null;
+}
+if ($('tabRandom')) $('tabRandom').addEventListener('click', () => {
+  const word = randomWord($('q').value.trim().toLowerCase());
+  if (!word) return;
+  setTab('tabSearch');
+  $('q').value = word;
+  showSuggest([]);
+  $('wotd').style.display = 'none';
+  scrollTo({ top: 0, behavior: 'smooth' });
+  lookup(word, $('out'));
+});
 
 $('wotd').addEventListener('click', e => {
   const r = e.target.closest('.shelf-row');
@@ -705,18 +721,7 @@ if (wordLang === 'en' && !isEmbed()) {
 // Idle demo: after IDLE_MS of nobody touching the page, type through DEMO_WORDS one at a time.
 // Any touch, key, click or scroll ends it and the page is theirs; the demo comes back if
 // they walk away again. ponytail: plain timers, no library; reduced-motion visitors never see it.
-const DEMO_WORDS = ('admiral alchemy alcohol algebra amber arsenal assassin atlas aurora avocado ballad banana bank bonfire boycott ' +
-  'breeze bungalow candidate cereal chocolate chorus cipher clue coffee comet companion coral curfew daffodil ' +
-  'denim desert disaster eclipse elixir ghost galaxy glacier ginger harvest gossip horizon island husband ivory ' +
-  'jeans jungle kindergarten lemon lunatic marathon lyric mentor meadow muscle mirage muse narcissism nausea ' +
-  'nightmare nostalgia ketchup orange lightning pajamas magazine pants melody peninsula mortgage planet nadir ' +
-  'rhapsody robot orient salad panic sapphire pedigree silly pioneer sonnet quarantine symphony rival thunder ' +
-  'safari oasis trivial sandwich vaccine shampoo orchard whisky sugar pearl tea cactus tragedy tundra compass ' +
-  'volcano zenith dragon fountain bridge iceberg cathedral lantern diamond mountain feather orchid hurricane ' +
-  'kangaroo rainbow snowflake lobster telescope rhythm octopus tulip sabotage pyramid salary sarcasm skeleton ' +
-  'sincere sunflower violin spirit zebra chandelier tornado giraffe umbrella windmill carousel tomato elephant ' +
-  'tsunami jaguar vodka magnet window quartz igloo anchor trumpet ladder castle yacht parachute barn crystal ' +
-  'canyon saddle falcon clock walrus harbor cranberry anvil jellyfish eagle lighthouse bonsai forest').split(' ').filter((w, i, a) => a.indexOf(w) === i);
+const DEMO_WORDS = i18n.wordsOfTheDay.en || [];   // the catalog's English list doubles as the demo's
 const IDLE_MS = 10000, TYPE_MS = 110, HOLD_MS = 5500;
 const calm = typeof matchMedia !== 'function' || matchMedia('(prefers-reduced-motion: reduce)').matches;
 const sleep = ms => new Promise(r => setTimeout(r, ms));
