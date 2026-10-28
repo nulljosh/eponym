@@ -206,7 +206,11 @@ enum Wiktionary {
     static func stripTags(_ s: String) -> String {
         let noStyleScript = s.replacingOccurrences(
             of: "(?s)<(style|script|ol|ul)\\b[^>]*>.*?</\\1>", with: "", options: [.regularExpression, .caseInsensitive])  // nested sub-senses also come as their own senses
+        // Removed tags leave doubled spaces and a space before punctuation ("A sailor .").
         return noStyleScript.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression)
+            .replacingOccurrences(of: "\\s+", with: " ", options: .regularExpression)
+            .replacingOccurrences(of: " ([.,;:!?)])", with: "$1", options: .regularExpression)
+            .trimmingCharacters(in: .whitespaces)
     }
 
     /// Definitions are prose, so the edition decides what language the reader gets — but only
@@ -587,9 +591,9 @@ struct ContentView: View {
 
     /// The line above an entry, with the save toggle at its end.
     /// The word itself, large, is the title; there is no app name on screen.
-    private func entryHeader(_ title: String, _ word: String, ipa: String?) -> some View {
+    private func entryHeader(_ title: String?, _ word: String, ipa: String?) -> some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text(title).font(.root(.subheadline, .semibold)).textCase(nil)
+            if let title { Text(title).font(.root(.subheadline, .semibold)).textCase(nil) }
             HStack(alignment: .firstTextBaseline, spacing: 16) {
                 Text(verbatim: word).font(.root(.largeTitle, .bold)).textCase(nil)
                 Spacer()
@@ -679,6 +683,8 @@ struct ContentView: View {
             .task {
                 // Screenshots only: `-UITEST_WORD nostalgia` opens on that word instead of the word of the day.
                 if let w = UserDefaults.standard.string(forKey: "UITEST_WORD") { query = w } else if query.isEmpty, let w = wordOfTheDay { search(w) }
+                // Screenshots only: `-UITEST_SETTINGS YES` opens Settings on launch.
+                if UserDefaults.standard.bool(forKey: "UITEST_SETTINGS") { showingSettings = true }
             }
             // Shortcuts, Siri, Spotlight, the share sheet and the Mac Services menu hand words over through the inbox.
             .onReceive(Inbox.shared.$word.compactMap { $0 }) { word in
@@ -706,11 +712,8 @@ struct ContentView: View {
                 if loading {
                     HStack { Spacer(); ProgressView(); Spacer() }
                 } else if let entry {
-                    if query.isEmpty {
-                        Section {} header: { entryHeader(settings.t("ui.wotdWord", ["word": entry.word]), entry.word, ipa: entry.ipa) }
-                    } else {
-                        Section {} header: { entryHeader(settings.t("ui.resultsFor", ["word": entry.word]), entry.word, ipa: entry.ipa) }
-                    }
+                    // Only today's word gets a label over it; a result is just the word.
+                    Section {} header: { entryHeader(query.isEmpty ? settings.t("ui.wotd") : nil, entry.word, ipa: entry.ipa) }
                     entrySections(entry)
                 } else if failed {
                     // Reachable on launch with an empty query, so it cannot be gated on `query`.
@@ -833,7 +836,12 @@ struct ContentView: View {
             ForEach(definitions.groups) { group in
                 Section {
                     ForEach(group.items) { def in
-                        Text("\(def.n). \(def.text)")
+                        // A hanging indent: wrapped lines line up with the text, not the number.
+                        HStack(alignment: .firstTextBaseline, spacing: 8) {
+                            Text(verbatim: "\(def.n).").monospacedDigit().foregroundStyle(.secondary)
+                                .frame(minWidth: 18, alignment: .leading)
+                            Text(verbatim: def.text)
+                        }
                     }
                 } header: {
                     Text(group.pos).font(.root(.subheadline, .semibold)).foregroundStyle(.white)
@@ -980,9 +988,9 @@ struct LanguageSettingsView: View {
                         }
                     }
                     .padding(.vertical, 4)
-                    Link(settings.t("ui.about"), destination: URL(string: "https://wordroot.jaybulb.com/about/")!)
-                    Link(settings.t("ui.privacy"), destination: URL(string: "https://wordroot.jaybulb.com/privacy.html")!)
-                    Link(destination: URL(string: "https://github.com/nulljosh/wordroot")!) { Text(verbatim: "GitHub") }
+                    Link(settings.t("ui.about"), destination: URL(string: "https://eponym.jaybulb.com/about/")!)
+                    Link(settings.t("ui.privacy"), destination: URL(string: "https://eponym.jaybulb.com/privacy.html")!)
+                    Link(destination: URL(string: "https://github.com/nulljosh/eponym")!) { Text(verbatim: "GitHub") }
                 } header: {
                     Text(settings.t("ui.about"))
                 } footer: {
@@ -998,7 +1006,7 @@ struct LanguageSettingsView: View {
             }
         }
 #if os(macOS)
-        .frame(width: 460, height: 540)
+        .frame(width: 460, height: 480)
 #endif
     }
 }

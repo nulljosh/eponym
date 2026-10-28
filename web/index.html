@@ -224,7 +224,8 @@ const $ = id => document.getElementById(id);
 const strip = s => {
   const body = new DOMParser().parseFromString(s, 'text/html').body;
   body.querySelectorAll('style, script, ol, ul').forEach(el => el.remove());   // nested sub-senses also come as their own senses
-  return body.textContent;
+  // Removed tags leave doubled spaces and a space before punctuation ("A sailor .").
+  return body.textContent.replace(/\s+/g, ' ').replace(/ ([.,;:!?)])/g, '$1').trim();
 };
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const escRe = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -387,7 +388,7 @@ function render(el, word, defs, chain, ipa) {
   // dir="auto" throughout: the headword and its ancestors can be in any script — an Arabic
   // ancestor inside an English page, or a Latin one inside an Arabic page — and each element
   // has to pick up its own direction independently of the page's.
-  let html = `<div class="card"><div class="label">${esc(t('ui.resultsFor', { word }))}</div>` +
+  let html = '<div class="card">' +
     `<div class="card-head"><h2 dir="auto" lang="${esc(wordLang)}">${esc(word)}</h2>${speakButton(word)}${saveButton(word)}</div>` +
     (ipa ? `<div class="ipa">${esc(ipa)}</div>` : '');
   if (defs && defs.groups.length) {
@@ -603,7 +604,7 @@ function renderChrome() {
     `<a href="/about/">${esc(t('ui.about'))}</a>` +
     `<a href="/privacy.html">${esc(t('ui.privacy'))}</a>` +
     `<a href="https://apps.apple.com/app/id6794988021">App Store</a>` +
-    `<a href="https://github.com/nulljosh/wordroot">GitHub</a>`;
+    `<a href="https://github.com/nulljosh/eponym">GitHub</a>`;
   $('attr').innerHTML =
     `${esc(t('ui.alsoOnApple'))} ` +
     `<a href="https://en.wiktionary.org">${esc(t('ui.attribution'))}</a>`;

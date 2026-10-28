@@ -11,4 +11,4 @@ Built with a Python stdlib-only pipeline that parses Wiktionary's etymology temp
 
 Free on the web. The App Store version is $0.99 upfront. Feedback welcome, especially on words that come back with a thin or wrong chain.
 
-wordroot.jaybulb.com
+eponym.jaybulb.com

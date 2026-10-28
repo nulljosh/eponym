@@ -150,4 +150,8 @@ final class CatalogTests: XCTestCase {
             XCTAssertTrue(codes.contains(code), "\(code) has a word list but is not selectable")
         }
     }
+
+    func testStripTagsTidiesSpacing() {
+        XCTAssertEqual(Wiktionary.stripTags(" A <a href=\"x\">sailor</a> .  Old  <i>salt</i> ,"), "A sailor. Old salt,")
+    }
 }

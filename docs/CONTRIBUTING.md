@@ -3,7 +3,7 @@
 ## Setup
 
 ```
-git clone https://github.com/nulljosh/wordroot.git
+git clone https://github.com/nulljosh/eponym.git
 cd eponym
 open Package.swift   # or the .xcodeproj/.xcworkspace, if present
 ```

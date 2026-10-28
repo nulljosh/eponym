@@ -7,9 +7,9 @@ Description: A dictionary that shows where words come from. Clean definitions pl
 Category: Education / Reference / Dictionary
 
 Links
-Web: https://wordroot.jaybulb.com
+Web: https://eponym.jaybulb.com
 App Store: https://apps.apple.com/app/id6794988021
-GitHub: https://github.com/nulljosh/wordroot
+GitHub: https://github.com/nulljosh/eponym
 
 ## Where to list
 

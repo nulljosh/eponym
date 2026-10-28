@@ -23,7 +23,7 @@ guard let word = args.first else {
 
 func fetchWord(_ word: String) async -> WordResult? {
     guard let encoded = word.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed),
-          let url = URL(string: "https://wordroot.jaybulb.com/api/word/\(encoded)") else { return nil }
+          let url = URL(string: "https://eponym.jaybulb.com/api/word/\(encoded)") else { return nil }
     return try? await JSONDecoder().decode(WordResult.self, from: URLSession.shared.data(from: url).0)
 }
 
@@ -40,7 +40,7 @@ struct WordCard: View {
                 }
                 Text("from " + result.etymology.map { $0.ancestor }.joined(separator: " ← "))
             } else {
-                Text("Could not reach wordroot.jaybulb.com")
+                Text("Could not reach eponym.jaybulb.com")
             }
         }
         .padding()

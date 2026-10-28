@@ -36,7 +36,7 @@ data back to the caller (or the page), nothing is stored, mutated, or sent anywh
 
 ## HTTP API (Cloudflare Pages Functions)
 
-The server surface lives at `https://wordroot.jaybulb.com`. It reads
+The server surface lives at `https://eponym.jaybulb.com`. It reads
 Wiktionary live and both surfaces call the same `callTool()` in
 `src/lib/tools.js`, so REST and MCP cannot describe different behaviour.
 

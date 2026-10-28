@@ -11,9 +11,9 @@ Topics: Education, Writing, Productivity
 Pricing: $0.99 upfront on the App Store. Free on the web.
 
 Links
-Web: https://wordroot.jaybulb.com
+Web: https://eponym.jaybulb.com
 App Store: https://apps.apple.com/app/id6794988021
-GitHub: https://github.com/nulljosh/wordroot
+GitHub: https://github.com/nulljosh/eponym
 
 ## First comment
 

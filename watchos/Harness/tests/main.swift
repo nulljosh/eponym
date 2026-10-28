@@ -13,9 +13,9 @@ check(LookupClient.clean("café") == "café", "keeps accents")
 
 // URL building
 let client = LookupClient()
-check(client.url(for: "volcano")?.absoluteString == "https://wordroot.jaybulb.com/api/word/volcano", "plain url")
-check(client.url(for: "ice cream")?.absoluteString == "https://wordroot.jaybulb.com/api/word/ice%20cream", "space is escaped")
-check(client.url(for: "a/b")?.absoluteString == "https://wordroot.jaybulb.com/api/word/a%2Fb", "slash cannot change the route")
+check(client.url(for: "volcano")?.absoluteString == "https://eponym.jaybulb.com/api/word/volcano", "plain url")
+check(client.url(for: "ice cream")?.absoluteString == "https://eponym.jaybulb.com/api/word/ice%20cream", "space is escaped")
+check(client.url(for: "a/b")?.absoluteString == "https://eponym.jaybulb.com/api/word/a%2Fb", "slash cannot change the route")
 
 // language names
 check(LanguageNames.name(for: "la") == "Latin" && LanguageNames.name(for: "ine-pro") == "Proto-Indo-European", "etymology codes")

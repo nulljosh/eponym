@@ -9,4 +9,4 @@ SwiftUI multiplatform target via xcodegen, one codebase for iOS and Mac. The ety
 
 The web version is free. The App Store version is $0.99 upfront, no subscription. Would love feedback from anyone who's shipped a reference/dictionary-style app on how you handled offline data versus live lookups.
 
-wordroot.jaybulb.com · https://apps.apple.com/app/id6794988021
+eponym.jaybulb.com · https://apps.apple.com/app/id6794988021

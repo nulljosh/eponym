@@ -7,7 +7,7 @@ enum LookupError: Error, Equatable, Sendable {
 /// Looks a word up through the Eponym API, which reads Wiktionary. The watch has no keyboard worth
 /// the name, so a lookup is one word, dictated or scribbled, and one request.
 struct LookupClient: Sendable {
-    var base = URL(string: "https://wordroot.jaybulb.com")!
+    var base = URL(string: "https://eponym.jaybulb.com")!
     var session: URLSession = .shared
 
     /// The word as the API wants it: trimmed, lowercase, at most 100 characters, and none of the

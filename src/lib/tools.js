@@ -10,7 +10,7 @@
 import strings from '../../i18n/strings.json' with { type: 'json' };
 
 const WIKI = 'https://en.wiktionary.org';
-const UA = 'Eponym/1.0 (https://wordroot.jaybulb.com; trommatic@icloud.com)';
+const UA = 'Eponym/1.0 (https://eponym.jaybulb.com; trommatic@icloud.com)';
 
 // Same templates the web app parses: inherited / derived / borrowed, each `{{inh|en|la|word}}`.
 const LINK_RE = /\{\{(inh\+?|der\+?|bor\+?)\|[^|]*\|([^|}]+)\|([^|}]*)/g;

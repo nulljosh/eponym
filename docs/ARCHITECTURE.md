@@ -6,7 +6,7 @@ Eponym is a dictionary with etymology. Look up a word, follow its roots back thr
 
 ## How it runs
 
-**Web.** The root page is the app: static HTML and JS at wordroot.jaybulb.com. It opens on "word" and, left alone for 10 seconds, types through 120 words until someone touches it. The marketing page lives at `/about`, and `/app` redirects to the root. A lookup fetches definitions from `{edition}.wiktionary.org/api/rest_v1/page/definition/{word}` (your own edition and English together, yours wins) and the wikitext from en.wiktionary.org, which is parsed for `{{inh}}`, `{{der}}` and `{{bor}}` templates. Each ancestor is looked up in turn until a root or the depth limit. Details in [API.md](API.md).
+**Web.** The root page is the app: static HTML and JS at eponym.jaybulb.com. It opens on "word" and, left alone for 10 seconds, types through 120 words until someone touches it. The marketing page lives at `/about`, and `/app` redirects to the root. A lookup fetches definitions from `{edition}.wiktionary.org/api/rest_v1/page/definition/{word}` (your own edition and English together, yours wins) and the wikitext from en.wiktionary.org, which is parsed for `{{inh}}`, `{{der}}` and `{{bor}}` templates. Each ancestor is looked up in turn until a root or the depth limit. Details in [API.md](API.md).
 
 **iOS and macOS.** SwiftUI, one `WindowGroup`. Interface and word language live in `UserDefaults`. Network calls go straight to Wiktionary. Arabic flips the layout.
 

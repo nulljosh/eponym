@@ -42,7 +42,7 @@ long-term path, since a live API call is slower and a full local graph would
 let the app work offline and answer instantly; live lookup keeps the app
 useful before the full dump is processed rather than waiting on that
 pipeline to finish before shipping anything. iOS and macOS both went live on the
-App Store 2026-08-27. The web app lives at wordroot.jaybulb.com and speaks 12
+App Store 2026-08-27. The web app lives at eponym.jaybulb.com and speaks 12
 interface languages and 30 word languages.
 
 ## Data Licensing
