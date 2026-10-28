@@ -1,5 +1,10 @@
 /* Wordroot design tokens. One source for the web app and the docs; the Swift and Kotlin
    apps use the same values. Everything sits on an 8 point grid. */
+@font-face { font-family: "Root Sans"; src: url("../fonts/RootSans-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Root Sans"; src: url("../fonts/RootSans-Medium.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "Root Sans"; src: url("../fonts/RootSans-Semibold.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Root Sans"; src: url("../fonts/RootSans-Bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+
 :root {
   /* color */
   --accent: #0a62d8;        /* actions, focus ring */
@@ -12,8 +17,8 @@
   --text2: #6e6e73;
   --border: rgba(60, 60, 67, .18);
 
-  /* type: San Francisco on Apple, Helvetica Neue or Arial elsewhere. Nothing to download. */
-  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /* type: Root Sans (Inter renamed, fonts/), system font while it loads */
+  --font: "Root Sans", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --size-large-title: 34px;  /* the word: 41 line, bold, -0.022em */
   --size-title: 22px;        /* the app name: 28 line, bold */
   --size-body: 17px;         /* definitions: 24 line */

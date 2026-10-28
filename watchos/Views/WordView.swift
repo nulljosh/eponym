@@ -44,7 +44,7 @@ private struct FailureView: View {
 
     var body: some View {
         VStack(spacing: 8) {
-            Text(message).font(.footnote).multilineTextAlignment(.center)
+            Text(message).font(.root(.footnote)).multilineTextAlignment(.center)
             if error == .offline || error == .server { Button("Try again", action: retry) }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)

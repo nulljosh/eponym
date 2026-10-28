@@ -7,6 +7,10 @@
 <script src="i18n.js"></script>
 <script>window.i18n.applyDocumentLanguage();</script>
 <style>
+@font-face { font-family: "Root Sans"; src: url("/fonts/RootSans-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Root Sans"; src: url("/fonts/RootSans-Medium.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "Root Sans"; src: url("/fonts/RootSans-Semibold.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Root Sans"; src: url("/fonts/RootSans-Bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
   /* Wordroot, laid out like an Apple app: an 8 point grid, one set of radii, SF's type scale,
      48 point controls, and glass for everything that floats over the photo. Nothing is
      positioned by eye; every gap below is a step of the grid. */
@@ -41,7 +45,7 @@
     background: linear-gradient(to bottom, color-mix(in srgb, var(--bg) 70%, transparent), color-mix(in srgb, var(--bg) 14%, transparent) 300px); }
 
   body {
-    font: 17px/24px -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font: 17px/24px "Root Sans", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased; background: transparent; color: var(--text);
     max-width: var(--measure); margin: 0 auto;
     padding: max(var(--s6), env(safe-area-inset-top)) max(var(--page), env(safe-area-inset-right))

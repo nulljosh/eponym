@@ -15,7 +15,7 @@ struct HomeView: View {
                     .onSubmit(open)
                 Section("Word of the day") {
                     NavigationLink(value: WordOfTheDay.word()) {
-                        Text(WordOfTheDay.word()).font(.title3.bold())
+                        Text(WordOfTheDay.word()).font(.root(.title3, .bold))
                     }
                 }
                 if !recents.words.isEmpty {

@@ -185,3 +185,21 @@ build-time artifact. Revisit storage when a rate limit or a latency measurement 
 
 ## Ingested 2026-10-25
 - [ ] Needs a better name. (Probe Apple first, one name everywhere.)
+
+## Gap matrix vs the best dictionary apps (2026-10-28, /mobbin)
+From the App Store screens of Etymonline, EtymologyExplorer, Merriam-Webster, Oxford, American Heritage, Terminology, WordWeb, Collins, Chambers and Wiktionary Reader. Daily use first, polish before novelty, on-device over cloud. One row is one minor version, shipped on iOS, Mac and web together. 1.1.0 stays reserved for the watch app.
+
+| Ver | Gap | Who has it | Size | Status |
+|---|---|---|---|---|
+| 1.2 | Recent searches and saved words, one tap from the search field | every one of them | S | [ ] |
+| 1.3 | Pronunciation: IPA under the word and a speak button (on-device voice) | Merriam-Webster, Oxford, American Heritage, EtymologyExplorer | S | [ ] |
+| 1.4 | Suggestions while typing (prefix list from the local word list) | Oxford, American Heritage, Etymonline | M | [ ] |
+| 1.5 | Root tree: the chain drawn as a tree, tap any ancestor to open it | Etymonline charts, EtymologyExplorer, American Heritage IE chart | M | [ ] |
+| 1.6 | Same-root words: other words that come from this word's root | Etymonline related entries, EtymologyExplorer descendants | M | [ ] |
+| 1.7 | Random word button | EtymologyExplorer, Terminology | S | [ ] |
+| 1.8 | Word of the day, with a Home Screen widget | Merriam-Webster, Oxford, EtymologyExplorer, Etymonline trending | M | [ ] |
+| 1.9 | Look up from other apps: share sheet and Services menu on the Mac | Terminology | M | [ ] |
+| 1.10 | Prefixes and suffixes index (-logy, bio-, anti-) | Etymonline | M | [ ] |
+| 1.11 | Offline: every word you looked up opens without a connection | Oxford, Merriam-Webster, Terminology | M | [ ] |
+
+Skipped on purpose: quizzes and word games, paywalled extra dictionaries, AI chat, ads.

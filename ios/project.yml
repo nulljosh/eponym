@@ -19,7 +19,10 @@ targets:
   Wordroot:
     type: application
     supportedDestinations: [iOS, macOS]
-    sources: [Sources]
+    sources:
+      - Sources
+      - path: ../fonts
+        excludes: ["*.woff2"]
     scheme:
       testTargets:
         - WordrootTests
@@ -48,6 +51,9 @@ targets:
     sources:
       - path: ../watchos
         excludes: ["*.xcodeproj", "*.yml", "*.md", "*.sh", "Harness"]
+      - path: Sources/RootSans.swift
+      - path: ../fonts
+        excludes: ["*.woff2"]
     settings:
       SWIFT_VERSION: "6.0"
       GENERATE_INFOPLIST_FILE: YES

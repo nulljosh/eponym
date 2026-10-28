@@ -7,11 +7,16 @@
 <script src="i18n.js"></script>
 <script>window.i18n.applyDocumentLanguage();</script>
 <style>
+@font-face { font-family: "Root Sans"; src: url("/fonts/RootSans-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Root Sans"; src: url("/fonts/RootSans-Medium.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "Root Sans"; src: url("/fonts/RootSans-Semibold.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Root Sans"; src: url("/fonts/RootSans-Bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+
   :root { --bg:#fff; --text:#252a49; --text2:#666; --accent:#5B9BD5;
   --link: #4779a6; --border:#e8e8e8; }
   @media (prefers-color-scheme: dark) { :root { --bg:#111;
     --link: #5B9BD5; --text:#e8e8f0; --text2:rgba(232,232,240,.6); --border:rgba(232,232,240,.1); } }
-  body { font-family:-apple-system, system-ui, sans-serif; background:var(--bg); color:var(--text); max-width:640px; margin:0 auto; padding:6vh 1rem 4rem; line-height:1.55; }
+  body { font-family:"Root Sans", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif; background:var(--bg); color:var(--text); max-width:640px; margin:0 auto; padding:6vh 1rem 4rem; line-height:1.55; }
   h1 { font-size:1.4rem; letter-spacing:-.02em; }
   h2 { font-size:1rem; margin-top:2rem; }
   a { color: var(--link, var(--accent)); }

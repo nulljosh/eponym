@@ -7,6 +7,7 @@ cd "$(dirname "$0")/.."
 python3 scripts/gen-i18n.py --check
 rm -rf dist && mkdir -p dist/about dist/app
 cp -R web/. dist/
+mkdir -p dist/fonts && cp fonts/*.woff2 fonts/OFL.txt dist/fonts/
 cp -R landing/. dist/about/
 cp landing/robots.txt landing/sitemap.xml landing/og.png dist/
 printf '<!doctype html><meta charset="utf-8"><title>Wordroot</title><link rel="canonical" href="/"><meta http-equiv="refresh" content="0;url=/">' > dist/app/index.html

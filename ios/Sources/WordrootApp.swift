@@ -5,9 +5,12 @@ import SwiftUI
 struct WordrootApp: App {
     @StateObject private var settings = Settings()
 
+    init() { RootSans.register() }
+
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .font(.root(.body))
                 .environmentObject(settings)
                 // Driving locale and layout direction from the in-app choice rather than from
                 // the system means picking Arabic mirrors the whole interface even on a device
@@ -357,9 +360,9 @@ struct ContentView: View {
                     HStack { Spacer(); ProgressView(); Spacer() }
                 } else if let entry {
                     if query.isEmpty {
-                        Section {} header: { Text(settings.t("ui.wotdWord", ["word": entry.word])).font(.subheadline.weight(.semibold)).foregroundStyle(.white) }
+                        Section {} header: { Text(settings.t("ui.wotdWord", ["word": entry.word])).font(.root(.subheadline, .semibold)).foregroundStyle(.white) }
                     } else {
-                        Section {} header: { Text(settings.t("ui.resultsFor", ["word": entry.word])).font(.subheadline.weight(.semibold)).foregroundStyle(.white) }
+                        Section {} header: { Text(settings.t("ui.resultsFor", ["word": entry.word])).font(.root(.subheadline, .semibold)).foregroundStyle(.white) }
                     }
                     entrySections(entry)
                 } else if failed {
@@ -422,7 +425,7 @@ struct ContentView: View {
                         Text("\(def.n). \(def.text)")
                     }
                 } header: {
-                    Text(group.pos).font(.subheadline.weight(.semibold)).foregroundStyle(.white)
+                    Text(group.pos).font(.root(.subheadline, .semibold)).foregroundStyle(.white)
                 }
             }
             // Say so when the reader asked for one language and got English prose, rather than
@@ -434,7 +437,7 @@ struct ContentView: View {
                         Link(settings.t("ui.openOnWiktionary", ["wiktionary": settings.t("ui.wiktionary")]),
                              destination: url)
                     }
-                    .font(.caption)
+                    .font(.root(.caption))
                     .foregroundStyle(.secondary)
                 }
             }
@@ -448,18 +451,18 @@ struct ContentView: View {
                         // cannot be reordered per language, and word order differs across the
                         // twelve locales.
                         Text(verbatim: "\(settings.t(link.rel)) · \(settings.languageName(link.langCode))")
-                            .font(.caption)
+                            .font(.root(.caption))
                             .foregroundStyle(.secondary)
                     }
                 }
             } header: {
-                Text(settings.t("ui.origin")).font(.subheadline.weight(.semibold)).foregroundStyle(.white)
+                Text(settings.t("ui.origin")).font(.root(.subheadline, .semibold)).foregroundStyle(.white)
             }
         }
         // CC BY-SA 4.0 requires attribution; App Review flags uncredited third-party content.
         Section {
             Text(settings.t("ui.attribution"))
-                .font(.caption)
+                .font(.root(.caption))
                 .foregroundStyle(.secondary)
         }
     }
@@ -525,7 +528,7 @@ struct LanguageSettingsView: View {
                 }
                 Section {
                     Text(verbatim: "Wordroot \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "") (\(Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? ""))")
-                        .font(.caption)
+                        .font(.root(.caption))
                         .foregroundStyle(.secondary)
                 }
             }
