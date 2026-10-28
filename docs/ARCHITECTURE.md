@@ -1,6 +1,6 @@
 # Architecture
 
-Wordroot is a dictionary with etymology. Look up a word, follow its roots back through Latin, Greek and Old English to Proto-Indo-European. It runs on web, iOS, macOS, Android and desktop (Kotlin) and in a terminal. Every surface reads Wiktionary live. There is no database and no account.
+Eponym is a dictionary with etymology. Look up a word, follow its roots back through Latin, Greek and Old English to Proto-Indo-European. It runs on web, iOS, macOS, Android and desktop (Kotlin) and in a terminal. Every surface reads Wiktionary live. There is no database and no account.
 
 12 interface languages, 30 word languages. One catalog, `i18n/strings.json`, generates the strings for every surface.
 
@@ -12,7 +12,7 @@ Wordroot is a dictionary with etymology. Look up a word, follow its roots back t
 
 **Android and desktop.** Compose Multiplatform over a shared Kotlin core that mirrors the JS parsing. Desktop packages as DEB, MSI or DMG.
 
-**Terminal.** A SwiftPM executable: `wordroot-tui etymology` prints the chain.
+**Terminal.** A SwiftPM executable: `eponym-tui etymology` prints the chain.
 
 **Server surface.** Cloudflare Pages Functions expose the same lookup as read-only REST and MCP. Both call one function, `callTool()`, so they cannot disagree.
 
@@ -47,11 +47,11 @@ Wordroot is a dictionary with etymology. Look up a word, follow its roots back t
 | File | What it owns |
 |---|---|
 | `ios/project.yml` | xcodegen spec for the iOS and macOS targets. No checked in xcodeproj |
-| `ios/Sources/WordrootApp.swift` | App entry, settings, layout direction |
+| `ios/Sources/EponymApp.swift` | App entry, settings, layout direction |
 | `ios/Sources/Localized.swift` | Generated string tables. Never hand edit |
 | `ios/Tests/EtymologyParserTests.swift` | Parser tests: template parsing and no cycles |
-| `Wordroot.icon/` | Icon Composer source for the app icon. `icon.svg` is the flat copy |
-| `ios/ExportOptions.plist`, `ios/Wordroot.entitlements` | Signing and export |
+| `Eponym.icon/` | Icon Composer source for the app icon. `icon.svg` is the flat copy |
+| `ios/ExportOptions.plist`, `ios/Eponym.entitlements` | Signing and export |
 | `metadata/` | App Store listing text pulled with `asc` |
 | `.asc/workflow.json` | `asc workflow run ship-ios` and `ship-mac`: bump, archive, export, upload, submit |
 

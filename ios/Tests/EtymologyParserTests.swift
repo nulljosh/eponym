@@ -1,5 +1,5 @@
 import XCTest
-@testable import Wordroot
+@testable import Eponym
 
 // The etymology parser is the only nontrivial logic in the app and the one piece a
 // Wiktionary markup change can silently break. Fixture in, chain out — no network.

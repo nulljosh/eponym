@@ -3,7 +3,7 @@ import Combine
 import SwiftUI
 
 @main
-struct WordrootApp: App {
+struct EponymApp: App {
     @StateObject private var settings = Settings()
 
     init() {
@@ -189,7 +189,7 @@ enum Wiktionary {
 
     static func request(_ url: URL) -> URLRequest {
         var r = URLRequest(url: url)
-        r.setValue("wordroot/1.0 (trommatic@icloud.com)", forHTTPHeaderField: "User-Agent")
+        r.setValue("eponym/1.0 (trommatic@icloud.com)", forHTTPHeaderField: "User-Agent")
         return r
     }
 
@@ -666,7 +666,7 @@ struct ContentView: View {
                 // Screenshots only: `-UITEST_SCROLL origin` (or `affixes`) scrolls to that section once the page is drawn.
                 if let target = UserDefaults.standard.string(forKey: "UITEST_SCROLL") { proxy.scrollTo(target, anchor: .top) }
             }
-            .background(PhotoBackground(url: entry?.photoURL, hue: hueForWord(entry?.word ?? wordOfTheDay ?? "wordroot")))
+            .background(PhotoBackground(url: entry?.photoURL, hue: hueForWord(entry?.word ?? wordOfTheDay ?? "eponym")))
             // Everything drawn straight on the darkened background is white; the cards keep
             // the system look, so their text stays as it is.
 #if os(iOS)
@@ -754,9 +754,9 @@ struct ContentView: View {
                 remember(word)
                 Inbox.shared.word = nil
             }
-            // The widget opens its word here: wordroot://word/<word>.
+            // The widget opens its word here: eponym://word/<word> (wordroot:// still works for links made before the rename).
             .onOpenURL { url in
-                if url.scheme == "wordroot", url.host == "word", !url.lastPathComponent.isEmpty { query = url.lastPathComponent }
+                if ["eponym", "wordroot"].contains(url.scheme ?? ""), url.host == "word", !url.lastPathComponent.isEmpty { query = url.lastPathComponent }
             }
           }
         }
@@ -904,7 +904,7 @@ struct LanguageSettingsView: View {
                         Image("AboutIcon").resizable().frame(width: 56, height: 56)
                             .clipShape(RoundedRectangle(cornerRadius: 12.3, style: .continuous))
                         VStack(alignment: .leading, spacing: 2) {
-                            Text(verbatim: "Wordroot").font(.root(.headline, .semibold))
+                            Text(verbatim: "Eponym").font(.root(.headline, .semibold))
                             Text(settings.t("ui.tagline")).font(.root(.subheadline)).foregroundStyle(.secondary)
                             Text(verbatim: "\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "") (\(Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? ""))")
                                 .font(.root(.caption)).foregroundStyle(.secondary)

@@ -1,5 +1,5 @@
 import XCTest
-@testable import Wordroot
+@testable import Eponym
 
 // With no connection, a page that was looked up before comes back from the cache.
 final class OfflineTests: XCTestCase {

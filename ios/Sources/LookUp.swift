@@ -17,7 +17,7 @@ final class Inbox: ObservableObject {
 }
 
 struct LookUpIntent: AppIntent {
-    static let title: LocalizedStringResource = "Look Up in Wordroot"
+    static let title: LocalizedStringResource = "Look Up in Eponym"
     static let description = IntentDescription("Opens a word's definitions and where it comes from.")
     static let openAppWhenRun = true
 
@@ -30,7 +30,7 @@ struct LookUpIntent: AppIntent {
     }
 }
 
-struct WordrootShortcuts: AppShortcutsProvider {
+struct EponymShortcuts: AppShortcutsProvider {
     static var appShortcuts: [AppShortcut] {
         AppShortcut(intent: LookUpIntent(), phrases: ["Look up a word in \(.applicationName)"],
                     shortTitle: "Look Up", systemImageName: "text.magnifyingglass")
@@ -38,7 +38,7 @@ struct WordrootShortcuts: AppShortcutsProvider {
 }
 
 #if os(macOS)
-/// Services > Look Up in Wordroot, for text selected in any Mac app. The menu item is declared in Info.plist (NSServices).
+/// Services > Look Up in Eponym, for text selected in any Mac app. The menu item is declared in Info.plist (NSServices).
 final class LookUpService: NSObject {
     static let shared = LookUpService()
 

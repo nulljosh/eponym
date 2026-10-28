@@ -1,4 +1,4 @@
-// The one definition of what Wordroot does over the network. Both surfaces — the REST
+// The one definition of what Eponym does over the network. Both surfaces — the REST
 // routes in functions/api/ and the MCP server in functions/mcp.js — call `callTool` from
 // here, so they cannot drift apart.
 //
@@ -10,7 +10,7 @@
 import strings from '../../i18n/strings.json' with { type: 'json' };
 
 const WIKI = 'https://en.wiktionary.org';
-const UA = 'Wordroot/1.0 (https://wordroot.jaybulb.com; trommatic@icloud.com)';
+const UA = 'Eponym/1.0 (https://wordroot.jaybulb.com; trommatic@icloud.com)';
 
 // Same templates the web app parses: inherited / derived / borrowed, each `{{inh|en|la|word}}`.
 const LINK_RE = /\{\{(inh\+?|der\+?|bor\+?)\|[^|]*\|([^|}]+)\|([^|}]*)/g;
@@ -130,7 +130,7 @@ export const TOOLS = [
   },
   {
     name: 'list_languages',
-    description: 'The word languages Wordroot supports, as codes and names.',
+    description: 'The word languages Eponym supports, as codes and names.',
     inputSchema: { type: 'object', properties: {} },
   },
   {

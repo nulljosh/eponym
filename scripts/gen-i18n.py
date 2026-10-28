@@ -218,7 +218,7 @@ def swift_bundle(cat, keys):
     return f"""// {BANNER}
 import Foundation
 
-/// An interface language Wordroot ships strings for.
+/// An interface language Eponym ships strings for.
 struct UILanguage: Identifiable, Hashable {{
     let code: String
     let endonym: String

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Privacy — Wordroot</title>
+<title>Privacy — Eponym</title>
 <script src="i18n.js"></script>
 <script>window.i18n.applyDocumentLanguage();</script>
 <style>
@@ -63,7 +63,7 @@ document.getElementById('picker').appendChild(i18n.localePicker(t('ui.interfaceL
 
 const date = new Intl.DateTimeFormat(i18n.locale, { dateStyle: 'long' })
   .format(new Date(LAST_UPDATED + 'T00:00:00Z'));
-document.getElementById('updated').textContent = 'Wordroot · ' + t('privacy.lastUpdated', { date });
+document.getElementById('updated').textContent = 'Eponym · ' + t('privacy.lastUpdated', { date });
 
 const sections = [
   ['privacy.collect.h', esc(t('privacy.collect.p'))],

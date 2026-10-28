@@ -83,18 +83,18 @@
       "ar": "قاموس مع أصول متعمقة للكلمات"
     },
     "web.title": {
-      "en": "Wordroot — dictionary + etymology",
-      "es": "Wordroot — diccionario + etimología",
-      "fr": "Wordroot — dictionnaire + étymologie",
-      "de": "Wordroot — Wörterbuch + Etymologie",
-      "pt": "Wordroot — dicionário + etimologia",
-      "it": "Wordroot — dizionario + etimologia",
-      "nl": "Wordroot — woordenboek + etymologie",
-      "ru": "Wordroot — словарь + этимология",
-      "ja": "Wordroot — 辞書 + 語源",
-      "zh-Hans": "Wordroot — 词典 + 词源",
-      "ko": "Wordroot — 사전 + 어원",
-      "ar": "Wordroot — قاموس + علم أصل الكلمات"
+      "en": "Eponym — dictionary + etymology",
+      "es": "Eponym — diccionario + etimología",
+      "fr": "Eponym — dictionnaire + étymologie",
+      "de": "Eponym — Wörterbuch + Etymologie",
+      "pt": "Eponym — dicionário + etimologia",
+      "it": "Eponym — dizionario + etimologia",
+      "nl": "Eponym — woordenboek + etymologie",
+      "ru": "Eponym — словарь + этимология",
+      "ja": "Eponym — 辞書 + 語源",
+      "zh-Hans": "Eponym — 词典 + 词源",
+      "ko": "Eponym — 사전 + 어원",
+      "ar": "Eponym — قاموس + علم أصل الكلمات"
     },
     "ui.language": {
       "en": "Language",
@@ -433,18 +433,18 @@
       "ar": "التعريفات وأصول الكلمات من ويكاموس (CC BY-SA 4.0)"
     },
     "ui.alsoOnApple": {
-      "en": "Also on iPhone and Mac as Wordroot.",
-      "es": "También en iPhone y Mac como Wordroot.",
-      "fr": "Également sur iPhone et Mac sous le nom Wordroot.",
-      "de": "Auch für iPhone und Mac als Wordroot.",
-      "pt": "Também no iPhone e no Mac como Wordroot.",
-      "it": "Disponibile anche su iPhone e Mac come Wordroot.",
-      "nl": "Ook op iPhone en Mac als Wordroot.",
-      "ru": "Также на iPhone и Mac под именем Wordroot.",
-      "ja": "iPhone と Mac でも Wordroot として利用できます。",
-      "zh-Hans": "iPhone 和 Mac 上也有 Wordroot。",
-      "ko": "iPhone과 Mac에서도 Wordroot로 이용할 수 있습니다.",
-      "ar": "متوفر أيضاً على iPhone وMac باسم Wordroot."
+      "en": "Also on iPhone and Mac as Eponym.",
+      "es": "También en iPhone y Mac como Eponym.",
+      "fr": "Également sur iPhone et Mac sous le nom Eponym.",
+      "de": "Auch für iPhone und Mac als Eponym.",
+      "pt": "Também no iPhone e no Mac como Eponym.",
+      "it": "Disponibile anche su iPhone e Mac come Eponym.",
+      "nl": "Ook op iPhone en Mac als Eponym.",
+      "ru": "Также на iPhone и Mac под именем Eponym.",
+      "ja": "iPhone と Mac でも Eponym として利用できます。",
+      "zh-Hans": "iPhone 和 Mac 上也有 Eponym。",
+      "ko": "iPhone과 Mac에서도 Eponym로 이용할 수 있습니다.",
+      "ar": "متوفر أيضاً على iPhone وMac باسم Eponym."
     },
     "ui.wiktionary": {
       "en": "Wiktionary",
@@ -559,18 +559,18 @@
       "ar": "مستعارة"
     },
     "privacy.title": {
-      "en": "Privacy — Wordroot",
-      "es": "Privacidad — Wordroot",
-      "fr": "Confidentialité — Wordroot",
-      "de": "Datenschutz — Wordroot",
-      "pt": "Privacidade — Wordroot",
-      "it": "Privacy — Wordroot",
-      "nl": "Privacy — Wordroot",
-      "ru": "Конфиденциальность — Wordroot",
-      "ja": "プライバシー — Wordroot",
-      "zh-Hans": "隐私 — Wordroot",
-      "ko": "개인정보 — Wordroot",
-      "ar": "الخصوصية — Wordroot"
+      "en": "Privacy — Eponym",
+      "es": "Privacidad — Eponym",
+      "fr": "Confidentialité — Eponym",
+      "de": "Datenschutz — Eponym",
+      "pt": "Privacidade — Eponym",
+      "it": "Privacy — Eponym",
+      "nl": "Privacy — Eponym",
+      "ru": "Конфиденциальность — Eponym",
+      "ja": "プライバシー — Eponym",
+      "zh-Hans": "隐私 — Eponym",
+      "ko": "개인정보 — Eponym",
+      "ar": "الخصوصية — Eponym"
     },
     "privacy.heading": {
       "en": "Privacy Policy",
@@ -769,18 +769,18 @@
       "ar": "التواصل"
     },
     "privacy.back": {
-      "en": "Back to Wordroot",
-      "es": "Volver a Wordroot",
-      "fr": "Retour à Wordroot",
-      "de": "Zurück zu Wordroot",
-      "pt": "Voltar ao Wordroot",
-      "it": "Torna a Wordroot",
-      "nl": "Terug naar Wordroot",
-      "ru": "Назад к Wordroot",
-      "ja": "Wordroot に戻る",
-      "zh-Hans": "返回 Wordroot",
-      "ko": "Wordroot로 돌아가기",
-      "ar": "العودة إلى Wordroot"
+      "en": "Back to Eponym",
+      "es": "Volver a Eponym",
+      "fr": "Retour à Eponym",
+      "de": "Zurück zu Eponym",
+      "pt": "Voltar ao Eponym",
+      "it": "Torna a Eponym",
+      "nl": "Terug naar Eponym",
+      "ru": "Назад к Eponym",
+      "ja": "Eponym に戻る",
+      "zh-Hans": "返回 Eponym",
+      "ko": "Eponym로 돌아가기",
+      "ar": "العودة إلى Eponym"
     },
     "lang.gmw-pro": {
       "en": "Proto-West Germanic",

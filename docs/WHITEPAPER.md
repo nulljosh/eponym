@@ -1,4 +1,4 @@
-# Wordroot Technical Whitepaper
+# Eponym Technical Whitepaper
 
 **v1.0.5** | October 2026
 
@@ -6,7 +6,7 @@ Where did that word come from?
 
 A normal dictionary answers what a word means. It rarely answers why it looks
 the way it does, and the etymology sources that do exist (OED, Etymonline)
-sit behind a paywall or a copyright nobody can license casually. Wordroot
+sit behind a paywall or a copyright nobody can license casually. Eponym
 exists to make that answer free and explorable: look up a word and follow it
 back through Latin, Greek and Proto-Indo-European, with cognates along the
 way. Web plus SwiftUI on iOS and Mac. This paper is about the data pipeline,
@@ -27,7 +27,7 @@ stdlib only) runs:
    word ↔ cognate.
 2. **Graph**: edges accumulate into a word/language graph. Nodes carry
    language code, script, and gloss; edges carry relation type.
-3. **Store**: the graph is written to SQLite (`wordroot.sqlite`), one table for
+3. **Store**: the graph is written to SQLite (`eponym.sqlite`), one table for
    words, one for edges. WordNet fills definition gaps.
 
 Chains are walked at query time by following inherit/derive edges ancestor-ward

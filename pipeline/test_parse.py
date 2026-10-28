@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Parser unit tests (offline) plus a smoke check of wordroot.sqlite when one has been built."""
+"""Parser unit tests (offline) plus a smoke check of eponym.sqlite when one has been built."""
 import sqlite3
 import sys
 from pathlib import Path
@@ -54,9 +54,9 @@ def test_english_sample_words_are_present():
 
 
 def smoke_test_database():
-    db = Path(__file__).parent / "wordroot.sqlite"
+    db = Path(__file__).parent / "eponym.sqlite"
     if not db.exists():
-        print("skip: wordroot.sqlite not built (run parse.py)")
+        print("skip: eponym.sqlite not built (run parse.py)")
         return
     con = sqlite3.connect(db)
     langs = {r[0] for r in con.execute("SELECT ancestor_lang FROM edges WHERE word='water'")}

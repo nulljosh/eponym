@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""v0: fetch sample words from Wiktionary API, extract etymology chains, write wordroot.sqlite.
+"""v0: fetch sample words from Wiktionary API, extract etymology chains, write eponym.sqlite.
 
 ponytail: REST API + regex over wikitext for ~20 words; full dump parse with
 proper template handling is build-order step 2.
@@ -19,7 +19,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 CATALOG = ROOT / "i18n" / "strings.json"
-DB = Path(__file__).parent / "wordroot.sqlite"
+DB = Path(__file__).parent / "eponym.sqlite"
 API = "https://en.wiktionary.org/w/api.php?action=parse&prop=wikitext&format=json&page={}"
 
 # etymology templates: {{inh|en|enm|water}}, {{der|...}}, {{bor|...}}, {{cog|...}}
@@ -48,7 +48,7 @@ def sample_words(lang):
 
 def fetch_wikitext(word):
     url = API.format(urllib.parse.quote(word))
-    req = urllib.request.Request(url, headers={"User-Agent": "wordroot-app/0.1 (trommatic@icloud.com)"})
+    req = urllib.request.Request(url, headers={"User-Agent": "eponym-app/0.1 (trommatic@icloud.com)"})
     with urllib.request.urlopen(req, timeout=30) as r:
         data = json.load(r)
     return data.get("parse", {}).get("wikitext", {}).get("*", "")

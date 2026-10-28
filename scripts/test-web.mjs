@@ -37,7 +37,7 @@ function makeContext({ lang = 'en', search = '', store = {}, fetch: fetchImpl, b
   const ctx = {
     console, setTimeout, clearTimeout, URL, URLSearchParams, Intl, JSON, Date, Object, Math,
     Promise, RegExp, String, Array, Error,
-    location: { search, href: 'https://wordroot.test/' + search, replace() {} },
+    location: { search, href: 'https://eponym.test/' + search, replace() {} },
     navigator: { languages: [lang], language: lang },
     localStorage: {
       getItem: k => (k in store ? store[k] : null),
@@ -170,26 +170,26 @@ test('localizes ancestor language names, hand translations winning over CLDR', (
 // --- lookup ---------------------------------------------------------------------------
 test('reads the etymology of the selected word language, not the first on the page', async () => {
   const ctx = runPage({ lang: 'en', fetch: wiktionary(CHAT_WIKITEXT) });
-  const en = await ctx.wordrootEtymology('chat', 'en');
+  const en = await ctx.eponymEtymology('chat', 'en');
   same(en.map(c => c.ancestor), ['chat', 'ceatian']);
-  const fr = await ctx.wordrootEtymology('chat', 'fr');
+  const fr = await ctx.eponymEtymology('chat', 'fr');
   same(fr.map(c => c.ancestor), ['chat', 'cattus', 'catta']);
 });
 
 test('returns no etymology when the page has no section in that language', async () => {
   const ctx = runPage({ lang: 'en', fetch: wiktionary(CHAT_WIKITEXT) });
-  same(await ctx.wordrootEtymology('chat', 'ja'), []);
+  same(await ctx.eponymEtymology('chat', 'ja'), []);
 });
 
 test('stops at the next language section rather than running into it', async () => {
   const ctx = runPage({ lang: 'en', fetch: wiktionary(CHAT_WIKITEXT) });
-  const en = await ctx.wordrootEtymology('chat', 'en');
+  const en = await ctx.eponymEtymology('chat', 'en');
   assert.ok(!en.some(c => c.ancestor === 'cattus'), 'French ancestry leaked into English');
 });
 
 test('localizes the relation and ancestor language of each link', async () => {
   const ctx = runPage({ lang: 'de', fetch: wiktionary(CHAT_WIKITEXT) });
-  const [first] = await ctx.wordrootEtymology('chat', 'fr');
+  const [first] = await ctx.eponymEtymology('chat', 'fr');
   assert.equal(first.rel, 'ererbt');
   assert.equal(first.lang, 'Altfranzösisch');
   assert.equal(first.langCode, 'fro', 'raw code kept for the lang attribute');
@@ -198,8 +198,8 @@ test('localizes the relation and ancestor language of each link', async () => {
 test('returns only the definitions of the selected word language', async () => {
   const en = { en: NOUN('Informal talk.'), fr: NOUN('<i>cat</i>') };
   const ctx = runPage({ lang: 'en', fetch: wiktionary(CHAT_WIKITEXT, { en }) });
-  same(await ctx.wordrootDefinitions('chat', 'fr'), { edition: 'en', groups: [{ pos: 'Noun', defs: ['cat'] }] });
-  assert.equal(await ctx.wordrootDefinitions('chat', 'de'), null, 'no German section is a miss');
+  same(await ctx.eponymDefinitions('chat', 'fr'), { edition: 'en', groups: [{ pos: 'Noun', defs: ['cat'] }] });
+  assert.equal(await ctx.eponymDefinitions('chat', 'de'), null, 'no German section is a miss');
 });
 
 test('prefers the reader’s own Wiktionary edition, so the glosses are in their language', async () => {
@@ -208,7 +208,7 @@ test('prefers the reader’s own Wiktionary edition, so the glosses are in their
     en: { fr: NOUN('A domestic cat.') },
   });
   const ctx = runPage({ lang: 'fr', fetch });
-  const defs = await ctx.wordrootDefinitions('chat', 'fr');
+  const defs = await ctx.eponymDefinitions('chat', 'fr');
   assert.equal(defs.edition, 'fr');
   same(defs.groups, [{ pos: 'Noun', defs: ['Animal domestique.'] }]);
 });
@@ -216,7 +216,7 @@ test('prefers the reader’s own Wiktionary edition, so the glosses are in their
 test('falls back to English when the reader’s edition lacks the word', async () => {
   const fetch = wiktionary(CHAT_WIKITEXT, { en: { fr: NOUN('A domestic cat.') } });  // fr 404s
   const ctx = runPage({ lang: 'fr', fetch });
-  const defs = await ctx.wordrootDefinitions('chat', 'fr');
+  const defs = await ctx.eponymDefinitions('chat', 'fr');
   assert.equal(defs.edition, 'en', 'a 404 from fr must not lose the English definitions');
   same(defs.groups, [{ pos: 'Noun', defs: ['A domestic cat.'] }]);
 });
@@ -224,7 +224,7 @@ test('falls back to English when the reader’s edition lacks the word', async (
 test('an English interface asks only the English edition', async () => {
   const fetch = wiktionary(CHAT_WIKITEXT, { en: { en: NOUN('Informal talk.') } });
   const ctx = runPage({ lang: 'en', fetch, store: { 'wordroot.wordLang': 'cy' } });
-  await ctx.wordrootDefinitions('chat', 'en');
+  await ctx.eponymDefinitions('chat', 'en');
   same(fetch.calls, ['en'], 'no second edition to try');
 });
 
@@ -232,10 +232,10 @@ test('stops asking an edition that does not serve definitions at all', async () 
   // 501 rather than 404: the endpoint is absent here, not the word.
   const fetch = wiktionary(CHAT_WIKITEXT, { ja: 501, en: { ja: NOUN('Cat.') } });
   const ctx = runPage({ lang: 'ja', fetch, store: { 'wordroot.wordLang': 'cy' } });
-  const first = await ctx.wordrootDefinitions('chat', 'ja');
+  const first = await ctx.eponymDefinitions('chat', 'ja');
   assert.equal(first.edition, 'en');
   same(fetch.calls, ['ja', 'en'], 'both probed the first time');
-  await ctx.wordrootDefinitions('chat', 'ja');
+  await ctx.eponymDefinitions('chat', 'ja');
   same(fetch.calls, ['ja', 'en', 'en'], 'ja must not be probed a second time');
 });
 
@@ -246,32 +246,32 @@ test('a throwing edition is retired rather than failing the lookup', async () =>
     return base(url);
   };
   const ctx = runPage({ lang: 'fr', fetch });
-  assert.equal((await ctx.wordrootDefinitions('chat', 'fr')).edition, 'en');
+  assert.equal((await ctx.eponymDefinitions('chat', 'fr')).edition, 'en');
 });
 
 test('defaults the word language to the interface language when a dictionary exists', () => {
-  assert.equal(runPage({ lang: 'fr', fetch: wiktionary('') }).wordrootWordLanguage(), 'fr');
-  assert.equal(runPage({ lang: 'zh-Hans', fetch: wiktionary('') }).wordrootWordLanguage(), 'zh',
+  assert.equal(runPage({ lang: 'fr', fetch: wiktionary('') }).eponymWordLanguage(), 'fr');
+  assert.equal(runPage({ lang: 'zh-Hans', fetch: wiktionary('') }).eponymWordLanguage(), 'zh',
     'zh-Hans interface maps onto the zh dictionary');
 });
 
 test('word of the day is stable per day and drawn from the word language', () => {
   const ctx = runPage({ lang: 'ru', fetch: wiktionary('') });
-  const word = ctx.wordrootOfTheDay();
-  assert.equal(ctx.wordrootOfTheDay(), word, 'not stable within a day');
+  const word = ctx.eponymOfTheDay();
+  assert.equal(ctx.eponymOfTheDay(), word, 'not stable within a day');
   assert.ok(/^[Ѐ-ӿ]+$/.test(word), `expected a Russian word, got ${word}`);
 });
 
 test('word of the day is absent for a language we ship no list for', () => {
   const ctx = runPage({ lang: 'en', store: { 'wordroot.wordLang': 'cy' }, fetch: wiktionary('') });
-  assert.equal(ctx.wordrootWordLanguage(), 'cy');
-  assert.equal(ctx.wordrootOfTheDay(), null);
+  assert.equal(ctx.eponymWordLanguage(), 'cy');
+  assert.equal(ctx.eponymOfTheDay(), null);
 });
 
 test('says so when the reader gets English prose, and links to their own Wiktionary', async () => {
   const fetch = wiktionary(CHAT_WIKITEXT, { en: { fr: NOUN('A domestic cat.') } });  // fr 404s
   const ctx = runPage({ lang: 'fr', fetch });
-  await ctx.wordrootLookup('chat');
+  await ctx.eponymLookup('chat');
   const html = ctx.__elements.out.innerHTML;
   assert.ok(html.includes('Ces définitions sont en anglais.'), 'no notice rendered');
   assert.ok(html.includes('https://fr.wiktionary.org/wiki/chat'), 'no link to the fr edition');
@@ -284,7 +284,7 @@ test('stays quiet when the reader’s own edition supplied the definitions', asy
     en: { fr: NOUN('A domestic cat.') },
   });
   const ctx = runPage({ lang: 'fr', fetch });
-  await ctx.wordrootLookup('chat');
+  await ctx.eponymLookup('chat');
   const html = ctx.__elements.out.innerHTML;
   assert.ok(html.includes('Animal domestique.'), 'French gloss not shown');
   assert.ok(!html.includes('en anglais'), 'notice shown when it should not be');
@@ -293,7 +293,7 @@ test('stays quiet when the reader’s own edition supplied the definitions', asy
 test('never shows the notice to an English reader', async () => {
   const fetch = wiktionary(CHAT_WIKITEXT, { en: { en: NOUN('Informal talk.') } });
   const ctx = runPage({ lang: 'en', fetch });
-  await ctx.wordrootLookup('chat');
+  await ctx.eponymLookup('chat');
   assert.ok(!ctx.__elements.out.innerHTML.includes('are in English'));
 });
 

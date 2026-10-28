@@ -1,4 +1,4 @@
-# Wordroot brand kit and design system
+# Eponym brand kit and design system
 
 One idea: a word is the top of a tree, and its roots are underneath. Everything here serves that. Plain, quiet, Apple-clean, and the word is always the biggest thing on the screen.
 
@@ -7,7 +7,7 @@ A dot that splits into two branches that end in two dots. It reads as a word and
 
 - `icon.svg`: the app icon. White mark on a blue gradient tile.
 - `mark.svg`: the mark alone, `currentColor`, for anywhere you need it on your own background.
-- The source of truth for the app icon is `Wordroot.icon` (Icon Composer). The SVGs are flat copies.
+- The source of truth for the app icon is `Eponym.icon` (Icon Composer). The SVGs are flat copies.
 
 **Use it like this**
 - Clear space on every side equal to the width of one end dot.

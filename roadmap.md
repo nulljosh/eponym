@@ -184,7 +184,8 @@ build-time artifact. Revisit storage when a rate limit or a latency measurement 
 - [x] Fix the eight failing web-app tests in scripts/test-web.mjs (2026-10-28: the stub DOMParser had no querySelectorAll). They were failing before the 2026-10-16 landing change and that change did not touch them.
 
 ## Ingested 2026-10-25
-- [ ] Needs a better name. (Probe Apple first, one name everywhere.)
+- [x] Needs a better name. Renamed Eponym 2026-10-28 (Joshua: "you can do it"). The store listing still says Wordroot until the version after 2.0.0; put the name Eponym on that version's app info first thing.
+- [ ] Store name: set Eponym on the next editable app info, probe it there first (it was free 2026-10-28)
   Name hunt 2026-10-28: one real single word only, never two words glued together. Probed on the 1.0.6 draft
   (Wordroot's own record while a draft is editable, else ASC_PROBE_APP=6825014407 Oohaah, all REJECTED), about 360 tried. Joshua said no to Forebear, Varro, Rootward (compound).
   Free but not picked: Patronym, Eponym (Joshua: okay), Homonym, Metonym, Retronym, Aptronym, Demonym, Contronym, Heteronym, Autonym, Ethnonym, Capitonym, Numeronym, Eggcorn, Mondegreen, Logogram, Allomorph, Nirukta, Wherefore, Yaska, Ishtiqaq, Paronym, Sememe, Toponym, Exonym, Endonym, Anent, Erstwhile, Dictio, Purport, Denotation, Philologist, Lexicology, Lexiphile, Etymologer, Cognatus, Rooter, Etymonic, Exordium, Nascent, Tamarisk, Totara, Galangal, Chicory, Alkanet, Ordet, Sloka, Lexeis, Glottal, Primeval, Glossator, Provenience, Etymologist, Ancient, Atavism, Archaism, Relict, Cognomen, Isidore, Progenitor, Begetter, Stirps, Proles, Onomast, Rhizoid, Etymic, Juuri, Skeat.

@@ -28,7 +28,7 @@ enum Today {
     static func definition(_ word: String) async -> String? {
         let path = word.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? word
         var request = URLRequest(url: URL(string: "https://en.wiktionary.org/api/rest_v1/page/definition/\(path)")!)
-        request.setValue("wordroot/1.0 (trommatic@icloud.com)", forHTTPHeaderField: "User-Agent")
+        request.setValue("eponym/1.0 (trommatic@icloud.com)", forHTTPHeaderField: "User-Agent")
         guard let (data, _) = try? await URLSession.shared.data(for: request),
               let root = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
               let groups = root[language] as? [[String: Any]],
@@ -86,12 +86,12 @@ struct WordWidgetView: View {
             LinearGradient(colors: [Color(red: 0.302, green: 0.639, blue: 1.0), Color(red: 0.039, green: 0.373, blue: 0.839)],
                            startPoint: .top, endPoint: .bottom)   // the icon's gradient, tokens.css --accent-light to --accent-deep
         }
-        .widgetURL(URL(string: "wordroot://word/\(entry.word.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? entry.word)"))
+        .widgetURL(URL(string: "eponym://word/\(entry.word.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? entry.word)"))
     }
 }
 
 @main
-struct WordrootWidget: Widget {
+struct EponymWidget: Widget {
     init() { RootSans.register() }
 
     var body: some WidgetConfiguration {

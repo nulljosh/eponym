@@ -1,9 +1,11 @@
-# Wordroot
+# Eponym (ex-Wordroot)
+
+Renamed 2026-10-28. Still on the old name on purpose: bundle ids `com.heyitsmejosh.etyma*`, the Pages project `wordroot` and wordroot.jaybulb.com, storage keys `wordroot.*` (localStorage and UserDefaults), the service worker caches `wordroot-v4` and `wordroot-words`, the Kotlin package `com.nulljosh.wordroot`, and the `wordroot://` scheme (still accepted next to `eponym://`). The App Store listing says Wordroot until the version after 2.0.0.
 
 Dictionary + etymology app. Killer feature: interactive etymology tree (word → Latin/Greek/PIE, cognate links).
 
 ## Stack
-- `pipeline/`: Python 3, stdlib only. Wiktionary REST API (v0) → later full dump parse. Output: `wordroot.sqlite` (`words`, `edges` tables).
+- `pipeline/`: Python 3, stdlib only. Wiktionary REST API (v0) → later full dump parse. Output: `eponym.sqlite` (`words`, `edges` tables).
 - `ios/`: SwiftUI multiplatform via xcodegen, bundle `com.heyitsmejosh.etyma`, iOS + Mac targets.
 - `web/`: static app on the same dataset. `landing/` is the marketing page. `functions/` + `src/lib/tools.js` are the REST and MCP surface.
 - `watchos/`: Apple Watch app (SwiftUI, watchOS 10+), embedded in the iPhone app by `ios/project.yml`. Models test on the Mac with `watchos/test.sh`.

@@ -1,4 +1,4 @@
-rootProject.name = "wordroot"
+rootProject.name = "eponym"
 
 pluginManagement {
     repositories {

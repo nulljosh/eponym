@@ -1,7 +1,7 @@
 import CoreText
 import SwiftUI
 
-/// Root Sans, Wordroot's own face (Inter renamed, see scripts/gen_font.py). Shared by the iPhone, Mac and watch
+/// Root Sans, Eponym's own face (Inter renamed, see scripts/gen_font.py). Shared by the iPhone, Mac and watch
 /// targets. The fonts are registered from the bundle at launch, so there is no Info.plist font list to keep in step.
 enum RootSans {
     static func register() {

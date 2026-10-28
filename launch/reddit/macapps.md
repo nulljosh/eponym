@@ -1,9 +1,9 @@
 Note: check the pinned self-promo thread before posting standalone.
 
-Title: Wordroot, a Mac dictionary that shows a word's etymology, not just its meaning
+Title: Eponym, a Mac dictionary that shows a word's etymology, not just its meaning
 
 Body:
-Most dictionary apps on the Mac stop at the definition. I wanted to see where a word actually came from, so I built Wordroot: look up any English word and it traces the chain back through Old English, Latin, Greek, and Proto-Indo-European where the data exists.
+Most dictionary apps on the Mac stop at the definition. I wanted to see where a word actually came from, so I built Eponym: look up any English word and it traces the chain back through Old English, Latin, Greek, and Proto-Indo-European where the data exists.
 
 Native SwiftUI, shares one codebase with the iOS version via xcodegen. The etymology comes from a Python pipeline that parses Wiktionary's own etymology templates into a graph, no LLM filling in gaps with invented ancestry.
 

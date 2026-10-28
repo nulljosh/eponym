@@ -111,18 +111,18 @@
       "ar": "الخصوصية"
     },
     "landing.title": {
-      "en": "Wordroot — dictionary with deep etymology",
-      "es": "Wordroot — diccionario con etimología profunda",
-      "fr": "Wordroot — dictionnaire avec étymologie approfondie",
-      "de": "Wordroot — Wörterbuch mit tiefgehender Etymologie",
-      "pt": "Wordroot — dicionário com etimologia profunda",
-      "it": "Wordroot — dizionario con etimologia approfondita",
-      "nl": "Wordroot — woordenboek met diepgaande etymologie",
-      "ru": "Wordroot — словарь с глубокой этимологией",
-      "ja": "Wordroot — 語源をたどる辞書",
-      "zh-Hans": "Wordroot — 深度词源词典",
-      "ko": "Wordroot — 깊이 있는 어원 사전",
-      "ar": "Wordroot — قاموس مع أصول متعمقة للكلمات"
+      "en": "Eponym — dictionary with deep etymology",
+      "es": "Eponym — diccionario con etimología profunda",
+      "fr": "Eponym — dictionnaire avec étymologie approfondie",
+      "de": "Eponym — Wörterbuch mit tiefgehender Etymologie",
+      "pt": "Eponym — dicionário com etimologia profunda",
+      "it": "Eponym — dizionario con etimologia approfondita",
+      "nl": "Eponym — woordenboek met diepgaande etymologie",
+      "ru": "Eponym — словарь с глубокой этимологией",
+      "ja": "Eponym — 語源をたどる辞書",
+      "zh-Hans": "Eponym — 深度词源词典",
+      "ko": "Eponym — 깊이 있는 어원 사전",
+      "ar": "Eponym — قاموس مع أصول متعمقة للكلمات"
     },
     "landing.description": {
       "en": "Trace any word back through Latin, Greek, and Proto-Indo-European with an interactive etymology tree and cognate links.",
@@ -153,18 +153,18 @@
       "ar": "اكتشف من أين جاءت الكلمات."
     },
     "landing.cta.open": {
-      "en": "Open Wordroot",
-      "es": "Abrir Wordroot",
-      "fr": "Ouvrir Wordroot",
-      "de": "Wordroot öffnen",
-      "pt": "Abrir o Wordroot",
-      "it": "Apri Wordroot",
-      "nl": "Wordroot openen",
-      "ru": "Открыть Wordroot",
-      "ja": "Wordroot を開く",
-      "zh-Hans": "打开 Wordroot",
-      "ko": "Wordroot 열기",
-      "ar": "افتح Wordroot"
+      "en": "Open Eponym",
+      "es": "Abrir Eponym",
+      "fr": "Ouvrir Eponym",
+      "de": "Eponym öffnen",
+      "pt": "Abrir o Eponym",
+      "it": "Apri Eponym",
+      "nl": "Eponym openen",
+      "ru": "Открыть Eponym",
+      "ja": "Eponym を開く",
+      "zh-Hans": "打开 Eponym",
+      "ko": "Eponym 열기",
+      "ar": "افتح Eponym"
     },
     "landing.cta.source": {
       "en": "Source",
@@ -181,18 +181,18 @@
       "ar": "الشيفرة"
     },
     "landing.features.title": {
-      "en": "Every word has a history. Wordroot shows it.",
-      "es": "Cada palabra tiene una historia. Wordroot te la muestra.",
-      "fr": "Chaque mot a une histoire. Wordroot vous la montre.",
-      "de": "Jedes Wort hat eine Geschichte. Wordroot zeigt sie.",
-      "pt": "Cada palavra tem uma história. O Wordroot mostra-a.",
-      "it": "Ogni parola ha una storia. Wordroot te la mostra.",
-      "nl": "Elk woord heeft een geschiedenis. Wordroot laat die zien.",
-      "ru": "У каждого слова есть история. Wordroot её показывает.",
-      "ja": "すべての単語に歴史がある。Wordroot はそれを見せます。",
-      "zh-Hans": "每个单词都有历史。Wordroot 让你看见。",
-      "ko": "모든 단어에는 역사가 있습니다. Wordroot가 보여 줍니다.",
-      "ar": "لكل كلمة تاريخ. وWordroot يُظهره."
+      "en": "Every word has a history. Eponym shows it.",
+      "es": "Cada palabra tiene una historia. Eponym te la muestra.",
+      "fr": "Chaque mot a une histoire. Eponym vous la montre.",
+      "de": "Jedes Wort hat eine Geschichte. Eponym zeigt sie.",
+      "pt": "Cada palavra tem uma história. O Eponym mostra-a.",
+      "it": "Ogni parola ha una storia. Eponym te la mostra.",
+      "nl": "Elk woord heeft een geschiedenis. Eponym laat die zien.",
+      "ru": "У каждого слова есть история. Eponym её показывает.",
+      "ja": "すべての単語に歴史がある。Eponym はそれを見せます。",
+      "zh-Hans": "每个单词都有历史。Eponym 让你看见。",
+      "ko": "모든 단어에는 역사가 있습니다. Eponym가 보여 줍니다.",
+      "ar": "لكل كلمة تاريخ. وEponym يُظهره."
     },
     "landing.f1.title": {
       "en": "Interactive etymology tree",
@@ -391,18 +391,18 @@
       "ar": "بلا حساب ولا تثبيت. افتح تطبيق الويب وابحث عن كلمة."
     },
     "landing.footer.by": {
-      "en": "Wordroot — by",
-      "es": "Wordroot — por",
-      "fr": "Wordroot — par",
-      "de": "Wordroot — von",
-      "pt": "Wordroot — por",
-      "it": "Wordroot — di",
-      "nl": "Wordroot — door",
-      "ru": "Wordroot — автор:",
-      "ja": "Wordroot — 制作:",
-      "zh-Hans": "Wordroot — 作者",
-      "ko": "Wordroot — 제작:",
-      "ar": "Wordroot — بواسطة"
+      "en": "Eponym — by",
+      "es": "Eponym — por",
+      "fr": "Eponym — par",
+      "de": "Eponym — von",
+      "pt": "Eponym — por",
+      "it": "Eponym — di",
+      "nl": "Eponym — door",
+      "ru": "Eponym — автор:",
+      "ja": "Eponym — 制作:",
+      "zh-Hans": "Eponym — 作者",
+      "ko": "Eponym — 제작:",
+      "ar": "Eponym — بواسطة"
     },
     "landing.footer.source": {
       "en": "Source on GitHub",

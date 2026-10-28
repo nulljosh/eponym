@@ -1,21 +1,23 @@
 <img src="icon.svg" width="80">
 
-# Wordroot
+# Eponym
 
 ![version](https://img.shields.io/badge/version-2.0.0-blue)
 ![license](https://img.shields.io/badge/license-MIT-green)
 
 Where did that word come from? Look it up and follow it back, through Latin, Greek, all the way to Proto-Indo-European. A dictionary with the roots showing.
 
-<img src="brand/mascot.svg" width="96" alt="The Wordroot mascot">
+Formerly Wordroot. An eponym is a word named after a person, like sandwich or boycott: every one is a word-origin story, which is what this app tells.
+
+<img src="brand/mascot.svg" width="96" alt="The Eponym mascot">
 
 <img src="progress.svg" width="460">
 
 ## Screenshots
 
 <p>
-<img src="screenshots/wordroot-1.jpg" width="49%" alt="Wordroot on desktop">
-<img src="screenshots/wordroot-2.jpg" width="49%" alt="Wordroot on a phone">
+<img src="screenshots/eponym-1.jpg" width="49%" alt="Eponym on desktop">
+<img src="screenshots/eponym-2.jpg" width="49%" alt="Eponym on a phone">
 </p>
 
 ## How it works
@@ -35,14 +37,14 @@ Twelve interface languages, thirty word languages. Etymology always comes from t
 python3 scripts/gen-i18n.py           # regenerate the i18n bundles after editing the catalog
 python3 scripts/gen-i18n.py --check   # verify they are current
 
-python3 pipeline/parse.py             # builds wordroot.sqlite from English sample words
+python3 pipeline/parse.py             # builds eponym.sqlite from English sample words
 python3 pipeline/parse.py --lang de   # ...or German, added alongside
 python3 pipeline/test_parse.py
 
 node scripts/test-web.mjs             # web app + landing page: i18n and lookup
 ```
 
-**Terminal:** `swift build && ./.build/debug/wordroot-tui etymology` — see [tui/](tui/)
+**Terminal:** `swift build && ./.build/debug/eponym-tui etymology` — see [tui/](tui/)
 
 ## License
 MIT © 2026 Joshua Trommel

@@ -1,10 +1,10 @@
 # API
 
-Wordroot has no database. The web app calls Wiktionary's public REST API straight from the
+Eponym has no database. The web app calls Wiktionary's public REST API straight from the
 browser, and a small read-only HTTP and MCP surface (below) reads Wiktionary the same way:
 
 - `https://{edition}.wiktionary.org/api/rest_v1/page/definition/{word}`, definitions, keyed by
-  the language of each section on the page (`{"en": [...], "fr": [...]}`); Wordroot reads only
+  the language of each section on the page (`{"en": [...], "fr": [...]}`); Eponym reads only
   the key for the selected word language
 - `https://en.wiktionary.org/w/api.php?action=parse&page={word}&prop=wikitext&format=json&origin=*`, wikitext, narrowed client-side to the selected language's `==Section==` and then parsed for the etymology ancestor chain
 

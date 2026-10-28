@@ -37,15 +37,15 @@ check(WordOfTheDay.word(on: d1, calendar: cal) != WordOfTheDay.word(on: d2, cale
 check(WordOfTheDay.words.count == Set(WordOfTheDay.words).count && WordOfTheDay.words.count >= 40, "list is unique and 40+")
 
 // recents
-let suite = UserDefaults(suiteName: "wordroot-watch-tests")!
-suite.removePersistentDomain(forName: "wordroot-watch-tests")
+let suite = UserDefaults(suiteName: "eponym-watch-tests")!
+suite.removePersistentDomain(forName: "eponym-watch-tests")
 let recents = RecentsStore(defaults: suite)
 for w in ["a", "b", "c", "a"] { recents.add(w) }
 check(recents.words == ["a", "c", "b"], "newest first, no duplicates")
 for i in 0..<20 { recents.add("w\(i)") }
 check(recents.words.count == RecentsStore.limit, "capped at \(RecentsStore.limit)")
 check(RecentsStore(defaults: suite).words == recents.words, "persists")
-suite.removePersistentDomain(forName: "wordroot-watch-tests")
+suite.removePersistentDomain(forName: "eponym-watch-tests")
 
 // photos: a picture has to relate to the meaning
 check(PhotoFinder.related("A volcano is a rupture in the crust of a planetary-mass object", to: "A vent on the surface of a planet erupting lava"), "volcano's article relates to its definition")

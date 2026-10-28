@@ -4,7 +4,7 @@ enum LookupError: Error, Equatable, Sendable {
     case invalidWord, notFound, offline, server
 }
 
-/// Looks a word up through the Wordroot API, which reads Wiktionary. The watch has no keyboard worth
+/// Looks a word up through the Eponym API, which reads Wiktionary. The watch has no keyboard worth
 /// the name, so a lookup is one word, dictated or scribbled, and one request.
 struct LookupClient: Sendable {
     var base = URL(string: "https://wordroot.jaybulb.com")!

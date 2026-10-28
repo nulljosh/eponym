@@ -1,6 +1,6 @@
 # Product Hunt
 
-Name: Wordroot
+Name: Eponym
 
 Tagline (45): Look up a word and follow it back to its root
 
@@ -17,8 +17,8 @@ GitHub: https://github.com/nulljosh/wordroot
 
 ## First comment
 
-Hi, I'm Josh, I built Wordroot.
+Hi, I'm Josh, I built Eponym.
 
-Dictionaries stop at the definition. The interesting part is the chain behind it. Wordroot looks up any English word and walks it back: Middle English, Old English, Latin, Greek, all the way to Proto-Indo-European where it is known. It is the tool I wanted every time I fell into a Wiktionary hole.
+Dictionaries stop at the definition. The interesting part is the chain behind it. Eponym looks up any English word and walks it back: Middle English, Old English, Latin, Greek, all the way to Proto-Indo-European where it is known. It is the tool I wanted every time I fell into a Wiktionary hole.
 
 The web version is free. The App Store version is $0.99 upfront, buy it once and it's yours. Happy to answer anything.

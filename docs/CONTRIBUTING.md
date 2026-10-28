@@ -1,10 +1,10 @@
-# Contributing to wordroot
+# Contributing to eponym
 
 ## Setup
 
 ```
 git clone https://github.com/nulljosh/wordroot.git
-cd wordroot
+cd eponym
 open Package.swift   # or the .xcodeproj/.xcworkspace, if present
 ```
 

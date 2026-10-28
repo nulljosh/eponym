@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Wordroot — dictionary + etymology</title>
+<title>Eponym — dictionary + etymology</title>
 <script src="i18n.js"></script>
 <script>window.i18n.applyDocumentLanguage();</script>
 <style>
@@ -11,7 +11,7 @@
 @font-face { font-family: "Root Sans"; src: url("/fonts/RootSans-Medium.woff2") format("woff2"); font-weight: 500; font-display: swap; }
 @font-face { font-family: "Root Sans"; src: url("/fonts/RootSans-Semibold.woff2") format("woff2"); font-weight: 600; font-display: swap; }
 @font-face { font-family: "Root Sans"; src: url("/fonts/RootSans-Bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
-  /* Wordroot, laid out like an Apple app: an 8 point grid, one set of radii, SF's type scale,
+  /* Eponym, laid out like an Apple app: an 8 point grid, one set of radii, SF's type scale,
      48 point controls, and glass for everything that floats over the photo. Nothing is
      positioned by eye; every gap below is a step of the grid. */
   :root {
@@ -176,7 +176,7 @@
   .attr { margin: 0; font-size: 13px; line-height: 18px; color: var(--text2); }
 </style>
   <link rel="manifest" href="/manifest.webmanifest">
-  <link rel="search" type="application/opensearchdescription+xml" title="Wordroot" href="/opensearch.xml">
+  <link rel="search" type="application/opensearchdescription+xml" title="Eponym" href="/opensearch.xml">
   <meta name="theme-color" content="#5B9BD5">
   <link rel="apple-touch-icon" href="/icon-192.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -191,7 +191,7 @@
 <div id="suggest" class="shelf suggest" hidden></div>
 <div id="wotd"></div>
 <div id="out"></div>
-<nav class="tabbar" aria-label="Wordroot">
+<nav class="tabbar" aria-label="Eponym">
   <button type="button" class="tab on" id="tabSearch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 20 20"/></svg><span id="tabSearchLabel"></span></button>
   <button type="button" class="tab" id="tabSaved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 3.5h11v17l-5.5-4-5.5 4z"/></svg><span id="tabSavedLabel"></span></button>
   <button type="button" class="tab" id="tabRandom"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="9" cy="9" r="1.2" fill="currentColor"/><circle cx="15" cy="15" r="1.2" fill="currentColor"/><circle cx="15" cy="9" r="1.2" fill="currentColor"/><circle cx="9" cy="15" r="1.2" fill="currentColor"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></svg><span id="tabRandomLabel"></span></button>
@@ -206,7 +206,7 @@
   </div>
   <div class="label" id="aboutLabel"></div>
   <div class="shelf">
-    <div class="about"><img src="icon-192.png" alt="" width="56" height="56"><div><b>Wordroot</b><p class="tagline" id="tagline"></p></div></div>
+    <div class="about"><img src="icon-192.png" alt="" width="56" height="56"><div><b>Eponym</b><p class="tagline" id="tagline"></p></div></div>
     <nav class="links" id="footLinks"></nav>
   </div>
   <p class="attr" id="attr"></p>
@@ -262,7 +262,7 @@ let wordLang = i18n.wordLanguages.some(l => l.code === storedWordLang())
 const wordLangMeta = () => i18n.wordLanguages.filter(l => l.code === wordLang)[0];
 
 // ponytail: browsers forbid setting User-Agent on fetch, so the Wikimedia UA policy
-// can only be honoured on the native side (see ios/Sources/WordrootApp.swift).
+// can only be honoured on the native side (see ios/Sources/EponymApp.swift).
 async function definitionsFrom(edition, word, lang) {
   if (noDefinitionEndpoint.has(edition)) return null;
   let r;
@@ -719,7 +719,7 @@ $('wotd').addEventListener('click', e => {
 renderChrome();
 // The root page is the app. English opens on "word"; other languages open on their word of the day.
 const isEmbed = () => { try { return document.documentElement.classList.contains('embed'); } catch { return false; } };
-// A link can name the word: /?q=nice, which is also how browsers search Wordroot (opensearch.xml).
+// A link can name the word: /?q=nice, which is also how browsers search Eponym (opensearch.xml).
 const linked = (new URLSearchParams(location.search).get('q') || '').trim().toLowerCase();
 if (linked) {
   $('q').value = linked;
@@ -765,12 +765,12 @@ armDemo();
 
 // Accessors for webmcp.js — kept separate so the lookup/definitions/etymology
 // functions above stay free of any agent-facing concerns.
-window.wordrootLookup = word => lookup(word, $('out'));
-window.wordrootDefinitions = definitions;
-window.wordrootEtymology = etymology;
-window.wordrootOfTheDay = wordOfTheDay;
-window.wordrootWordLanguage = () => wordLang;
-window.wordrootWordLanguages = () => i18n.wordLanguages;
+window.eponymLookup = word => lookup(word, $('out'));
+window.eponymDefinitions = definitions;
+window.eponymEtymology = etymology;
+window.eponymOfTheDay = wordOfTheDay;
+window.eponymWordLanguage = () => wordLang;
+window.eponymWordLanguages = () => i18n.wordLanguages;
 </script>
 <script src="webmcp.js"></script>
   <script>if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('/sw.js'));</script>

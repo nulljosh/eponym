@@ -1,4 +1,4 @@
-/* Wordroot design tokens. One source for the web app and the docs; the Swift and Kotlin
+/* Eponym design tokens. One source for the web app and the docs; the Swift and Kotlin
    apps use the same values. Everything sits on an 8 point grid. */
 @font-face { font-family: "Root Sans"; src: url("../fonts/RootSans-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
 @font-face { font-family: "Root Sans"; src: url("../fonts/RootSans-Medium.woff2") format("woff2"); font-weight: 500; font-display: swap; }

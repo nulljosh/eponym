@@ -1,5 +1,5 @@
 import XCTest
-@testable import Wordroot
+@testable import Eponym
 
 // Saved and recent words: newest first, no duplicates, capped.
 final class ShelfTests: XCTestCase {

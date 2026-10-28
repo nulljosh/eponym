@@ -51,7 +51,7 @@ compose.desktop {
                 org.jetbrains.compose.desktop.application.dsl.TargetFormat.Deb,
                 org.jetbrains.compose.desktop.application.dsl.TargetFormat.Dmg,
             )
-            packageName = "Wordroot"
+            packageName = "Eponym"
             packageVersion = "1.0.0"
             description = "Lost and found pets, posted by neighbours."
         }

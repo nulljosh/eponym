@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct WordrootWatchApp: App {
+struct EponymWatchApp: App {
     init() { RootSans.register() }
 
     var body: some Scene {

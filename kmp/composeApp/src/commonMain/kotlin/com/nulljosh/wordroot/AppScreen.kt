@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 
 @Composable
-fun WordrootTheme(content: @Composable () -> Unit) =
+fun EponymTheme(content: @Composable () -> Unit) =
     MaterialTheme(colorScheme = lightColorScheme(), content = content)
 
 // ponytail: word language fixed to English for this pass, no UI-language
@@ -51,7 +51,7 @@ fun AppScreen(client: WiktionaryClient = WiktionaryClient()) {
 
     Surface {
         Column(Modifier.fillMaxSize().padding(24.dp)) {
-            Text("Wordroot", style = MaterialTheme.typography.headlineMedium)
+            Text("Eponym", style = MaterialTheme.typography.headlineMedium)
             OutlinedTextField(
                 value = query,
                 onValueChange = { query = it },

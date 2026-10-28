@@ -1,5 +1,5 @@
 import XCTest
-@testable import Wordroot
+@testable import Eponym
 
 // The IPA shown under the word: first transcription in the right language section, named params skipped.
 final class PronunciationTests: XCTestCase {

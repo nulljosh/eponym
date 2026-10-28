@@ -1,9 +1,9 @@
 import Foundation
 import SwiftTUI
 
-// ponytail: hits the same live /api/word endpoint the web/iOS app calls — wordroot's
+// ponytail: hits the same live /api/word endpoint the web/iOS app calls — eponym's
 // logic is a Cloudflare Function, not a local Swift model, so there's nothing to port.
-// `wordroot-tui <word>` fetches once and renders a card, same static-render shape as
+// `eponym-tui <word>` fetches once and renders a card, same static-render shape as
 // nimble-tui/cadence-tui.
 
 struct Definition: Decodable { let pos: String; let definitions: [String] }
@@ -17,7 +17,7 @@ struct WordResult: Decodable {
 
 let args = CommandLine.arguments.dropFirst()
 guard let word = args.first else {
-    print("usage: wordroot-tui <word>")
+    print("usage: eponym-tui <word>")
     exit(1)
 }
 

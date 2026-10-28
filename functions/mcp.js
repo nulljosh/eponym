@@ -48,7 +48,7 @@ export async function onRequest({ request: req }) {
       return reply({
         protocolVersion: params.protocolVersion || '2025-06-18',
         capabilities: { tools: {} },
-        serverInfo: { name: 'wordroot', version: VERSION },
+        serverInfo: { name: 'eponym', version: VERSION },
       });
     case 'notifications/initialized':
       return new Response(null, { status: 202, headers: CORS });
@@ -67,11 +67,11 @@ export async function onRequest({ request: req }) {
         // A tool rejecting its input is a tool result, not a transport error — the client
         // should see the message and be able to retry, not get a dead connection.
         if (err instanceof ToolError) {
-          return reply({ content: [{ type: 'text', text: `wordroot: ${err.message}` }], isError: true });
+          return reply({ content: [{ type: 'text', text: `eponym: ${err.message}` }], isError: true });
         }
         // Wiktionary being unreachable is a tool result too: the client can retry, and a
         // dead connection would tell it nothing about why.
-        return reply({ content: [{ type: 'text', text: `wordroot: upstream Wiktionary request failed.` }], isError: true });
+        return reply({ content: [{ type: 'text', text: `eponym: upstream Wiktionary request failed.` }], isError: true });
       }
       if (!result) {
         return json({ jsonrpc: '2.0', id, error: { code: -32602, message: `Unknown tool: ${params.name}` } });

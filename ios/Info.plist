@@ -23,6 +23,7 @@
 			<string>com.heyitsmejosh.etyma</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>eponym</string>
 				<string>wordroot</string>
 			</array>
 		</dict>
@@ -35,12 +36,12 @@
 			<key>NSMenuItem</key>
 			<dict>
 				<key>default</key>
-				<string>Look Up in Wordroot</string>
+				<string>Look Up in Eponym</string>
 			</dict>
 			<key>NSMessage</key>
 			<string>lookUp</string>
 			<key>NSPortName</key>
-			<string>Wordroot</string>
+			<string>Eponym</string>
 			<key>NSRequiredContext</key>
 			<dict/>
 			<key>NSSendTypes</key>
