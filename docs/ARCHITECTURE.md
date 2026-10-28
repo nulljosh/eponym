@@ -49,6 +49,9 @@ Eponym is a dictionary with etymology. Look up a word, follow its roots back thr
 | `ios/project.yml` | xcodegen spec for the iOS and macOS targets. No checked in xcodeproj |
 | `ios/Sources/EponymApp.swift` | App entry, settings, layout direction |
 | `ios/Sources/Localized.swift` | Generated string tables. Never hand edit |
+| `ios/Sources/LookUp.swift` | Inbox for words from outside the app, the Shortcuts intent, the Mac Services menu |
+| `ios/Widget/` | Word of the day widget, iPhone and Mac |
+| `ios/Action/` | Look Up in Eponym in the iPhone share sheet. Compiles the app sources with `ACTION_EXTENSION` |
 | `ios/Tests/EtymologyParserTests.swift` | Parser tests: template parsing and no cycles |
 | `Eponym.icon/` | Icon Composer source for the app icon. `icon.svg` is the flat copy |
 | `ios/ExportOptions.plist`, `ios/Eponym.entitlements` | Signing and export |

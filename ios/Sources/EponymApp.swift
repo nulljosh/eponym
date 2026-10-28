@@ -2,10 +2,9 @@ import AVFoundation
 import Combine
 import SwiftUI
 
+#if !ACTION_EXTENSION
 @main
 struct EponymApp: App {
-    @StateObject private var settings = Settings()
-
     init() {
         RootSans.register()
         // Room for every page looked up, which is what lets them open offline (Wiktionary.load).
@@ -16,16 +15,24 @@ struct EponymApp: App {
     }
 
     var body: some Scene {
-        WindowGroup {
-            ContentView()
-                .font(.root(.body))
-                .environmentObject(settings)
-                // Driving locale and layout direction from the in-app choice rather than from
-                // the system means picking Arabic mirrors the whole interface even on a device
-                // set to English — the picker would otherwise change only the words.
-                .environment(\.locale, Locale(identifier: settings.uiLanguage))
-                .environment(\.layoutDirection, settings.isRightToLeft ? .rightToLeft : .leftToRight)
-        }
+        WindowGroup { RootView() }
+    }
+}
+#endif
+
+/// The whole app in one view, shared by the app window and the share sheet action.
+struct RootView: View {
+    @StateObject private var settings = Settings()
+
+    var body: some View {
+        ContentView()
+            .font(.root(.body))
+            .environmentObject(settings)
+            // Driving locale and layout direction from the in-app choice rather than from
+            // the system means picking Arabic mirrors the whole interface even on a device
+            // set to English, otherwise the picker would change only the words.
+            .environment(\.locale, Locale(identifier: settings.uiLanguage))
+            .environment(\.layoutDirection, settings.isRightToLeft ? .rightToLeft : .leftToRight)
     }
 }
 
@@ -746,9 +753,9 @@ struct ContentView: View {
             }
             .task {
                 // Screenshots only: `-UITEST_WORD nostalgia` opens on that word instead of the word of the day.
-                if let w = UserDefaults.standard.string(forKey: "UITEST_WORD") { query = w } else if let w = wordOfTheDay { search(w) }
+                if let w = UserDefaults.standard.string(forKey: "UITEST_WORD") { query = w } else if query.isEmpty, let w = wordOfTheDay { search(w) }
             }
-            // Shortcuts, Siri, Spotlight and the Mac Services menu hand words over through the inbox.
+            // Shortcuts, Siri, Spotlight, the share sheet and the Mac Services menu hand words over through the inbox.
             .onReceive(Inbox.shared.$word.compactMap { $0 }) { word in
                 query = word
                 remember(word)

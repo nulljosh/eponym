@@ -209,7 +209,7 @@ build-time artifact. Revisit storage when a rate limit or a latency measurement 
 ## 2.0.0 submitted 2026-10-28
 iOS (with the watch app and widget inside) and Mac 2.0.0, build 202610281345, both WAITING_FOR_REVIEW, release on approval. New screenshots for iPhone 6.9 and 6.5, iPad 13 and 12.9, Apple Watch; the Mac listing still shows the 1.0.2 shot (fresh Mac shots are a follow-up). Name stays Wordroot.
 - [ ] Fresh Mac App Store screenshots
-- [ ] iOS Action extension: look up text selected in any app
+- [x] iOS Action extension: look up text selected in any app (ios/Action, ships in 2.0.1)
 - [x] Watch word of the day uses its own list; move it to Catalog.wordsOfTheDay so phone, watch and widget agree
 
 ## Gap matrix vs the best dictionary apps (2026-10-28, /mobbin)
@@ -224,7 +224,7 @@ From the App Store screens of Etymonline, EtymologyExplorer, Merriam-Webster, Ox
 | 1.6 | Same-root words: other words that come from this word's root (Wiktionary search on the {{root}} template, else the oldest ancestor) | Etymonline related entries, EtymologyExplorer descendants | M | [x] 2026-10-28 |
 | 1.7 | Random word button (bottom bar; English list grew from 25 to 192 words) | EtymologyExplorer, Terminology | S | [x] 2026-10-28 |
 | 1.8 | Word of the day, with a Home Screen widget (small and medium, iPhone and Mac, opens the word via wordroot://word/) | Merriam-Webster, Oxford, EtymologyExplorer, Etymonline trending | M | [x] 2026-10-28 |
-| 1.9 | Look up from other apps: App Intent for Shortcuts, Siri and Spotlight; Services menu on the Mac; ?q= links and OpenSearch on the web. An iOS Action extension for selected text is still to do | Terminology | M | [x] 2026-10-28 |
+| 1.9 | Look up from other apps: App Intent for Shortcuts, Siri and Spotlight; Services menu on the Mac; ?q= links and OpenSearch on the web. The iOS share sheet action followed after 2.0.0 | Terminology | M | [x] 2026-10-28 |
 | 1.10 | Prefixes and suffixes index (-logy, bio-, anti-): 93 curated English affixes at the foot of the home screen | Etymonline | M | [x] 2026-10-28 |
 | 1.11 | Offline: every word you looked up opens without a connection (web: service worker word cache, newest 600; Apple: 200 MB URLCache with a cache-only retry) | Oxford, Merriam-Webster, Terminology | M | [x] 2026-10-28 |
 

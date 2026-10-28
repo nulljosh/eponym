@@ -4,7 +4,7 @@ import SwiftUI
 import AppKit
 #endif
 
-/// Hands a word from outside the app (Shortcuts, Siri, Spotlight, the Mac Services menu) to the open window.
+/// Hands a word from outside the app (Shortcuts, Siri, Spotlight, the share sheet, the Mac Services menu) to the open window.
 @MainActor
 final class Inbox: ObservableObject {
     static let shared = Inbox()
@@ -16,6 +16,8 @@ final class Inbox: ObservableObject {
     }
 }
 
+// The share sheet action compiles this file for the inbox only; intents belong to the app.
+#if !ACTION_EXTENSION
 struct LookUpIntent: AppIntent {
     static let title: LocalizedStringResource = "Look Up in Eponym"
     static let description = IntentDescription("Opens a word's definitions and where it comes from.")
@@ -36,6 +38,7 @@ struct EponymShortcuts: AppShortcutsProvider {
                     shortTitle: "Look Up", systemImageName: "text.magnifyingglass")
     }
 }
+#endif
 
 #if os(macOS)
 /// Services > Look Up in Eponym, for text selected in any Mac app. The menu item is declared in Info.plist (NSServices).
