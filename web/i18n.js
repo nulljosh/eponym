@@ -236,6 +236,20 @@
       "ko": "검색",
       "ar": "بحث"
     },
+    "ui.speak": {
+      "en": "Listen",
+      "es": "Escuchar",
+      "fr": "Écouter",
+      "de": "Anhören",
+      "pt": "Ouvir",
+      "it": "Ascolta",
+      "nl": "Luisteren",
+      "ru": "Прослушать",
+      "ja": "聞く",
+      "zh-Hans": "收听",
+      "ko": "듣기",
+      "ar": "استمع"
+    },
     "ui.wotdWord": {
       "en": "Word of the day: {word}",
       "es": "Palabra del día: {word}",

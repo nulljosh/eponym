@@ -111,6 +111,7 @@
   .save { flex: none; width: 40px; height: 40px; margin-top: 1px; border-radius: var(--r-pill); border: 0; background: none; color: var(--text2); cursor: pointer; display: grid; place-items: center; }
   .save svg { width: 22px; height: 22px; }
   .save[aria-pressed="true"] { color: var(--accent); }
+  .ipa { font-size: 17px; line-height: 24px; color: var(--text2); margin: calc(-1 * var(--s1)) 0 var(--s2); }
   .save[aria-pressed="true"] svg { fill: currentColor; }
   .save:focus-visible, .shelf-row:focus-visible { outline: none; box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 30%, transparent); }
 
@@ -289,14 +290,34 @@ function languageSection(text, name) {
   return end === -1 ? after : after.slice(0, end);
 }
 
-async function etymology(word, lang) {
+// One fetch of the page's wikitext serves both the etymology and the pronunciation.
+const pages = new Map();
+function wikitext(word) {
+  if (!pages.has(word)) pages.set(word, (async () => {
+    const r = await fetch(`${WIKI}/w/api.php?action=parse&page=${encodeURIComponent(word)}&prop=wikitext&format=json&origin=*`);
+    if (!r.ok) { pages.delete(word); return ''; }
+    const d = await r.json();
+    return d.parse?.wikitext?.['*'] || '';
+  })());
+  return pages.get(word);
+}
+const sectionFor = async (word, lang) => {
   const meta = i18n.wordLanguages.filter(l => l.code === (lang || wordLang))[0];
-  if (!meta) return [];
-  const api = `${WIKI}/w/api.php?action=parse&page=${encodeURIComponent(word)}&prop=wikitext&format=json&origin=*`;
-  const r = await fetch(api);
-  if (!r.ok) return [];
-  const d = await r.json();
-  const section = languageSection(d.parse?.wikitext?.['*'] || '', meta.section);
+  return meta ? languageSection(await wikitext(word), meta.section) : null;
+};
+
+/** The first IPA transcription in the word's language section, like "/wɜːd/", or null. */
+function ipaFrom(section) {
+  const m = (section || '').match(/\{\{IPA\|([^}]*)\}\}/);
+  if (!m) return null;
+  return m[1].split('|').slice(1).find(x => x && !x.includes('=')) || null;   // first param is the language code
+}
+async function pronunciation(word, lang) {
+  try { return ipaFrom(await sectionFor(word, lang)); } catch { return null; }
+}
+
+async function etymology(word, lang) {
+  const section = await sectionFor(word, lang);
   if (!section) return [];
   const m = section.match(/===?Etymology[^=]*===?\n([\s\S]*?)(\n===?[^=]|$)/);
   if (!m) return [];
@@ -310,12 +331,13 @@ async function etymology(word, lang) {
   return chain;
 }
 
-function render(el, word, defs, chain) {
+function render(el, word, defs, chain, ipa) {
   // dir="auto" throughout: the headword and its ancestors can be in any script — an Arabic
   // ancestor inside an English page, or a Latin one inside an Arabic page — and each element
   // has to pick up its own direction independently of the page's.
   let html = `<div class="card"><div class="label">${esc(t('ui.resultsFor', { word }))}</div>` +
-    `<div class="card-head"><h2 dir="auto" lang="${esc(wordLang)}">${esc(word)}</h2>${saveButton(word)}</div>`;
+    `<div class="card-head"><h2 dir="auto" lang="${esc(wordLang)}">${esc(word)}</h2>${speakButton(word)}${saveButton(word)}</div>` +
+    (ipa ? `<div class="ipa">${esc(ipa)}</div>` : '');
   if (defs && defs.groups.length) {
     for (const g of defs.groups) {
       // Glosses are prose in the edition's own language, not the looked-up word's.
@@ -404,13 +426,13 @@ async function lookup(word, el) {
   setBgWord(word, defsP.catch(() => null));
   el.innerHTML = `<p class="muted">${esc(t('ui.lookingUp'))}</p>`;
   try {
-    const [defs, chain] = await Promise.all([defsP, etymology(word, lang)]);
+    const [defs, chain, ipa] = await Promise.all([defsP, etymology(word, lang), pronunciation(word, lang)]);
     if (lang !== wordLang) return;  // the picker moved while we were in flight
     if (!defs && !chain.length) {
       el.innerHTML = `<p class="muted">${esc(t('ui.nothingFoundFor', { word }))}</p>`;
       return;
     }
-    render(el, word, defs, chain);
+    render(el, word, defs, chain, ipa);
   } catch {
     el.innerHTML = `<p class="muted">${esc(t('ui.networkError'))}</p>`;
   }
@@ -426,6 +448,19 @@ const listed = (k, w) => readList(k).some(e => same(e, w));
 const remember = (k, w, max) => writeList(k, [{ w, l: wordLang }, ...readList(k).filter(e => !same(e, w))].slice(0, max));
 const forget = (k, w) => writeList(k, readList(k).filter(e => !same(e, w)));
 const BOOKMARK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 3.5h11v17l-5.5-4-5.5 4z"/></svg>';
+// Speak the word with the device's own voice, in the word's language when the device has one.
+const SPEAKER = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/></svg>';
+const canSpeak = typeof speechSynthesis !== 'undefined' && typeof SpeechSynthesisUtterance !== 'undefined';
+function speakButton(word) {
+  return canSpeak ? `<button type="button" class="save speak" data-word="${esc(word)}" aria-label="${esc(t('ui.speak'))}">${SPEAKER}</button>` : '';
+}
+function speak(word) {
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(word);
+  u.lang = wordLang;
+  speechSynthesis.speak(u);
+}
+
 function saveButton(word) {
   const on = listed(SAVED_KEY, word);
   return `<button type="button" class="save" data-word="${esc(word)}" aria-pressed="${on}" aria-label="${esc(t(on ? 'ui.unsave' : 'ui.save'))}">${BOOKMARK}</button>`;
@@ -522,6 +557,8 @@ $('q').addEventListener('change', e => {
   if (word && $('out').querySelector('.card')) remember(RECENT_KEY, word, RECENT_MAX);
 });
 $('out').addEventListener('click', e => {
+  const sp = e.target.closest('.speak');
+  if (sp) { speak(sp.dataset.word); return; }
   const b = e.target.closest('.save');
   if (!b) return;
   const word = b.dataset.word;

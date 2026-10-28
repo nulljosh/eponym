@@ -1,3 +1,4 @@
+import AVFoundation
 import Combine
 import SwiftUI
 
@@ -138,6 +139,7 @@ struct Entry {
     let definitions: Definitions?
     let chain: [ChainLink]
     let photoURL: URL?
+    var ipa: String? = nil
 }
 
 // MARK: - Wiktionary
@@ -210,6 +212,11 @@ enum Wiktionary {
     }
 
     static func etymology(_ word: String, section: String) async throws -> [ChainLink] {
+        try chain(fromWikitext: try await wikitext(word), section: section)
+    }
+
+    /// The page's raw wikitext, which carries both the etymology and the pronunciation.
+    static func wikitext(_ word: String) async throws -> String {
         var comps = URLComponents(string: "\(host)/w/api.php")!
         comps.queryItems = [
             .init(name: "action", value: "parse"), .init(name: "page", value: word),
@@ -218,8 +225,17 @@ enum Wiktionary {
         let (data, _) = try await URLSession.shared.data(for: request(comps.url!))
         guard let root = try JSONSerialization.jsonObject(with: data) as? [String: Any],
               let parse = root["parse"] as? [String: Any],
-              let wikitext = (parse["wikitext"] as? [String: Any])?["*"] as? String else { return [] }
-        return try chain(fromWikitext: wikitext, section: section)
+              let wikitext = (parse["wikitext"] as? [String: Any])?["*"] as? String else { return "" }
+        return wikitext
+    }
+
+    /// The first IPA transcription in the language section, like "/wɜːd/", or nil. Same rule as the web.
+    static func ipa(fromWikitext wikitext: String, section name: String) -> String? {
+        guard let body = languageSection(wikitext, named: name),
+              let open = body.range(of: "{{IPA|"),
+              let close = body[open.upperBound...].range(of: "}}") else { return nil }
+        let params = body[open.upperBound..<close.lowerBound].split(separator: "|").dropFirst()   // first is the language code
+        return params.first { !$0.contains("=") && !$0.isEmpty }.map(String.init)
     }
 
     /// Body of the `==Name==` language section, or nil. Stops at the next level-2 heading.
@@ -273,11 +289,13 @@ enum Wiktionary {
     /// Only the etymology request can throw: a failed definition lookup leaves the etymology.
     static func entry(_ word: String, language: WordLanguage) async throws -> Entry? {
         async let d = definitions(word, language: language.code)
-        async let c = etymology(word, section: language.section)
+        async let w = wikitext(word)
         async let p = photo(word)
-        let (found, chain, photoURL) = try await (d, c, p)
+        let (found, text, photoURL) = try await (d, w, p)
+        let chain = try chain(fromWikitext: text, section: language.section)
         if found == nil && chain.isEmpty { return nil }
-        return Entry(word: word, definitions: found, chain: chain, photoURL: photoURL)
+        return Entry(word: word, definitions: found, chain: chain, photoURL: photoURL,
+                     ipa: ipa(fromWikitext: text, section: language.section))
     }
 }
 
@@ -324,6 +342,18 @@ private struct PhotoBackground: View {
             Color.black.opacity(0.5)
         }
         .ignoresSafeArea()
+    }
+}
+
+/// Says a word aloud with the device's own voice, in the word's language when one is installed.
+@MainActor
+enum Voice {
+    private static let synth = AVSpeechSynthesizer()
+    static func speak(_ word: String, language: String) {
+        synth.stopSpeaking(at: .immediate)
+        let u = AVSpeechUtterance(string: word)
+        u.voice = AVSpeechSynthesisVoice(language: language)
+        synth.speak(u)
     }
 }
 
@@ -396,12 +426,19 @@ struct ContentView: View {
 
     /// The line above an entry, with the save toggle at its end.
     /// The word itself, large, is the title; there is no app name on screen.
-    private func entryHeader(_ title: String, _ word: String) -> some View {
+    private func entryHeader(_ title: String, _ word: String, ipa: String?) -> some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(title).font(.root(.subheadline, .semibold)).textCase(nil)
-            HStack(alignment: .firstTextBaseline) {
+            HStack(alignment: .firstTextBaseline, spacing: 16) {
                 Text(verbatim: word).font(.root(.largeTitle, .bold)).textCase(nil)
                 Spacer()
+                Button {
+                    Voice.speak(word, language: settings.wordLanguage)
+                } label: {
+                    Image(systemName: "speaker.wave.2").font(.title2)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(settings.t("ui.speak"))
                 Button {
                     toggleSaved(word)
                 } label: {
@@ -410,6 +447,7 @@ struct ContentView: View {
                 .buttonStyle(.plain)
                 .accessibilityLabel(settings.t(isSaved(word) ? "ui.unsave" : "ui.save"))
             }
+            if let ipa { Text(verbatim: ipa).font(.root(.body)).opacity(0.8).textCase(nil) }
         }
         .foregroundStyle(.white)
     }
@@ -448,9 +486,9 @@ struct ContentView: View {
                     HStack { Spacer(); ProgressView(); Spacer() }
                 } else if let entry {
                     if query.isEmpty {
-                        Section {} header: { entryHeader(settings.t("ui.wotdWord", ["word": entry.word]), entry.word) }
+                        Section {} header: { entryHeader(settings.t("ui.wotdWord", ["word": entry.word]), entry.word, ipa: entry.ipa) }
                     } else {
-                        Section {} header: { entryHeader(settings.t("ui.resultsFor", ["word": entry.word]), entry.word) }
+                        Section {} header: { entryHeader(settings.t("ui.resultsFor", ["word": entry.word]), entry.word, ipa: entry.ipa) }
                     }
                     entrySections(entry)
                 } else if failed {

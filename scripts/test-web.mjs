@@ -323,6 +323,14 @@ test('saved and recent words show on the home screen, only for the current word 
   assert.ok(ctx.saveButton('muscle').includes('aria-pressed="false"'));
 });
 
+test('the pronunciation is the first IPA transcription, skipping named params', () => {
+  const ctx = runPage({});
+  assert.equal(ctx.ipaFrom('* {{a|UK}} {{IPA|en|/wɜːd/|[wɜːd]|a=RP}}'), '/wɜːd/');
+  assert.equal(ctx.ipaFrom('{{IPA|en|a=US|/wɝd/}}'), '/wɝd/');
+  assert.equal(ctx.ipaFrom('no pronunciation here'), null);
+  assert.equal(ctx.ipaFrom(null), null);
+});
+
 test('every hero wall entry has a meaning in every shipped locale', () => {
   for (const { code } of landing().locales) {
     for (const entry of landing({ lang: code }).wall) {
