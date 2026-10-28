@@ -10,8 +10,8 @@ options:
 # language; this list documents the set and keeps Xcode's own language menus in step.
 knownRegions: [en, es, fr, de, pt, it, nl, ru, ja, zh-Hans, ko, ar]
 settings:
-  MARKETING_VERSION: "1.7.0"
-  "MARKETING_VERSION[sdk=macosx*]": "1.7.0"
+  MARKETING_VERSION: "1.8.0"
+  "MARKETING_VERSION[sdk=macosx*]": "1.8.0"
   CURRENT_PROJECT_VERSION: 202610161204
   "CURRENT_PROJECT_VERSION[sdk=macosx*]": 202610161220
   SWIFT_VERSION: "5.9"
@@ -39,10 +39,43 @@ targets:
       DEVELOPMENT_TEAM: QMM486NPYC
       CODE_SIGN_STYLE: Automatic
       CODE_SIGN_ENTITLEMENTS: Wordroot.entitlements
+    # The widget's deep link: wordroot://word/<word> opens that word.
+    info:
+      path: Info.plist
+      properties:
+        CFBundleURLTypes:
+          - CFBundleURLName: com.heyitsmejosh.etyma
+            CFBundleURLSchemes: [wordroot]
     dependencies:
       - target: WordrootWatch
         platformFilter: iOS
         embed: true
+      - target: WordrootWidget
+        embed: true
+  # Word of the day on the Home Screen and the Mac desktop. Shares the generated catalog and Root Sans with the app.
+  WordrootWidget:
+    type: app-extension
+    supportedDestinations: [iOS, macOS]
+    sources:
+      - Widget
+      - path: Sources/Localized.swift
+      - path: Sources/RootSans.swift
+      - path: ../fonts
+        excludes: ["*.woff2"]
+    info:
+      path: Widget/Info.plist
+      properties:
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.heyitsmejosh.etyma.widget
+      GENERATE_INFOPLIST_FILE: YES
+      INFOPLIST_KEY_CFBundleDisplayName: Wordroot
+      INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: NO
+      CODE_SIGN_ENTITLEMENTS: Widget/Widget.entitlements
+      DEVELOPMENT_TEAM: QMM486NPYC
+      CODE_SIGN_STYLE: Automatic
+      SKIP_INSTALL: YES
   # The watch app is plain SwiftUI with its own sources; it rides inside the iPhone app on the App Store.
   WordrootWatch:
     type: application

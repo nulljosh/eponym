@@ -187,7 +187,7 @@ build-time artifact. Revisit storage when a rate limit or a latency measurement 
 - [ ] Needs a better name. (Probe Apple first, one name everywhere.)
   Name hunt 2026-10-28: one real single word only, never two words glued together. Probed on the 1.0.6 draft
   (`scratchpad/probe-wordroot.sh`), about 130 tried. Joshua said no to Forebear, Varro, Rootward (compound).
-  Free but not picked: Philologist, Lexicology, Lexiphile, Etymologer, Cognatus, Rooter, Etymonic, Exordium, Nascent, Tamarisk, Totara, Galangal, Chicory, Alkanet, Ordet, Sloka, Lexeis, Glottal, Primeval, Glossator, Provenience, Etymologist, Ancient, Atavism, Archaism, Relict, Cognomen, Isidore, Progenitor, Begetter, Stirps, Proles, Onomast, Rhizoid, Etymic, Juuri, Skeat.
+  Free but not picked: Purport, Denotation, Philologist, Lexicology, Lexiphile, Etymologer, Cognatus, Rooter, Etymonic, Exordium, Nascent, Tamarisk, Totara, Galangal, Chicory, Alkanet, Ordet, Sloka, Lexeis, Glottal, Primeval, Glossator, Provenience, Etymologist, Ancient, Atavism, Archaism, Relict, Cognomen, Isidore, Progenitor, Begetter, Stirps, Proles, Onomast, Rhizoid, Etymic, Juuri, Skeat.
   Taken (skip): Rhizome Etymon Taproot Cognate Radix Stemma Lexeme Etyma Provenance Banyan Acorn Racine Raiz
   Verba Lingua Lexis Origo Genus Lexicon Glossa Kernel Rhiza Arche Onoma Sema Radicle Fons Loam Linden Aspen
   Cedar Mycelium Babel Rosetta Grimm Proto Runic Ogham Rune Argot Quill Vellum Saga Idiom Lingo Scribe Cadmus
@@ -197,7 +197,8 @@ build-time artifact. Revisit storage when a rate limit or a latency measurement 
   Ord Mot Wort Slovo Sana Parola Palabra Kalima Davar Logos Verbe Woord Lexi Kotoba Parole Langue Verbatim Rhema Sprache Taal
   Mandrake Orris Madder Ginseng Mesquite Kauri Ficus Burdock Turmeric Lotus Iris Bamboo Ginger Cypress Tamarind Acacia Sassafras Parsnip Taro Cassava Yam
   Derivative Fountain Source Spring Seedling Sprout Nucleus Primus Alpha Omega Incipit Proem Prologue Preface Overture Prelude Dawn Aurora Inception
-  Lexis Logophile Linguist Glossary Thesaurus Dictionary Morphology Semantics Syntax Grammar Rhetoric Eloquence Cognition Legend Fable Myth Tale Clan Tribe Dynasty.
+  Lexis Logophile Linguist Glossary Thesaurus Dictionary Morphology Semantics Syntax Grammar Rhetoric Eloquence Cognition Legend Fable Myth Tale Clan Tribe Dynasty
+  Verity Candor Lucid Clarity Gist Essence Crux Core Pith Marrow Nub Quintessence Substance Meaning Sense Notion Concept Idea Term.
 
 ## Gap matrix vs the best dictionary apps (2026-10-28, /mobbin)
 From the App Store screens of Etymonline, EtymologyExplorer, Merriam-Webster, Oxford, American Heritage, Terminology, WordWeb, Collins, Chambers and Wiktionary Reader. Daily use first, polish before novelty, on-device over cloud. One row is one minor version, shipped on iOS, Mac and web together. 1.1.0 stays reserved for the watch app.
@@ -210,7 +211,7 @@ From the App Store screens of Etymonline, EtymologyExplorer, Merriam-Webster, Ox
 | 1.5 | Root tree: the chain drawn as a tree, tap any ancestor to open it (its Wiktionary entry for now) | Etymonline charts, EtymologyExplorer, American Heritage IE chart | M | [x] 2026-10-28 |
 | 1.6 | Same-root words: other words that come from this word's root (Wiktionary search on the {{root}} template, else the oldest ancestor) | Etymonline related entries, EtymologyExplorer descendants | M | [x] 2026-10-28 |
 | 1.7 | Random word button (bottom bar; English list grew from 25 to 192 words) | EtymologyExplorer, Terminology | S | [x] 2026-10-28 |
-| 1.8 | Word of the day, with a Home Screen widget | Merriam-Webster, Oxford, EtymologyExplorer, Etymonline trending | M | [ ] |
+| 1.8 | Word of the day, with a Home Screen widget (small and medium, iPhone and Mac, opens the word via wordroot://word/) | Merriam-Webster, Oxford, EtymologyExplorer, Etymonline trending | M | [x] 2026-10-28 |
 | 1.9 | Look up from other apps: share sheet and Services menu on the Mac | Terminology | M | [ ] |
 | 1.10 | Prefixes and suffixes index (-logy, bio-, anti-) | Etymonline | M | [ ] |
 | 1.11 | Offline: every word you looked up opens without a connection | Oxford, Merriam-Webster, Terminology | M | [ ] |

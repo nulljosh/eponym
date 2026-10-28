@@ -701,6 +701,10 @@ struct ContentView: View {
             .task {
                 if let w = wordOfTheDay { search(w) }
             }
+            // The widget opens its word here: wordroot://word/<word>.
+            .onOpenURL { url in
+                if url.scheme == "wordroot", url.host == "word", !url.lastPathComponent.isEmpty { query = url.lastPathComponent }
+            }
           }
         }
     }
