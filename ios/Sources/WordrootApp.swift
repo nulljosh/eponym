@@ -353,6 +353,12 @@ struct ContentView: View {
         return list[Int(Date().timeIntervalSince1970 / 86400) % list.count]
     }
 
+#if os(iOS)
+    private static let controlsPlacement = ToolbarItemPlacement.bottomBar
+#else
+    private static let controlsPlacement = ToolbarItemPlacement.automatic
+#endif
+
     var body: some View {
         NavigationStack {
             List {
@@ -381,12 +387,15 @@ struct ContentView: View {
             .toolbarBackground(.hidden, for: .navigationBar)
 #endif
             .searchable(text: $query, prompt: Text(settings.t("ui.searchPlaceholder")))
-            .navigationTitle(entry?.word.capitalized ?? "Wordroot")
+            .navigationTitle(entry?.word.capitalized ?? "")   // no app name on screen: people know which app they opened
+            // Controls live in the bottom bar on the phone, never in the top corner (Joshua 2026-10-28).
             .toolbar {
-                Button {
-                    showingSettings = true
-                } label: {
-                    Label(settings.t("ui.settings"), systemImage: "globe")
+                ToolbarItem(placement: Self.controlsPlacement) {
+                    Button {
+                        showingSettings = true
+                    } label: {
+                        Label(settings.t("ui.settings"), systemImage: "gearshape")
+                    }
                 }
             }
             .sheet(isPresented: $showingSettings) {
@@ -507,7 +516,12 @@ struct LanguageSettingsView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section(settings.t("ui.interfaceLanguage")) {
+                Section(settings.t("ui.language")) {
+                    Picker(settings.t("ui.wordLanguage"), selection: $settings.wordLanguage) {
+                        ForEach(wordLanguages) { language in
+                            Text(settings.languageName(language.code)).tag(language.code)
+                        }
+                    }
                     Picker(settings.t("ui.interfaceLanguage"), selection: $settings.uiLanguage) {
                         ForEach(Catalog.uiLanguages) { language in
                             // The endonym, so a reader can find their language without already
@@ -515,21 +529,27 @@ struct LanguageSettingsView: View {
                             Text(language.endonym).tag(language.code)
                         }
                     }
-                    .labelsHidden()
-                    .pickerStyle(.inline)
                 }
-                Section(settings.t("ui.wordLanguage")) {
-                    Picker(settings.t("ui.wordLanguage"), selection: $settings.wordLanguage) {
-                        ForEach(wordLanguages) { language in
-                            Text(settings.languageName(language.code)).tag(language.code)
+                // The brand lives here, not on the main screen (Joshua 2026-10-28).
+                Section {
+                    HStack(spacing: 12) {
+                        Image("AboutIcon").resizable().frame(width: 56, height: 56)
+                            .clipShape(RoundedRectangle(cornerRadius: 12.3, style: .continuous))
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(verbatim: "Wordroot").font(.root(.headline, .semibold))
+                            Text(settings.t("ui.tagline")).font(.root(.subheadline)).foregroundStyle(.secondary)
+                            Text(verbatim: "\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "") (\(Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? ""))")
+                                .font(.root(.caption)).foregroundStyle(.secondary)
                         }
                     }
-                    .labelsHidden()
-                }
-                Section {
-                    Text(verbatim: "Wordroot \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "") (\(Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? ""))")
-                        .font(.root(.caption))
-                        .foregroundStyle(.secondary)
+                    .padding(.vertical, 4)
+                    Link(settings.t("ui.about"), destination: URL(string: "https://wordroot.jaybulb.com/about/")!)
+                    Link(settings.t("ui.privacy"), destination: URL(string: "https://wordroot.jaybulb.com/privacy.html")!)
+                    Link(destination: URL(string: "https://github.com/nulljosh/wordroot")!) { Text(verbatim: "GitHub") }
+                } header: {
+                    Text(settings.t("ui.about"))
+                } footer: {
+                    Text(settings.t("ui.attribution")).font(.root(.caption))
                 }
             }
             .navigationTitle(settings.t("ui.settings"))

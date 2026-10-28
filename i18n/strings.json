@@ -1355,6 +1355,20 @@
       "ko": "저장에서 제거",
       "ar": "إزالة من المحفوظة"
     },
+    "ui.tabSearch": {
+      "en": "Search",
+      "es": "Buscar",
+      "fr": "Rechercher",
+      "de": "Suchen",
+      "pt": "Buscar",
+      "it": "Cerca",
+      "nl": "Zoeken",
+      "ru": "Поиск",
+      "ja": "検索",
+      "zh-Hans": "搜索",
+      "ko": "검색",
+      "ar": "بحث"
+    },
     "ui.wotdWord": {
       "en": "Word of the day: {word}",
       "es": "Palabra del día: {word}",

@@ -49,22 +49,10 @@
     -webkit-font-smoothing: antialiased; background: transparent; color: var(--text);
     max-width: var(--measure); margin: 0 auto;
     padding: max(var(--s6), env(safe-area-inset-top)) max(var(--page), env(safe-area-inset-right))
-             calc(var(--s7) + env(safe-area-inset-bottom)) max(var(--page), env(safe-area-inset-left));
+             calc(var(--s7) * 2 + env(safe-area-inset-bottom)) max(var(--page), env(safe-area-inset-left));
   }
 
-  /* header: the icon, the name, one quiet line */
-  .topbar { display: flex; align-items: center; gap: var(--s3); margin: 0; }
-  .topbar img { width: 32px; height: 32px; border-radius: 22%; display: block; box-shadow: 0 1px 3px rgba(0, 0, 0, .25); }
-  h1 { font-size: 22px; line-height: 28px; font-weight: 700; letter-spacing: -.01em; margin: 0; }
-  /* the word language: a glass circle with a globe in the corner; the real select sits invisibly on top, so it opens natively everywhere */
-  .lang-btn { position: relative; margin-inline-start: auto; width: 40px; height: 40px; flex: none; border-radius: var(--r-pill);
-    background: var(--glass); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-edge); box-shadow: var(--glass-shadow); }
-  .lang-btn svg { position: absolute; inset: 0; margin: auto; width: 22px; height: 22px; color: var(--text2); pointer-events: none; }
-  .lang-btn #wordPicker { display: contents; }
-  .lang-btn select { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; padding: 0; opacity: 0; cursor: pointer; border-radius: var(--r-pill); }
-  .lang-btn:focus-within { box-shadow: var(--glass-shadow), 0 0 0 4px color-mix(in srgb, var(--accent) 30%, transparent); }
-  .tagline { font-size: 15px; line-height: 20px; color: var(--text2); margin: var(--s2) 0 var(--s5); }
-  .embed .tagline, .embed .foot { display: none; }
+  .tagline { font-size: 15px; line-height: 20px; color: var(--text2); margin: 0; }
 
   /* controls: 48 point capsules, the same glass as the card */
   .search { display: flex; gap: var(--s2); align-items: center; }
@@ -135,41 +123,73 @@
   /* home labels sit straight on the photo, so they carry their own contrast */
   #wotd .label { color: var(--text); opacity: .72; text-shadow: 0 0 6px color-mix(in srgb, var(--bg) 70%, transparent); }
 
-  /* footer: aligned to the same edge, quiet, on the grid */
-  .foot { margin-top: var(--s7); padding-top: var(--s5); border-top: 1px solid var(--border); display: grid; gap: var(--s4); font-size: 15px; line-height: 20px; }
-  .foot-brand { display: flex; align-items: center; gap: var(--s2); color: var(--text); }
-  .foot-links { display: flex; flex-wrap: wrap; gap: var(--s2) var(--s5); }
-  .foot-links a { color: var(--text2); text-decoration: none; transition: color .2s ease; }
-  .foot-links a:hover { color: var(--text); }
-  .foot-lang select { height: 40px; font-size: 13px; }
+  /* the bottom bar: a floating glass capsule, like an iOS 26 tab bar. Every control lives here,
+     none in the corners. The word language select sits invisibly over its tab so it opens natively. */
+  .tabbar { position: fixed; z-index: 10; left: 50%; transform: translateX(-50%); bottom: max(var(--s4), env(safe-area-inset-bottom));
+    display: flex; gap: var(--s1); padding: var(--s1); border-radius: var(--r-pill);
+    background: var(--glass); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-edge); box-shadow: var(--glass-shadow); }
+  .tab { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+    min-width: 80px; height: 56px; padding: 0 var(--s3); border: 0; border-radius: var(--r-pill); background: none;
+    color: var(--text); font: inherit; font-size: 11px; line-height: 13px; font-weight: 600; cursor: pointer; }
+  .tab svg { width: 24px; height: 24px; }
+  .tab.on { color: var(--accent); background: color-mix(in srgb, var(--text) 8%, transparent); }
+  .tab:focus-visible { outline: none; box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 30%, transparent); }
+  .embed .tabbar { display: none; }
+
+  /* settings: a native dialog, raised from the bottom bar. Languages, then About. */
+  .sheet { width: min(calc(100% - 2 * var(--page)), var(--measure)); max-height: 85vh; margin: auto auto max(var(--s4), env(safe-area-inset-bottom));
+    padding: var(--s5) var(--s4); border: 1px solid var(--glass-edge); border-radius: var(--r-card); color: var(--text);
+    background: color-mix(in srgb, var(--bg) 86%, transparent); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); box-shadow: var(--glass-shadow); }
+  .sheet::backdrop { background: rgba(0, 0, 0, .28); }
+  .sheet-head { display: flex; align-items: center; justify-content: space-between; margin: 0 0 var(--s4) var(--s1); }
+  .sheet-head h2 { font-size: 22px; line-height: 28px; font-weight: 700; margin: 0; }
+  .sheet-head form { margin: 0; }
+  .done { height: 40px; padding: 0 var(--s4); border: 0; border-radius: var(--r-pill); background: none; color: var(--link); font: inherit; font-weight: 600; cursor: pointer; }
+  .sheet .shelf { background: color-mix(in srgb, var(--text) 5%, transparent); box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .setting { display: flex; align-items: center; justify-content: space-between; gap: var(--s3); min-height: 52px; padding: var(--s1) var(--s1) var(--s1) var(--s4); position: relative; }
+  .setting select { height: 40px; }
+  .setting + .setting::before, .links a::before { content: ''; position: absolute; top: 0; inset-inline: var(--s4) 0; height: 1px; background: var(--border); }
+  .about { display: flex; align-items: center; gap: var(--s3); padding: var(--s3) var(--s4); }
+  .about img { border-radius: 22%; display: block; }
+  .about b { font-size: 17px; line-height: 22px; }
+  .links a { display: block; padding: var(--s3) var(--s4); color: var(--link); text-decoration: none; position: relative; }
+  .done:focus-visible, .links a:focus-visible { outline: none; box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 30%, transparent); }
   .attr { margin: 0; font-size: 13px; line-height: 18px; color: var(--text2); }
 </style>
   <link rel="manifest" href="/manifest.webmanifest">
   <meta name="theme-color" content="#5B9BD5">
   <link rel="apple-touch-icon" href="/icon-192.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <style>.embed .topbar{display:none}</style>
   <script>if(/[?&]embed\b/.test(location.search))document.documentElement.classList.add('embed')</script>
 </head>
 <body>
 <div id="bg"></div>
 <div id="bgPhoto"></div>
-<div class="topbar">
-  <img src="icon-192.png" alt=""><h1>Wordroot</h1>
-  <span class="lang-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.9 5.6 3.9 9s-1.3 6.4-3.9 9c-2.6-2.6-3.9-5.6-3.9-9S9.4 5.6 12 3z"/></svg><span id="wordPicker"></span></span>
-</div>
-<p class="tagline" id="tagline"></p>
 <div class="search">
     <input type="search" id="q" autofocus autocapitalize="none">
 </div>
 <div id="wotd"></div>
 <div id="out"></div>
-<footer class="foot">
-  <div class="foot-brand"><svg viewBox="0 0 1024 1024" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M512 310V462C512 570 340 562 340 712M512 462C512 570 684 562 684 712" fill="none" stroke="currentColor" stroke-width="76" stroke-linecap="round" stroke-linejoin="round"/><circle cx="512" cy="284" r="104"/><circle cx="340" cy="738" r="88"/><circle cx="684" cy="738" r="88"/></svg><b>Wordroot</b></div>
-  <nav class="foot-links" id="footLinks"></nav>
-  <div class="foot-lang"><span id="uiPicker"></span></div>
+<nav class="tabbar" aria-label="Wordroot">
+  <button type="button" class="tab on" id="tabSearch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 20 20"/></svg><span id="tabSearchLabel"></span></button>
+  <button type="button" class="tab" id="tabSaved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 3.5h11v17l-5.5-4-5.5 4z"/></svg><span id="tabSavedLabel"></span></button>
+  <button type="button" class="tab" id="tabSettings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg><span id="tabSettingsLabel"></span></button>
+</nav>
+<dialog class="sheet" id="settings" aria-labelledby="settingsTitle">
+  <div class="sheet-head"><h2 id="settingsTitle"></h2><form method="dialog"><button class="done" id="settingsDone"></button></form></div>
+  <div class="label" id="langLabel"></div>
+  <div class="shelf">
+    <label class="setting"><span id="wordLangLabel"></span><span id="wordPicker"></span></label>
+    <label class="setting"><span id="uiLangLabel"></span><span id="uiPicker"></span></label>
+  </div>
+  <div class="label" id="aboutLabel"></div>
+  <div class="shelf">
+    <div class="about"><img src="icon-192.png" alt="" width="56" height="56"><div><b>Wordroot</b><p class="tagline" id="tagline"></p></div></div>
+    <nav class="links" id="footLinks"></nav>
+  </div>
   <p class="attr" id="attr"></p>
-</footer>
+</dialog>
 <script>
 const t = (k, v) => i18n.t(k, v);
 const LINK_RE = /\{\{(inh\+?|der\+?|bor\+?)\|[^|]*\|([^|}]+)\|([^|}]*)/g;
@@ -474,6 +494,9 @@ function renderChrome() {
   uiPicker.title = t('ui.interfaceLanguage');
   $('uiPicker').appendChild(uiPicker);
   $('wordPicker').appendChild(wordLangPicker());
+  for (const [id, key] of [['tabSearchLabel', 'ui.tabSearch'], ['tabSavedLabel', 'ui.saved'], ['tabSettingsLabel', 'ui.settings'], ['settingsTitle', 'ui.settings'],
+    ['settingsDone', 'ui.done'], ['langLabel', 'ui.language'], ['wordLangLabel', 'ui.wordLanguage'], ['uiLangLabel', 'ui.interfaceLanguage'], ['aboutLabel', 'ui.about']])
+    if ($(id)) $(id).textContent = t(key);
   if ($('footLinks')) $('footLinks').innerHTML =
     `<a href="/about/">${esc(t('ui.about'))}</a>` +
     `<a href="/privacy.html">${esc(t('ui.privacy'))}</a>` +
@@ -505,6 +528,18 @@ $('out').addEventListener('click', e => {
   if (listed(SAVED_KEY, word)) forget(SAVED_KEY, word); else remember(SAVED_KEY, word, SAVED_MAX);
   b.outerHTML = saveButton(word);
 });
+// The bottom bar: Search goes to the field, Saved goes home to the saved words.
+const setTab = id => ['tabSearch', 'tabSaved'].forEach(x => $(x) && $(x).classList.toggle('on', x === id));
+if ($('tabSearch')) $('tabSearch').addEventListener('click', () => {
+  setTab('tabSearch'); scrollTo({ top: 0, behavior: 'smooth' }); $('q').focus();
+});
+if ($('tabSaved')) $('tabSaved').addEventListener('click', () => {
+  setTab('tabSaved'); $('q').value = ''; $('out').innerHTML = '';
+  renderWordOfTheDay(); $('wotd').style.display = 'block'; scrollTo({ top: 0, behavior: 'smooth' });
+});
+$('q').addEventListener('focus', () => setTab('tabSearch'));
+if ($('tabSettings')) $('tabSettings').addEventListener('click', () => $('settings').showModal());
+
 $('wotd').addEventListener('click', e => {
   const r = e.target.closest('.shelf-row');
   if (!r) return;
