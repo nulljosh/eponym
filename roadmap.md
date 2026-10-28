@@ -207,7 +207,7 @@ From the App Store screens of Etymonline, EtymologyExplorer, Merriam-Webster, Ox
 | 1.3 | Pronunciation: IPA under the word and a speak button (on-device voice) | Merriam-Webster, Oxford, American Heritage, EtymologyExplorer | S | [x] 2026-10-28 |
 | 1.4 | Suggestions while typing (Wiktionary prefix search; native search suggestions on Apple) | Oxford, American Heritage, Etymonline | M | [x] 2026-10-28 |
 | 1.5 | Root tree: the chain drawn as a tree, tap any ancestor to open it (its Wiktionary entry for now) | Etymonline charts, EtymologyExplorer, American Heritage IE chart | M | [x] 2026-10-28 |
-| 1.6 | Same-root words: other words that come from this word's root | Etymonline related entries, EtymologyExplorer descendants | M | [ ] |
+| 1.6 | Same-root words: other words that come from this word's root (Wiktionary search on the {{root}} template, else the oldest ancestor) | Etymonline related entries, EtymologyExplorer descendants | M | [x] 2026-10-28 |
 | 1.7 | Random word button | EtymologyExplorer, Terminology | S | [ ] |
 | 1.8 | Word of the day, with a Home Screen widget | Merriam-Webster, Oxford, EtymologyExplorer, Etymonline trending | M | [ ] |
 | 1.9 | Look up from other apps: share sheet and Services menu on the Mac | Terminology | M | [ ] |

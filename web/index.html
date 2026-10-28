@@ -102,6 +102,10 @@
      ("inherited from X Latin") cannot be translated without reordering, and word order
      differs in every one of the twelve locales; two lines read correctly in all of them. */
   .chain .anc { font-weight: 600; color: var(--text); text-decoration: none; }
+  /* same-root words: capsules that look the word up */
+  .kin-list { display: flex; flex-wrap: wrap; gap: var(--s2); padding: var(--s3) var(--s4) var(--s4); }
+  .kin { height: 36px; padding: 0 var(--s4); border-radius: var(--r-pill); border: 1px solid var(--glass-edge); background: color-mix(in srgb, var(--text) 6%, transparent); color: var(--text); font: inherit; font-size: 15px; cursor: pointer; }
+  .kin:focus-visible { outline: none; box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 30%, transparent); }
   a.anc:hover { text-decoration: underline; }
   /* the tree: one vertical line on the start edge, a dot per generation, the word's dot the largest */
   .tree { position: relative; }
@@ -328,6 +332,28 @@ async function pronunciation(word, lang) {
   try { return ipaFrom(await sectionFor(word, lang)); } catch { return null; }
 }
 
+/** What relatives share: the {{root}} the entry names (root|en|ine-pro|*wed-), else its oldest ancestor (en|la|mūsculus). */
+function rootQuery(section, chain, langCode) {
+  const m = (section || '').match(/\{\{root\|([^|}]+)\|([^|}]+)\|([^|}]+)/);
+  if (m) return `root|${m[1]}|${m[2]}|${m[3]}`;
+  const last = chain[chain.length - 1];
+  return last ? `${langCode}|${last.langCode}|${last.ancestor}` : null;
+}
+/** Up to twelve other single words whose entries cite the same root, lowercase, no repeats. */
+function relativesFrom(word, titles) {
+  const seen = new Set([word]);
+  return titles.map(x => String(x).toLowerCase()).filter(x => !x.includes(' ') && !seen.has(x) && seen.add(x)).slice(0, 12);
+}
+async function relatives(word, lang, chain) {
+  try {
+    const q = rootQuery(await sectionFor(word, lang), chain, lang);
+    if (!q) return [];
+    const r = await fetch(`${WIKI}/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(`insource:"${q}"`)}&srnamespace=0&srlimit=30&format=json&origin=*`);
+    if (!r.ok) return [];
+    return relativesFrom(word, ((await r.json()).query?.search || []).map(x => x.title));
+  } catch { return []; }
+}
+
 async function etymology(word, lang) {
   const section = await sectionFor(word, lang);
   if (!section) return [];
@@ -457,6 +483,13 @@ async function lookup(word, el) {
       return;
     }
     render(el, word, defs, chain, ipa);
+    // Relatives come from a second search, so the entry paints first and they join when they land,
+    // on this very card: a later lookup may have replaced it by then.
+    const card = el.querySelector && el.querySelector('.card');
+    relatives(word, lang, chain).then(list => {
+      if (list.length && card && card.isConnected) card.insertAdjacentHTML('beforeend', `<div class="group kin-group"><div class="label">${esc(t('ui.sameRoot'))}</div><div class="kin-list">` +
+        list.map(w => `<button type="button" class="kin" data-word="${esc(w)}" dir="auto" lang="${esc(lang)}">${esc(w)}</button>`).join('') + '</div></div>');
+    });
   } catch {
     el.innerHTML = `<p class="muted">${esc(t('ui.networkError'))}</p>`;
   }
@@ -621,6 +654,14 @@ $('q').addEventListener('change', e => {
   if (word && $('out').querySelector('.card')) remember(RECENT_KEY, word, RECENT_MAX);
 });
 $('out').addEventListener('click', e => {
+  const k = e.target.closest('.kin');
+  if (k) {
+    $('q').value = k.dataset.word;
+    remember(RECENT_KEY, k.dataset.word, RECENT_MAX);
+    scrollTo({ top: 0, behavior: 'smooth' });
+    lookup(k.dataset.word, $('out'));
+    return;
+  }
   const sp = e.target.closest('.speak');
   if (sp) { speak(sp.dataset.word); return; }
   const b = e.target.closest('.save');

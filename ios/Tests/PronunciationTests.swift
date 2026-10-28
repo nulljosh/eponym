@@ -37,3 +37,13 @@ final class AncestorURLTests: XCTestCase {
                        "https://en.wiktionary.org/wiki/w%C3%A6ter#Old_English")
     }
 }
+
+// Same-root words: the named root first, else the oldest ancestor; same rule as the web.
+final class RelativesTests: XCTestCase {
+    func testRootQueryAndFilter() {
+        XCTAssertEqual(Wiktionary.rootQuery("{{root|en|ine-pro|*wed-}} From {{inh|en|enm|water}}", chain: [], langCode: "en"), "root|en|ine-pro|*wed-")
+        XCTAssertEqual(Wiktionary.rootQuery("From {{der|en|la|mūsculus}}", chain: [ChainLink(rel: "rel.derived", langCode: "la", ancestor: "mūsculus")], langCode: "en"), "en|la|mūsculus")
+        XCTAssertNil(Wiktionary.rootQuery("", chain: [], langCode: "en"))
+        XCTAssertEqual(Wiktionary.relatives(of: "water", titles: ["water", "wet", "Otter", "otter", "rectus abdominis muscle", "hydra"]), ["wet", "otter", "hydra"])
+    }
+}

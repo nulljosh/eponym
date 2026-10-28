@@ -250,6 +250,20 @@
       "ko": "듣기",
       "ar": "استمع"
     },
+    "ui.sameRoot": {
+      "en": "Same root",
+      "es": "Misma raíz",
+      "fr": "Même racine",
+      "de": "Gleiche Wurzel",
+      "pt": "Mesma raiz",
+      "it": "Stessa radice",
+      "nl": "Zelfde wortel",
+      "ru": "Тот же корень",
+      "ja": "同じ語根",
+      "zh-Hans": "同根词",
+      "ko": "같은 어근",
+      "ar": "الجذر نفسه"
+    },
     "ui.wotdWord": {
       "en": "Word of the day: {word}",
       "es": "Palabra del día: {word}",

@@ -343,6 +343,14 @@ test('an ancestor opens its own Wiktionary entry, starred forms on the Reconstru
   assert.equal(ctx.ancestorURL('wæter', 'ang'), 'https://en.wiktionary.org/wiki/w%C3%A6ter#Old_English');
 });
 
+test('relatives come from the named root, else the oldest ancestor, as single new words', () => {
+  const ctx = runPage({});
+  assert.equal(ctx.rootQuery('{{root|en|ine-pro|*wed-}} From {{inh|en|enm|water}}', [], 'en'), 'root|en|ine-pro|*wed-');
+  assert.equal(ctx.rootQuery('From {{der|en|la|mūsculus}}', [{ langCode: 'la', ancestor: 'mūsculus' }], 'en'), 'en|la|mūsculus');
+  assert.equal(ctx.rootQuery('', [], 'en'), null);
+  same(ctx.relativesFrom('water', ['water', 'wet', 'Otter', 'otter', 'rectus abdominis muscle', 'hydra']), ['wet', 'otter', 'hydra']);
+});
+
 test('every hero wall entry has a meaning in every shipped locale', () => {
   for (const { code } of landing().locales) {
     for (const entry of landing({ lang: code }).wall) {

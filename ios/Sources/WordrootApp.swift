@@ -140,6 +140,7 @@ struct Entry {
     let chain: [ChainLink]
     let photoURL: URL?
     var ipa: String? = nil
+    var rootQuery: String? = nil
 }
 
 // MARK: - Wiktionary
@@ -240,6 +241,35 @@ enum Wiktionary {
         return URL(string: "\(host)/wiki/\(enc(ancestor))" + (name.isEmpty ? "" : "#\(enc(slug))"))!
     }
 
+    /// What relatives share: the {{root}} the entry names, else its oldest ancestor. Same rule as the web.
+    static func rootQuery(_ section: String, chain: [ChainLink], langCode: String) -> String? {
+        if let open = section.range(of: "{{root|") {
+            let params = section[open.upperBound...].prefix { $0 != "}" }.split(separator: "|").prefix(3)
+            if params.count == 3 { return "root|" + params.joined(separator: "|") }
+        }
+        guard let last = chain.last else { return nil }
+        return "\(langCode)|\(last.langCode)|\(last.ancestor)"
+    }
+
+    /// Up to twelve other single words whose entries cite the same root, lowercase, no repeats.
+    static func relatives(of word: String, titles: [String]) -> [String] {
+        var seen: Set<String> = [word]
+        return Array(titles.map { $0.lowercased() }.filter { !$0.contains(" ") && seen.insert($0).inserted }.prefix(12))
+    }
+
+    static func relatives(of word: String, rootQuery: String) async -> [String] {
+        var comps = URLComponents(string: "\(host)/w/api.php")!
+        comps.queryItems = [
+            .init(name: "action", value: "query"), .init(name: "list", value: "search"),
+            .init(name: "srsearch", value: "insource:\"\(rootQuery)\""), .init(name: "srnamespace", value: "0"),
+            .init(name: "srlimit", value: "30"), .init(name: "format", value: "json"),
+        ]
+        guard let (data, _) = try? await URLSession.shared.data(for: request(comps.url!)),
+              let root = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let hits = (root["query"] as? [String: Any])?["search"] as? [[String: Any]] else { return [] }
+        return relatives(of: word, titles: hits.compactMap { $0["title"] as? String })
+    }
+
     /// Up to six completions for a prefix: single words that extend it, lowercase, no repeats. Same rule as the web.
     static func suggest(from titles: [String], query: String) -> [String] {
         var seen = Set<String>()
@@ -326,7 +356,8 @@ enum Wiktionary {
         let chain = try chain(fromWikitext: text, section: language.section)
         if found == nil && chain.isEmpty { return nil }
         return Entry(word: word, definitions: found, chain: chain, photoURL: photoURL,
-                     ipa: ipa(fromWikitext: text, section: language.section))
+                     ipa: ipa(fromWikitext: text, section: language.section),
+                     rootQuery: rootQuery(languageSection(text, named: language.section).map(String.init) ?? "", chain: chain, langCode: language.code))
     }
 }
 
@@ -409,6 +440,32 @@ struct TreeRow<Content: View>: View {
     }
 }
 
+/// Lays capsules out in rows, wrapping at the container's width.
+struct Flow: Layout {
+    var spacing: CGFloat = 8
+
+    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
+        rows(subviews, width: proposal.width ?? .infinity).last.map { CGSize(width: proposal.width ?? $0.maxX, height: $0.maxY) } ?? .zero
+    }
+
+    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
+        for (subview, frame) in zip(subviews, rows(subviews, width: bounds.width)) {
+            subview.place(at: CGPoint(x: bounds.minX + frame.minX, y: bounds.minY + frame.minY), proposal: ProposedViewSize(frame.size))
+        }
+    }
+
+    /// One frame per subview, left to right, wrapping when the next one would not fit.
+    private func rows(_ subviews: Subviews, width: CGFloat) -> [CGRect] {
+        var x: CGFloat = 0, y: CGFloat = 0, rowHeight: CGFloat = 0
+        return subviews.map { subview in
+            let size = subview.sizeThatFits(.unspecified)
+            if x > 0 && x + size.width > width { x = 0; y += rowHeight + spacing; rowHeight = 0 }
+            defer { x += size.width + spacing; rowHeight = max(rowHeight, size.height) }
+            return CGRect(origin: CGPoint(x: x, y: y), size: size)
+        }
+    }
+}
+
 /// A saved or recent word: the word and its word language, the same shape the web app keeps.
 struct ShelfWord: Codable, Hashable {
     let w: String
@@ -440,6 +497,7 @@ struct ContentView: View {
     @State private var showingSettings = false
     @State private var searchTask: Task<Void, Never>?
     @State private var completions: [String] = []
+    @State private var kin: [String] = []
     @State private var completionTask: Task<Void, Never>?
     @State private var saved = Shelf.load(Shelf.savedKey)
     @State private var recent = Shelf.load(Shelf.recentKey)
@@ -531,6 +589,7 @@ struct ContentView: View {
 
     var body: some View {
         NavigationStack {
+          ScrollViewReader { proxy in
             List {
                 if query.isEmpty {
                     shelfSection("ui.saved", saved)
@@ -553,6 +612,14 @@ struct ContentView: View {
                 }
             }
             .scrollContentBackground(.hidden)
+            .task(id: entry?.word) {
+                kin = []
+                guard let word = entry?.word, let q = entry?.rootQuery else { return }
+                let found = await Wiktionary.relatives(of: word, rootQuery: q)
+                if entry?.word == word { kin = found }
+                // Screenshots only: `-UITEST_ORIGIN 1` scrolls to the root tree once it is drawn.
+                if UserDefaults.standard.bool(forKey: "UITEST_ORIGIN") { proxy.scrollTo("origin", anchor: .top) }
+            }
             .background(PhotoBackground(url: entry?.photoURL, hue: hueForWord(entry?.word ?? wordOfTheDay ?? "wordroot")))
             // Everything drawn straight on the darkened background is white; the cards keep
             // the system look, so their text stays as it is.
@@ -624,6 +691,7 @@ struct ContentView: View {
             .task {
                 if let w = wordOfTheDay { search(w) }
             }
+          }
         }
     }
 
@@ -672,10 +740,33 @@ struct ContentView: View {
                                     .foregroundStyle(.secondary)
                             }
                         }
+                        .buttonStyle(.plain)   // a Link tints its whole label; the tree keeps the list's own colours
                     }
                 }
             } header: {
                 Text(settings.t("ui.origin")).font(.root(.subheadline, .semibold)).foregroundStyle(.white)
+            }
+            .id("origin")
+        }
+        if !kin.isEmpty {
+            Section {
+                Flow(spacing: 8) {
+                    ForEach(kin, id: \.self) { word in
+                        Button {
+                            query = word
+                            remember(word)
+                        } label: {
+                            Text(verbatim: word).font(.root(.subheadline))
+                                .padding(.horizontal, 16).frame(height: 36)
+                                .background(Capsule().fill(Color.primary.opacity(0.06)))
+                                .overlay(Capsule().strokeBorder(Color.primary.opacity(0.12)))
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+                .padding(.vertical, 4)
+            } header: {
+                Text(settings.t("ui.sameRoot")).font(.root(.subheadline, .semibold)).foregroundStyle(.white)
             }
         }
         // CC BY-SA 4.0 requires attribution; App Review flags uncredited third-party content.
