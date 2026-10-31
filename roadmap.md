@@ -222,6 +222,6 @@ Skipped on purpose: quizzes and word games, paywalled extra dictionaries, AI cha
 
 ## Ingested 2026-10-30
 - [ ] Navbar needs to be native, and a bit wider
-- [ ] Settings should be its own view, not a modal
+- [x] Settings should be its own view, not a modal
 - [ ] Needs an advertisement/commercial
 - [ ] Wordroot is the old name and it is still stale on the App Store (same as the store-name item above; Joshua flagged it again 2026-10-30)

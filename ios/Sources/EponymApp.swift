@@ -654,15 +654,19 @@ struct ContentView: View {
         }
     }
 
+    private var settingsPage: some View {
+        LanguageSettingsView()
+            .environmentObject(settings)
+            .environment(\.locale, Locale(identifier: settings.uiLanguage))
+            .environment(\.layoutDirection, settings.isRightToLeft ? .rightToLeft : .leftToRight)
+    }
+
     var body: some View {
         container
             .onSubmit(of: .search) { remember(query.trimmingCharacters(in: .whitespaces).lowercased()) }
-            .sheet(isPresented: $showingSettings) {
-                LanguageSettingsView()
-                    .environmentObject(settings)
-                    .environment(\.locale, Locale(identifier: settings.uiLanguage))
-                    .environment(\.layoutDirection, settings.isRightToLeft ? .rightToLeft : .leftToRight)
-            }
+#if os(macOS)
+            .sheet(isPresented: $showingSettings) { settingsPage }
+#endif
             .onChange(of: query) { _, q in
                 let word = q.trimmingCharacters(in: .whitespaces).lowercased()
                 search(word)
@@ -762,6 +766,7 @@ struct ContentView: View {
     private var container: some View {
         NavigationStack {
             page
+                .navigationDestination(isPresented: $showingSettings) { settingsPage }
                 // Everything drawn straight on the darkened background is white; the cards keep
                 // the system look, so their text stays as it is.
                 .toolbarColorScheme(.dark, for: .navigationBar)
@@ -944,7 +949,23 @@ struct LanguageSettingsView: View {
     }
 
     var body: some View {
+#if os(iOS)
+        // Its own page, pushed from the bottom bar, not a modal (Joshua 2026-10-30): Back returns.
+        form
+#else
         NavigationStack {
+            form
+                .toolbar {
+                    ToolbarItem(placement: .confirmationAction) {
+                        Button(settings.t("ui.done")) { dismiss() }
+                    }
+                }
+        }
+        .frame(width: 460, height: 480)
+#endif
+    }
+
+    private var form: some View {
             Form {
                 Section(settings.t("ui.language")) {
                     Picker(settings.t("ui.wordLanguage"), selection: $settings.wordLanguage) {
@@ -984,14 +1005,5 @@ struct LanguageSettingsView: View {
             }
             .formStyle(.grouped)
             .navigationTitle(settings.t("ui.settings"))
-            .toolbar {
-                ToolbarItem(placement: .confirmationAction) {
-                    Button(settings.t("ui.done")) { dismiss() }
-                }
-            }
-        }
-#if os(macOS)
-        .frame(width: 460, height: 480)
-#endif
     }
 }
