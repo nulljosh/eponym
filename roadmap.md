@@ -174,26 +174,6 @@ build-time artifact. Revisit storage when a rate limit or a latency measurement 
 ## Open 2026-10-16
 
 ## Ingested 2026-10-25
-- [x] Store name: set Eponym on the next editable app info, probe it there first (it was free 2026-10-28). Done: Apple took the name on the 2.0.1 app info; description, URLs and privacy link moved to eponym.jaybulb.com (2.0.1 submitted 2026-11-01 with Eponym as the store name; iOS approved and live as Eponym the same night, Mac waiting)
-  Name hunt 2026-10-28: one real single word only, never two words glued together. Probed on the 1.0.6 draft
-  (Wordroot's own record while a draft is editable, else ASC_PROBE_APP=6825014407 Oohaah, all REJECTED), about 360 tried. Joshua said no to Forebear, Varro, Rootward (compound).
-  Free but not picked: Patronym, Eponym (Joshua: okay), Homonym, Metonym, Retronym, Aptronym, Demonym, Contronym, Heteronym, Autonym, Ethnonym, Capitonym, Numeronym, Eggcorn, Mondegreen, Logogram, Allomorph, Nirukta, Wherefore, Yaska, Ishtiqaq, Paronym, Sememe, Toponym, Exonym, Endonym, Anent, Erstwhile, Dictio, Purport, Denotation, Philologist, Lexicology, Lexiphile, Etymologer, Cognatus, Rooter, Etymonic, Exordium, Nascent, Tamarisk, Totara, Galangal, Chicory, Alkanet, Ordet, Sloka, Lexeis, Glottal, Primeval, Glossator, Provenience, Etymologist, Ancient, Atavism, Archaism, Relict, Cognomen, Isidore, Progenitor, Begetter, Stirps, Proles, Onomast, Rhizoid, Etymic, Juuri, Skeat.
-  Taken (skip): Rhizome Etymon Taproot Cognate Radix Stemma Lexeme Etyma Provenance Banyan Acorn Racine Raiz
-  Verba Lingua Lexis Origo Genus Lexicon Glossa Kernel Rhiza Arche Onoma Sema Radicle Fons Loam Linden Aspen
-  Cedar Mycelium Babel Rosetta Grimm Proto Runic Ogham Rune Argot Quill Vellum Saga Idiom Lingo Scribe Cadmus
-  Ogma Nabu Thoth Seshat Carmenta Bragi Calliope Gloss Rubric Genesis Origin Seed Stem Sprig Germ Fount
-  Radical Vocable Locution Dictum Logion Grapheme Syllable Annals Chronicle Archive Tome Folio Canto Primal Ancestry
-  Lexical Semantic Philology Heritage Pedigree Relic Fossil Amber Strata Spore Graft Scion Progeny Clade Genome
-  Ord Mot Wort Slovo Sana Parola Palabra Kalima Davar Logos Verbe Woord Lexi Kotoba Parole Langue Verbatim Rhema Sprache Taal
-  Mandrake Orris Madder Ginseng Mesquite Kauri Ficus Burdock Turmeric Lotus Iris Bamboo Ginger Cypress Tamarind Acacia Sassafras Parsnip Taro Cassava Yam
-  Derivative Fountain Source Spring Seedling Sprout Nucleus Primus Alpha Omega Incipit Proem Prologue Preface Overture Prelude Dawn Aurora Inception
-  Lexis Logophile Linguist Glossary Thesaurus Dictionary Morphology Semantics Syntax Grammar Rhetoric Eloquence Cognition Legend Fable Myth Tale Clan Tribe Dynasty
-  Root Roots Mimir Urd Norn Yggdrasil Bodhi Shoresh Koren Mula Dhatu Nomen Vox Sermo Gens Spoor Sleuth Stolon Genos Archon Mythos Lexikon Littera Tabula Wortel Kindling Trace Thread Scent
-  Pseudonym Synonym Acronym Anagram Palindrome Portmanteau Spoonerism Rebus Glyph Affix Infix Coinage Morph Wordplay
-  Whence Yore Olden Erst Bygone Asl Doublet Calque Neologism Beech Birch Elm Oak Ash Rowan Hence Thence Hither
-  Verity Candor Lucid Clarity Gist Essence Crux Core Pith Marrow Nub Quintessence Substance Meaning Sense Notion Concept Idea Term
-  Rooted Logic Verbal Mnemo Memento Muse Oracle Sibyl Augur Herald Envoy Courier Emissary Scholar Savant Sage Pundit Erudite Maven Polymath Codex Scroll Parchment Papyrus
-  Philter Tincture Elixir Distill Ferment Leaven Yeast Brine Tannin Resin Sap Bark Xylem Phloem Cambium Burl Knot Ring Bole Trunk Limb Bough Twig Frond.
 
 ## 2.0.0 submitted 2026-10-28
 iOS (with the watch app and widget inside) and Mac 2.0.0, build 202610281345, both WAITING_FOR_REVIEW, release on approval. New screenshots for iPhone 6.9 and 6.5, iPad 13 and 12.9, Apple Watch; the Mac listing still shows the 1.0.2 shot (fresh Mac shots are a follow-up). Name stays Wordroot.
@@ -218,14 +198,11 @@ Skipped on purpose: quizzes and word games, paywalled extra dictionaries, AI cha
 
 ## Still open after the prune
 
-- [x] Upload the new Mac App Store screenshots (screenshots/appstore/mac) with 2.0.1. Uploaded 2026-11-01
 
 ## Ingested 2026-10-30
 - [ ] Navbar needs to be native, and a bit wider
 - [ ] Needs an advertisement/commercial
-- [x] Wordroot is the old name and it is still stale on the App Store (2.0.1 submitted 2026-11-01 with Eponym as the store name; iOS approved and live as Eponym the same night, Mac waiting) - (same as the store-name item above; Joshua flagged it again 2026-10-30)
 - [ ] Needs Hermes' landing page and app style. Blocked: the landing is translated into 12 languages through i18n keys, so the rebuild waits on them.
 - [ ] (blocked 11-01: `gh release create v2.0.0` needs a Bash allow rule, Claude Code refused it as a public write; tag v2.0.0 exists) GitHub releases stale
 
 ## Ingested 2026-10-31
-- [x] Wordroot is still the stale store name (flagged again 2026-10-31). (2.0.1 submitted 2026-11-01 with Eponym as the store name; iOS approved and live as Eponym the same night, Mac waiting). Reference: Lookup English Dictionary app https://apps.apple.com/ca/app/lookup-english-dictionary-app/id872564448 (the note was only the title Wordroot plus this link).
