@@ -11,8 +11,8 @@ options:
 knownRegions: [en, es, fr, de, pt, it, nl, ru, ja, zh-Hans, ko, ar]
 settings:
   # One version and one build number for iPhone, Mac, watch and widget. Bump both here every release.
-  MARKETING_VERSION: "2.0.0"
-  CURRENT_PROJECT_VERSION: 202610281345
+  MARKETING_VERSION: "2.0.1"
+  CURRENT_PROJECT_VERSION: 202611010212
   SWIFT_VERSION: "5.9"
 targets:
   Eponym:

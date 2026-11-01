@@ -1,6 +1,6 @@
 # Eponym (ex-Wordroot)
 
-Renamed 2026-10-28. Still on the old name on purpose: bundle ids `com.heyitsmejosh.etyma*`, the Pages project `wordroot` and wordroot.jaybulb.com, storage keys `wordroot.*` (localStorage and UserDefaults), the service worker caches `wordroot-v4` and `wordroot-words`, the Kotlin package `com.nulljosh.wordroot`, and the `wordroot://` scheme (still accepted next to `eponym://`). The App Store listing says Wordroot until the version after 2.0.0.
+Renamed 2026-10-28. Still on the old name on purpose: bundle ids `com.heyitsmejosh.etyma*`, the Pages project `wordroot` and wordroot.jaybulb.com, storage keys `wordroot.*` (localStorage and UserDefaults), the service worker caches `wordroot-v4` and `wordroot-words`, the Kotlin package `com.nulljosh.wordroot`, and the `wordroot://` scheme (still accepted next to `eponym://`). The App Store listing says Eponym from 2.0.1 (submitted 2026-11-01).
 
 Dictionary + etymology app. Killer feature: interactive etymology tree (word → Latin/Greek/PIE, cognate links).
 

@@ -174,7 +174,7 @@ build-time artifact. Revisit storage when a rate limit or a latency measurement 
 ## Open 2026-10-16
 
 ## Ingested 2026-10-25
-- [ ] Store name: set Eponym on the next editable app info, probe it there first (it was free 2026-10-28)
+- [x] Store name: set Eponym on the next editable app info, probe it there first (it was free 2026-10-28). Done: Apple took the name on the 2.0.1 app info; description, URLs and privacy link moved to eponym.jaybulb.com (2.0.1 submitted 2026-11-01 with Eponym as the store name)
   Name hunt 2026-10-28: one real single word only, never two words glued together. Probed on the 1.0.6 draft
   (Wordroot's own record while a draft is editable, else ASC_PROBE_APP=6825014407 Oohaah, all REJECTED), about 360 tried. Joshua said no to Forebear, Varro, Rootward (compound).
   Free but not picked: Patronym, Eponym (Joshua: okay), Homonym, Metonym, Retronym, Aptronym, Demonym, Contronym, Heteronym, Autonym, Ethnonym, Capitonym, Numeronym, Eggcorn, Mondegreen, Logogram, Allomorph, Nirukta, Wherefore, Yaska, Ishtiqaq, Paronym, Sememe, Toponym, Exonym, Endonym, Anent, Erstwhile, Dictio, Purport, Denotation, Philologist, Lexicology, Lexiphile, Etymologer, Cognatus, Rooter, Etymonic, Exordium, Nascent, Tamarisk, Totara, Galangal, Chicory, Alkanet, Ordet, Sloka, Lexeis, Glottal, Primeval, Glossator, Provenience, Etymologist, Ancient, Atavism, Archaism, Relict, Cognomen, Isidore, Progenitor, Begetter, Stirps, Proles, Onomast, Rhizoid, Etymic, Juuri, Skeat.
@@ -218,14 +218,14 @@ Skipped on purpose: quizzes and word games, paywalled extra dictionaries, AI cha
 
 ## Still open after the prune
 
-- [ ] Upload the new Mac App Store screenshots (screenshots/appstore/mac) with 2.0.1.
+- [x] Upload the new Mac App Store screenshots (screenshots/appstore/mac) with 2.0.1. Uploaded 2026-11-01
 
 ## Ingested 2026-10-30
 - [ ] Navbar needs to be native, and a bit wider
 - [ ] Needs an advertisement/commercial
-- [ ] Wordroot is the old name and it is still stale on the App Store (same as the store-name item above; Joshua flagged it again 2026-10-30)
+- [x] Wordroot is the old name and it is still stale on the App Store (2.0.1 submitted 2026-11-01 with Eponym as the store name) - (same as the store-name item above; Joshua flagged it again 2026-10-30)
 - [ ] Needs Hermes' landing page and app style. Blocked: the landing is translated into 12 languages through i18n keys, so the rebuild waits on them.
 - [ ] (blocked 11-01: `gh release create v2.0.0` needs a Bash allow rule, Claude Code refused it as a public write; tag v2.0.0 exists) GitHub releases stale
 
 ## Ingested 2026-10-31
-- [ ] Wordroot is still the stale store name (flagged again 2026-10-31). Reference: Lookup English Dictionary app https://apps.apple.com/ca/app/lookup-english-dictionary-app/id872564448 (the note was only the title Wordroot plus this link).
+- [x] Wordroot is still the stale store name (flagged again 2026-10-31). (2.0.1 submitted 2026-11-01 with Eponym as the store name). Reference: Lookup English Dictionary app https://apps.apple.com/ca/app/lookup-english-dictionary-app/id872564448 (the note was only the title Wordroot plus this link).
