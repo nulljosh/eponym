@@ -225,7 +225,7 @@ Skipped on purpose: quizzes and word games, paywalled extra dictionaries, AI cha
 - [ ] Needs an advertisement/commercial
 - [ ] Wordroot is the old name and it is still stale on the App Store (same as the store-name item above; Joshua flagged it again 2026-10-30)
 - [ ] Needs Hermes' landing page and app style. Blocked: the landing is translated into 12 languages through i18n keys, so the rebuild waits on them.
-- [ ] GitHub releases stale
+- [ ] (blocked 11-01: `gh release create v2.0.0` needs a Bash allow rule, Claude Code refused it as a public write; tag v2.0.0 exists) GitHub releases stale
 
 ## Ingested 2026-10-31
 - [ ] Wordroot is still the stale store name (flagged again 2026-10-31). Reference: Lookup English Dictionary app https://apps.apple.com/ca/app/lookup-english-dictionary-app/id872564448 (the note was only the title Wordroot plus this link).
