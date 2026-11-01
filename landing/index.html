@@ -168,7 +168,7 @@ section { padding: 4rem 0; }
   padding: 1.4rem;
 }
 .feature h3 { font-size: 1rem; font-weight: 650; margin-bottom: 0.4rem; }
-.feature p { font-size: 0.93rem; color: var(--text2); }
+.feature p { font-size: 0.93rem; color: color-mix(in srgb, var(--text2) 85%, var(--text)); } /* text2 alone was 4.4:1 on the card */
 
 .closing { background: var(--bg2); text-align: center; border-top: 1px solid var(--border); }
 .closing p { color: var(--text2); max-width: 34rem; margin: 0 auto 1.75rem; }
@@ -191,7 +191,7 @@ footer select {
 </head>
 <body>
 
-
+<main>
 <section class="hero">
   <div class="hero-wall" id="heroWall" aria-hidden="true"></div>
   <span class="site-title">Eponym</span>
@@ -301,6 +301,7 @@ footer select {
     </div>
   </div>
 </section>
+</main>
 
 <footer>
   <div class="container">

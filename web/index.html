@@ -90,7 +90,7 @@
   ol.defs { margin: 0; padding-inline-start: var(--s5); }
   ol.defs li { margin: 0 0 var(--s2); }
   ol.defs li::marker { color: var(--text2); }
-  .muted { color: var(--text2); }
+  .muted { color: color-mix(in srgb, var(--text2) 60%, var(--text)); } /* text2 alone was 3.9:1 over the photo */
   .note { font-size: 13px; line-height: 18px; color: var(--text2); margin: var(--s3) 0 0; }
   .note a, .attr a { color: var(--link); }
 
@@ -152,7 +152,7 @@
     min-width: 80px; height: 56px; padding: 0 var(--s3); border: 0; border-radius: var(--r-pill); background: none;
     color: var(--text); font: inherit; font-size: 11px; line-height: 13px; font-weight: 600; cursor: pointer; }
   .tab svg { width: 24px; height: 24px; }
-  .tab.on { color: var(--accent); background: color-mix(in srgb, var(--text) 8%, transparent); }
+  .tab.on { color: color-mix(in srgb, var(--accent) 80%, var(--text)); /* the accent alone was 3.9:1 on the glass bar */ background: color-mix(in srgb, var(--text) 8%, transparent); }
   .tab:focus-visible { outline: none; box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 30%, transparent); }
   .embed .tabbar { display: none; }
 
@@ -186,12 +186,14 @@
 <body>
 <div id="bg"></div>
 <div id="bgPhoto"></div>
+<main>
 <div class="search">
     <input type="search" id="q" autofocus autocapitalize="none">
 </div>
 <div id="suggest" class="shelf suggest" hidden></div>
 <div id="wotd"></div>
 <div id="out"></div>
+</main>
 <nav class="tabbar" aria-label="Eponym">
   <button type="button" class="tab on" id="tabSearch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 20 20"/></svg><span id="tabSearchLabel"></span></button>
   <button type="button" class="tab" id="tabSaved"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 3.5h11v17l-5.5-4-5.5 4z"/></svg><span id="tabSavedLabel"></span></button>
