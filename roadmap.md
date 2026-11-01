@@ -1,4 +1,4 @@
-# Wordroot Roadmap
+# Eponym Roadmap
 
 ## Shipping 2026-08-27, 1.0.1 (build 7)
 Carries the 2026-08-19 code pass: Wiktionary XSS fix, CC BY-SA attribution, network-error state, first test target.
@@ -226,3 +226,6 @@ Skipped on purpose: quizzes and word games, paywalled extra dictionaries, AI cha
 - [ ] Wordroot is the old name and it is still stale on the App Store (same as the store-name item above; Joshua flagged it again 2026-10-30)
 - [ ] Needs Hermes' landing page and app style. Blocked: the landing is translated into 12 languages through i18n keys, so the rebuild waits on them.
 - [ ] GitHub releases stale
+
+## Ingested 2026-10-31
+- [ ] Wordroot is still the stale store name (flagged again 2026-10-31). Reference: Lookup English Dictionary app https://apps.apple.com/ca/app/lookup-english-dictionary-app/id872564448 (the note was only the title Wordroot plus this link).
