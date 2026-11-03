@@ -205,3 +205,7 @@ Skipped on purpose: quizzes and word games, paywalled extra dictionaries, AI cha
 - [ ] (blocked 11-01: `gh release create v2.0.0` needs a Bash allow rule, Claude Code refused it as a public write; tag v2.0.0 exists) GitHub releases stale
 
 ## Ingested 2026-10-31
+
+## Ingested 2026-11-03
+- [ ] Boot shows a blank/odd screen: show a splash screen until the app is loaded
+- [ ] Nav bar is too small: use a real nav bar, not a tiny mini one
