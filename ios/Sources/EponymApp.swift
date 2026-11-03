@@ -447,6 +447,64 @@ private struct PhotoBackground: View {
     }
 }
 
+/// brand/mark.svg on its 1024 grid: a word on top, its two roots below, joined by a fork.
+struct EponymMark: Shape {
+    func path(in r: CGRect) -> Path {
+        let s = min(r.width, r.height) / 1024, ox = r.midX - 512 * s, oy = r.midY - 512 * s
+        let pt = { (x: CGFloat, y: CGFloat) in CGPoint(x: ox + x * s, y: oy + y * s) }
+        var fork = Path()
+        fork.move(to: pt(512, 310)); fork.addLine(to: pt(512, 462))
+        fork.addCurve(to: pt(340, 712), control1: pt(512, 570), control2: pt(340, 562))
+        fork.move(to: pt(512, 462))
+        fork.addCurve(to: pt(684, 712), control1: pt(512, 570), control2: pt(684, 562))
+        var p = fork.strokedPath(StrokeStyle(lineWidth: 76 * s, lineCap: .round, lineJoin: .round))
+        for (x, y, rad) in [(512.0, 284.0, 104.0), (340, 738, 88), (684, 738, 88)] {
+            p.addEllipse(in: CGRect(x: ox + (x - rad) * s, y: oy + (y - rad) * s, width: 2 * rad * s, height: 2 * rad * s))
+        }
+        return p
+    }
+}
+
+/// Launch splash: the mark draws in and fills, holds until today's word is on screen, then scales away.
+/// ponytail: capped at 3 s so a slow network never traps the reader behind it.
+struct Splash: View {
+    @Binding var shown: Bool
+    let ready: Bool
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @State private var trim: CGFloat = 0
+    @State private var fill = 0.0
+    @State private var out = false
+    @State private var isReady = false   // the task reads this live; `ready` would be the launch-time copy
+    private let accent = Color(red: 0.302, green: 0.639, blue: 1)   // #4da3ff, tokens.css --accent-light
+
+    var body: some View {
+        ZStack {
+            Color.black.ignoresSafeArea()
+            ZStack {
+                EponymMark().fill(accent.opacity(fill))
+                EponymMark().trim(from: 0, to: trim).stroke(accent, style: StrokeStyle(lineWidth: 4, lineCap: .round, lineJoin: .round))
+            }
+            .frame(width: 140, height: 140)
+            .scaleEffect(out ? 3 : 1)
+        }
+        .opacity(out ? 0 : 1)
+        .accessibilityHidden(true)
+        .onChange(of: ready, initial: true) { _, now in isReady = now }
+        .task {
+            if reduceMotion { trim = 1; fill = 1 } else {
+                withAnimation(.easeInOut(duration: 0.5)) { trim = 1 }
+                try? await Task.sleep(for: .milliseconds(450))
+                withAnimation(.easeIn(duration: 0.25)) { fill = 1 }
+                try? await Task.sleep(for: .milliseconds(300))
+            }
+            for _ in 0..<45 where !isReady { try? await Task.sleep(for: .milliseconds(50)) }
+            withAnimation(.easeIn(duration: reduceMotion ? 0.2 : 0.35)) { out = true }
+            try? await Task.sleep(for: .milliseconds(380))
+            shown = false
+        }
+    }
+}
+
 /// Says a word aloud with the device's own voice, in the word's language when one is installed.
 @MainActor
 enum Voice {
@@ -554,6 +612,8 @@ struct ContentView: View {
     @State private var completionTask: Task<Void, Never>?
     @State private var saved = Shelf.load(Shelf.savedKey)
     @State private var recent = Shelf.load(Shelf.recentKey)
+    // Store screenshots launch with -UITEST_WORD and skip it.
+    @State private var splash = UserDefaults.standard.string(forKey: "UITEST_WORD") == nil
 
     private func isSaved(_ word: String) -> Bool { saved.contains(ShelfWord(w: word, l: settings.wordLanguage)) }
 
@@ -663,6 +723,7 @@ struct ContentView: View {
 
     var body: some View {
         container
+            .overlay { if splash { Splash(shown: $splash, ready: entry != nil || failed || wordOfTheDay == nil) } }
             .onSubmit(of: .search) { remember(query.trimmingCharacters(in: .whitespaces).lowercased()) }
 #if os(macOS)
             .sheet(isPresented: $showingSettings) { settingsPage }
@@ -763,10 +824,33 @@ struct ContentView: View {
     }
 
 #if os(iOS)
+    /// The system tab bar, labelled like the web's: Search, Saved, Random, Settings (Joshua 2026-11-03:
+    /// the glass toolbar capsule was too small). Saved and Random are actions on the Search page, so
+    /// selecting them runs the action and the selection falls back to Search.
+    /// ponytail: tabs 1 and 2 carry no content of their own; give Saved its own page if it outgrows the chips.
+    private var tab: Binding<Int> {
+        Binding(get: { showingSettings ? 3 : 0 }, set: {
+            showingSettings = $0 == 3
+            if $0 == 1 { query = "" } else if $0 == 2 { randomWord() }
+        })
+    }
+
     private var container: some View {
+        TabView(selection: tab) {
+            searchStack
+                .tabItem { Label(settings.t("ui.tabSearch"), systemImage: "magnifyingglass") }.tag(0)
+            Color.clear
+                .tabItem { Label(settings.t("ui.saved"), systemImage: "bookmark") }.tag(1)
+            Color.clear
+                .tabItem { Label(settings.t("ui.random"), systemImage: "die.face.5") }.tag(2)
+            NavigationStack { settingsPage }
+                .tabItem { Label(settings.t("ui.settings"), systemImage: "gearshape") }.tag(3)
+        }
+    }
+
+    private var searchStack: some View {
         NavigationStack {
             page
-                .navigationDestination(isPresented: $showingSettings) { settingsPage }
                 // Everything drawn straight on the darkened background is white; the cards keep
                 // the system look, so their text stays as it is.
                 .toolbarColorScheme(.dark, for: .navigationBar)
@@ -775,18 +859,6 @@ struct ContentView: View {
                 .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always), prompt: Text(settings.t("ui.searchPlaceholder")))
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationTitle("")   // no app name on screen: people know which app they opened
-                // Controls live in the bottom bar, never in the top corner (Joshua 2026-10-28).
-                .toolbar {
-                    ToolbarItem(placement: .bottomBar) {
-                        Button { query = "" } label: { Label(settings.t("ui.saved"), systemImage: "bookmark") }
-                    }
-                    ToolbarItem(placement: .bottomBar) {
-                        Button(action: randomWord) { Label(settings.t("ui.random"), systemImage: "die.face.5") }
-                    }
-                    ToolbarItem(placement: .bottomBar) {
-                        Button { showingSettings = true } label: { Label(settings.t("ui.settings"), systemImage: "gearshape") }
-                    }
-                }
         }
     }
 #else
@@ -950,7 +1022,7 @@ struct LanguageSettingsView: View {
 
     var body: some View {
 #if os(iOS)
-        // Its own page, pushed from the bottom bar, not a modal (Joshua 2026-10-30): Back returns.
+        // Its own tab, not a modal (Joshua 2026-10-30).
         form
 #else
         NavigationStack {

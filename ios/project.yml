@@ -11,8 +11,8 @@ options:
 knownRegions: [en, es, fr, de, pt, it, nl, ru, ja, zh-Hans, ko, ar]
 settings:
   # One version and one build number for iPhone, Mac, watch and widget. Bump both here every release.
-  MARKETING_VERSION: "2.0.1"
-  CURRENT_PROJECT_VERSION: 202611010212
+  MARKETING_VERSION: "2.1.0"
+  CURRENT_PROJECT_VERSION: 202611030858
   SWIFT_VERSION: "5.9"
 targets:
   Eponym:
@@ -31,7 +31,6 @@ targets:
       GENERATE_INFOPLIST_FILE: YES
       INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: NO
       INFOPLIST_KEY_UIApplicationSceneManifest_Generation: YES
-      INFOPLIST_KEY_UILaunchScreen_Generation: YES
       INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
       INFOPLIST_KEY_UISupportedInterfaceOrientations~ipad: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
       INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.reference
@@ -45,6 +44,9 @@ targets:
         # xcodegen writes 1.0 and 1 here unless told; these keep the versions coming from the build settings.
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        # Black launch screen so boot flows straight into the black Splash, no white flash.
+        UILaunchScreen:
+          UIColorName: LaunchBackground
         CFBundleURLTypes:
           - CFBundleURLName: com.heyitsmejosh.etyma
             CFBundleURLSchemes: [eponym, wordroot]

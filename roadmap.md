@@ -207,5 +207,5 @@ Skipped on purpose: quizzes and word games, paywalled extra dictionaries, AI cha
 ## Ingested 2026-10-31
 
 ## Ingested 2026-11-03
-- [ ] Boot shows a blank/odd screen: show a splash screen until the app is loaded
-- [ ] Nav bar is too small: use a real nav bar, not a tiny mini one
+- [x] Boot shows a blank/odd screen: show a splash screen until the app is loaded
+- [x] Nav bar is too small: use a real nav bar, not a tiny mini one
