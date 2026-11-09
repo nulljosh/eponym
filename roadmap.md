@@ -202,7 +202,6 @@ Skipped on purpose: quizzes and word games, paywalled extra dictionaries, AI cha
 ## Ingested 2026-10-30
 - [ ] Needs an advertisement/commercial
 - [ ] Needs Hermes' landing page and app style. Blocked: the landing is translated into 12 languages through i18n keys, so the rebuild waits on them.
-- [ ] (blocked 11-01: `gh release create v2.0.0` needs a Bash allow rule, Claude Code refused it as a public write; tag v2.0.0 exists) GitHub releases stale
 
 ## Ingested 2026-10-31
 
