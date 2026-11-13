@@ -206,3 +206,6 @@ Skipped on purpose: quizzes and word games, paywalled extra dictionaries, AI cha
 ## Ingested 2026-10-31
 
 ## Ingested 2026-11-03
+
+## Ingested 2026-11-13
+- [ ] Needs splash screen and onboarding process, plus skills for both. (`/onboarding` exists already; a splash skill does not.)
